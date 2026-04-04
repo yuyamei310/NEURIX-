@@ -38,7 +38,7 @@ export function Slider({ label, value, min, max, unit, onChange }: SliderProps) 
           style={{ margin: 0 }}
         />
         <div
-          className="absolute top-1/2 w-3 h-3 rounded-full bg-white border border-[var(--border-2)] shadow-sm -translate-y-1/2 transition-all pointer-events-none"
+          className="absolute top-1/2 w-3 h-3 rounded-full bg-[var(--text)] border border-[var(--border-2)] -translate-y-1/2 transition-all pointer-events-none"
           style={{ left: `calc(${pct}% - 6px)` }}
         />
       </div>

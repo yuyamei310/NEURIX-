@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useAtlasStore } from '@/store/atlasStore'
 import { ArchetypeCard } from '@/components/results/ArchetypeCard'
 import { BodyPanel } from '@/components/results/BodyPanel'
-import { FloatingCard } from '@/components/results/FloatingCard'
+import { FloatingCard } from '@/components/ui/FloatingCard'
 import { KeyFactorsPanel } from '@/components/results/KeyFactorsPanel'
 import { SoulTwins } from '@/components/results/SoulTwins'
 import { ReflectionPanel } from '@/components/results/ReflectionPanel'
@@ -75,12 +75,12 @@ export default function ResultsPage() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
-      <header className="flex items-center justify-between px-8 py-5 border-b border-[0.5px] border-[var(--border)]">
+      <header className="flex items-center justify-between px-8 py-5 border-b border-white/[0.06]">
         <button
           onClick={() => router.push('/scan')}
           className="font-mono-data hover:text-[var(--text-2)] transition-colors cursor-pointer"
         >
-          ← ATLAS
+          ← NEURIX
         </button>
         <span className="font-mono-data">RESULTS</span>
       </header>
@@ -200,12 +200,12 @@ export default function ResultsPage() {
       </div>
 
       {/* Agent mode section */}
-      <section className="px-8 pt-10 pb-10 mt-8 border-t border-[0.5px] border-[var(--border)]">
+      <section className="px-8 pt-14 pb-14 mt-8 border-t border-white/[0.06]">
         <AgentTabs />
       </section>
 
       {/* Soul twins + Reflection */}
-      <section className="px-8 pb-16 flex flex-col gap-12">
+      <section className="px-8 pb-20 flex flex-col gap-16">
         <SoulTwins twins={result.soul_twins} />
         <ReflectionPanel
           reflection={result.reflection.reflection}

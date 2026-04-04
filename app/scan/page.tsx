@@ -1,64 +1,50 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { ScanCore } from '@/components/scan/ScanCore'
+import { BottomDrawer } from '@/components/scan/BottomDrawer'
 import { BiometricSliders } from '@/components/scan/BiometricSliders'
 import { HabitGrid } from '@/components/scan/HabitGrid'
 import { VoiceInput } from '@/components/scan/VoiceInput'
 import { AgentModeSelector } from '@/components/scan/AgentModeSelector'
-import { ArchetypeDriftLabel } from '@/components/scan/ArchetypeDriftLabel'
-import { Button } from '@/components/ui/Button'
 
 export default function ScanPage() {
   const router = useRouter()
+
   const handleAnalyze = () => {
-    // Store biometrics are already in Zustand — navigate directly
     router.push('/thinking')
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="relative flex flex-col min-h-screen bg-[var(--bg)] overflow-hidden">
+
       {/* Header */}
-      <header className="flex items-center justify-between px-8 py-5 border-b border-[0.5px] border-[var(--border)]">
-        <div className="flex items-center gap-3">
-          <span className="font-mono-data">ATLAS</span>
-          <span className="text-[var(--border-2)]">·</span>
-          <span className="font-mono-data">SCAN</span>
-        </div>
-        <ArchetypeDriftLabel />
+      <header className="flex items-center justify-between px-8 py-5 border-b border-white/[0.08] shrink-0 z-10">
+        <span className="font-mono-data">NEURIX · SCAN</span>
       </header>
 
-      <main className="flex-1 max-w-2xl mx-auto w-full px-8 py-10 flex flex-col gap-10">
-        {/* Biometrics */}
+      {/* Center stage — ScanCore fills remaining space above drawer */}
+      <main className="flex-1 flex items-center justify-center" style={{ paddingBottom: '56px' }}>
+        <ScanCore />
+      </main>
+
+      {/* Bottom drawer with all inputs */}
+      <BottomDrawer onAnalyze={handleAnalyze}>
         <section>
           <div className="font-mono-data mb-5">BIOMETRICS</div>
           <BiometricSliders />
         </section>
-
-        {/* Voice input */}
         <section>
           <VoiceInput />
         </section>
-
-        {/* Habits */}
         <section>
           <HabitGrid />
         </section>
-
-        {/* Agent mode */}
         <section>
           <AgentModeSelector />
         </section>
+      </BottomDrawer>
 
-        {/* CTA */}
-        <div className="flex flex-col gap-3 pt-2">
-          <Button size="lg" onClick={handleAnalyze} className="w-full">
-            Analyze with Gemini →
-          </Button>
-          <p className="text-[12px] text-[var(--text-3)] text-center">
-            One Gemini call · Results in ~10 seconds
-          </p>
-        </div>
-      </main>
     </div>
   )
 }

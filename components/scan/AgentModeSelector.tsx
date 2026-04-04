@@ -26,7 +26,7 @@ export function AgentModeSelector() {
               className={`flex flex-col gap-1 p-3 rounded-[10px] border border-[0.5px] text-left transition-colors cursor-pointer ${
                 active
                   ? 'bg-[var(--text)] text-white border-[var(--text)]'
-                  : 'bg-white border-[var(--border-2)] hover:bg-[var(--surface-2)]'
+                  : 'bg-[var(--surface-1)] border-[var(--border-2)] hover:bg-[var(--surface-2)]'
               }`}
             >
               <span className={`text-[14px] font-semibold ${active ? 'text-white' : 'text-[var(--text)]'}`}>

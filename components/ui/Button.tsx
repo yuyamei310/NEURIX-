@@ -10,7 +10,7 @@ export function Button({ variant = 'primary', size = 'md', className = '', child
 
   const variants = {
     primary: 'bg-[var(--accent)] text-[var(--accent-inv)] hover:opacity-90',
-    secondary: 'bg-white border border-[var(--border-2)] text-[var(--text)] hover:bg-[var(--surface-2)]',
+    secondary: 'bg-[var(--surface-1)] border border-[var(--border-2)] text-[var(--text)] hover:bg-[var(--surface-2)]',
     ghost: 'bg-transparent text-[var(--text-2)] hover:bg-[var(--surface-2)]',
   }
 

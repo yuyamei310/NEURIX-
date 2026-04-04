@@ -13,6 +13,20 @@ export default function ThinkingPage() {
   const setInsightPeek = useAtlasStore((s) => s.setInsightPeek)
   const [apiError, setApiError] = useState<string | null>(null)
 
+  const STAGED_MESSAGES = [
+    'Mapping biomechanics...',
+    'Detecting neural patterns...',
+    'Comparing historical records...',
+  ]
+  const [stagedIdx, setStagedIdx] = useState(0)
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setStagedIdx((i) => (i + 1) % STAGED_MESSAGES.length)
+    }, 2000)
+    return () => clearInterval(t)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   const animationDoneRef = useRef(false)
   const apiDoneRef = useRef(false)
   const apiErrorRef = useRef<string | null>(null)
@@ -124,9 +138,9 @@ export default function ThinkingPage() {
 
   if (apiError) {
     return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center px-8">
+      <div className="min-h-screen bg-[var(--bg)] flex flex-col items-center justify-center px-8">
         <div className="max-w-lg w-full flex flex-col gap-6">
-          <div className="font-mono-data text-red-500">ATLAS · ERROR</div>
+          <div className="font-mono-data text-red-500">NEURIX · ERROR</div>
           <h2 className="text-[22px] font-semibold tracking-tight text-[var(--text)]">
             Analysis failed
           </h2>
@@ -143,18 +157,31 @@ export default function ThinkingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-8">
+    <div className="min-h-screen bg-[var(--bg)] flex flex-col items-center justify-center px-8">
       <div className="max-w-lg w-full">
-        {/* Header */}
-        <div className="mb-10">
-          <div className="font-mono-data mb-2">ATLAS · ANALYZING PROFILE</div>
+
+        {/* Pulsing dot + headline */}
+        <div className="mb-10 flex flex-col gap-3">
+          <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
           <h2 className="text-[22px] font-semibold tracking-tight text-[var(--text)]">
-            ATLAS is analyzing your profile...
+            NEURIX is constructing your profile...
           </h2>
+          <div className="font-mono-data text-white/40">
+            {STAGED_MESSAGES[stagedIdx]}
+          </div>
         </div>
 
         {/* Steps */}
         <ThinkingSequence onComplete={handleAnimationComplete} />
+
+        {/* Progress bar */}
+        <div className="mt-10 w-full h-[1px] bg-white/10 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-white/40 rounded-full"
+            style={{ animation: 'progress 8s linear forwards' }}
+          />
+        </div>
+
       </div>
     </div>
   )

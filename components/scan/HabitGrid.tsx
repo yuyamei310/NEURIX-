@@ -1,0 +1,57 @@
+'use client'
+
+import { useAtlasStore } from '@/store/atlasStore'
+import { localClassify } from '@/lib/classifier'
+import type { Habit } from '@/types/atlas'
+
+const HABITS: { key: Habit; label: string }[] = [
+  { key: 'strength', label: 'Strength training' },
+  { key: 'running', label: 'Running' },
+  { key: 'swimming', label: 'Swimming' },
+  { key: 'team_sports', label: 'Team sports' },
+  { key: 'martial_arts', label: 'Martial arts' },
+  { key: 'gymnastics', label: 'Gymnastics' },
+  { key: 'racket', label: 'Racket sports' },
+  { key: 'wheelchair_sport', label: 'Wheelchair sport' },
+  { key: 'para_athletics', label: 'Para athletics' },
+]
+
+export function HabitGrid() {
+  const biometrics = useAtlasStore((s) => s.biometrics)
+  const setBiometrics = useAtlasStore((s) => s.setBiometrics)
+  const setLocalClassification = useAtlasStore((s) => s.setLocalClassification)
+
+  const toggle = (key: Habit) => {
+    const current = biometrics.habits
+    const next = current.includes(key)
+      ? current.filter((h) => h !== key)
+      : [...current, key]
+    setBiometrics({ habits: next })
+    const result = localClassify(biometrics.height, biometrics.weight, biometrics.age, next)
+    setLocalClassification(result)
+  }
+
+  return (
+    <div>
+      <div className="font-mono-data mb-3">ACTIVITY BACKGROUND</div>
+      <div className="flex flex-wrap gap-2">
+        {HABITS.map(({ key, label }) => {
+          const active = biometrics.habits.includes(key)
+          return (
+            <button
+              key={key}
+              onClick={() => toggle(key)}
+              className={`px-3 py-1.5 rounded-pill text-[13px] border border-[0.5px] transition-colors cursor-pointer ${
+                active
+                  ? 'bg-[var(--text)] text-white border-[var(--text)]'
+                  : 'bg-white text-[var(--text-2)] border-[var(--border-2)] hover:bg-[var(--surface-2)]'
+              }`}
+            >
+              {label}
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}

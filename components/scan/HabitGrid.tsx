@@ -4,16 +4,16 @@ import { useAtlasStore } from '@/store/atlasStore'
 import { localClassify } from '@/lib/classifier'
 import type { Habit } from '@/types/atlas'
 
-const HABITS: { key: Habit; label: string }[] = [
-  { key: 'strength', label: 'Strength training' },
-  { key: 'running', label: 'Running' },
-  { key: 'swimming', label: 'Swimming' },
-  { key: 'team_sports', label: 'Team sports' },
-  { key: 'martial_arts', label: 'Martial arts' },
-  { key: 'gymnastics', label: 'Gymnastics' },
-  { key: 'racket', label: 'Racket sports' },
-  { key: 'wheelchair_sport', label: 'Wheelchair sport' },
-  { key: 'para_athletics', label: 'Para athletics' },
+const HABITS: { key: Habit; label: string; glyph: string }[] = [
+  { key: 'strength',         label: 'Strength',     glyph: '⚡' },
+  { key: 'running',          label: 'Running',       glyph: '◈' },
+  { key: 'swimming',         label: 'Swimming',      glyph: '≋' },
+  { key: 'team_sports',      label: 'Team sports',   glyph: '⬡' },
+  { key: 'martial_arts',     label: 'Martial arts',  glyph: '◆' },
+  { key: 'gymnastics',       label: 'Gymnastics',    glyph: '✦' },
+  { key: 'racket',           label: 'Racket',        glyph: '◇' },
+  { key: 'wheelchair_sport', label: 'Wheelchair',    glyph: '⊕' },
+  { key: 'para_athletics',   label: 'Para athletics',glyph: '∞' },
 ]
 
 export function HabitGrid() {
@@ -33,21 +33,39 @@ export function HabitGrid() {
 
   return (
     <div>
-      <div className="font-mono-data mb-3">ACTIVITY BACKGROUND</div>
+      <div
+        className="mb-3 font-mono tracking-[0.14em] uppercase"
+        style={{ fontSize: 10, color: 'var(--text-3)' }}
+      >
+        ACTIVITY BACKGROUND
+      </div>
       <div className="flex flex-wrap gap-2">
-        {HABITS.map(({ key, label }) => {
+        {HABITS.map(({ key, label, glyph }) => {
           const active = biometrics.habits.includes(key)
           return (
             <button
               key={key}
               onClick={() => toggle(key)}
-              className={`px-3 py-1.5 rounded-pill text-[13px] border border-[0.5px] transition-colors cursor-pointer ${
-                active
-                  ? 'bg-[var(--text)] text-white border-[var(--text)]'
-                  : 'bg-white text-[var(--text-2)] border-[var(--border-2)] hover:bg-[var(--surface-2)]'
-              }`}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-[13px] transition-all duration-200 cursor-pointer"
+              style={{
+                border: '1px solid',
+                borderColor: active
+                  ? 'rgba(var(--glow-rgb), 0.7)'
+                  : 'var(--border-2)',
+                background: active
+                  ? 'rgba(var(--glow-rgb), 0.08)'
+                  : 'var(--surface-1)',
+                color: active ? 'var(--glow)' : 'var(--text-2)',
+                boxShadow: active
+                  ? '0 0 8px rgba(var(--glow-rgb), 0.15)'
+                  : 'none',
+                textShadow: active
+                  ? '0 0 6px rgba(var(--glow-rgb), 0.5)'
+                  : 'none',
+              }}
             >
-              {label}
+              <span style={{ fontSize: 11, opacity: active ? 1 : 0.6 }}>{glyph}</span>
+              <span>{label}</span>
             </button>
           )
         })}

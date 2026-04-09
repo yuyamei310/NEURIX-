@@ -8,38 +8,86 @@ interface SliderProps {
   min: number
   max: number
   unit: string
+  hint?: string
   onChange: (value: number) => void
 }
 
-export function Slider({ label, value, min, max, unit, onChange }: SliderProps) {
+export function Slider({ label, value, min, max, unit, hint, onChange }: SliderProps) {
   const pct = ((value - min) / (max - min)) * 100
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2.5">
       <div className="flex items-baseline justify-between">
-        <span className="font-mono-data">{label}</span>
-        <span className="font-mono text-[15px] font-semibold tracking-tight text-[var(--text)]">
+        <div className="flex flex-col gap-0.5">
+          <span
+            className="font-mono tracking-[0.14em] uppercase"
+            style={{ fontSize: 10, color: 'var(--text-3)' }}
+          >
+            {label}
+          </span>
+          {hint && (
+            <span
+              className="font-mono tracking-[0.1em] uppercase transition-all duration-300"
+              style={{
+                fontSize: 9,
+                color: 'var(--glow)',
+                opacity: 0.7,
+                textShadow: '0 0 6px rgba(var(--glow-rgb), 0.5)',
+              }}
+            >
+              {hint}
+            </span>
+          )}
+        </div>
+        <span
+          className="font-mono font-semibold tracking-tight"
+          style={{ fontSize: 15, color: 'var(--text)' }}
+        >
           {value}
-          <span className="text-[11px] text-[var(--text-3)] ml-0.5 font-normal">{unit}</span>
+          <span style={{ fontSize: 11, color: 'var(--text-3)', marginLeft: 2, fontWeight: 400 }}>
+            {unit}
+          </span>
         </span>
       </div>
-      <div className="relative h-[2px] bg-[var(--border)] rounded-full">
+
+      {/* Track */}
+      <div
+        className="relative rounded-full"
+        style={{ height: 2, background: 'var(--border)' }}
+      >
+        {/* Filled portion — cyan gradient */}
         <div
-          className="absolute left-0 top-0 h-full bg-[var(--text)] rounded-full transition-all"
-          style={{ width: `${pct}%` }}
+          className="absolute left-0 top-0 h-full rounded-full transition-all duration-75"
+          style={{
+            width: `${pct}%`,
+            background: `linear-gradient(to right, rgba(var(--glow-rgb), 0.6), var(--glow))`,
+            boxShadow: `0 0 6px rgba(var(--glow-rgb), 0.5)`,
+          }}
         />
+
+        {/* Invisible native range for interaction */}
         <input
           type="range"
           min={min}
           max={max}
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="absolute inset-0 w-full opacity-0 cursor-pointer h-6 -top-2"
-          style={{ margin: 0 }}
+          className="absolute w-full opacity-0 cursor-pointer"
+          style={{ top: -10, height: 24, margin: 0 }}
         />
+
+        {/* Glowing thumb */}
         <div
-          className="absolute top-1/2 w-3 h-3 rounded-full bg-white border border-[var(--border-2)] shadow-sm -translate-y-1/2 transition-all pointer-events-none"
-          style={{ left: `calc(${pct}% - 6px)` }}
+          className="absolute rounded-full -translate-y-1/2 pointer-events-none transition-all duration-75"
+          style={{
+            top: '50%',
+            left: `calc(${pct}% - 7px)`,
+            width: 14,
+            height: 14,
+            background: 'var(--bg)',
+            border: '1.5px solid var(--glow)',
+            boxShadow: '0 0 8px rgba(var(--glow-rgb), 0.7), 0 0 2px rgba(var(--glow-rgb), 1)',
+          }}
         />
       </div>
     </div>

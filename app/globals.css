@@ -26,6 +26,28 @@
   /* Typography */
   --mono: 'SF Mono', ui-monospace, monospace;
   --sans: -apple-system, 'Helvetica Neue', sans-serif;
+  --orbitron: var(--font-orbitron, 'Orbitron'), sans-serif;
+
+  /* Glow / Cyberpunk */
+  --glow: #00f5ff;
+  --glow-rgb: 0, 245, 255;
+  --glow-dim: #00bcd4;
+}
+
+/* Dark cyberpunk theme — applied to scan + thinking pages */
+.dark-theme {
+  --bg: #060608;
+  --surface-1: #0c0e14;
+  --surface-2: #0f1219;
+  --surface-3: #141823;
+  --border: rgba(0, 245, 255, 0.1);
+  --border-2: rgba(0, 245, 255, 0.22);
+  --border-3: rgba(0, 245, 255, 0.45);
+  --text: #e0f7ff;
+  --text-2: rgba(224, 247, 255, 0.65);
+  --text-3: rgba(224, 247, 255, 0.35);
+  --accent: #00f5ff;
+  --accent-inv: #060608;
 }
 
 * {
@@ -105,6 +127,88 @@ body {
 
 .fade-in {
   animation: fade-in 0.3s ease forwards;
+}
+
+.font-orbitron {
+  font-family: var(--orbitron);
+}
+
+.glow-text {
+  color: var(--glow);
+  text-shadow: 0 0 8px rgba(var(--glow-rgb), 0.7);
+}
+
+/* ── Radar / HUD ─────────────────────────────────────────── */
+@keyframes radar-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Scan beam ───────────────────────────────────────────── */
+@keyframes scan-beam {
+  0%   { top: -4px; opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.scan-beam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(var(--glow-rgb), 0.4) 20%,
+    rgba(var(--glow-rgb), 0.9) 50%,
+    rgba(var(--glow-rgb), 0.4) 80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 12px 2px rgba(var(--glow-rgb), 0.4);
+  animation: scan-beam 4s ease-in-out 0.5s infinite;
+}
+
+/* ── Floating particles ──────────────────────────────────── */
+@keyframes particle-float {
+  0%, 100% { transform: translateY(0) translateX(0);   opacity: 0.25; }
+  25%       { transform: translateY(-14px) translateX(7px);  opacity: 0.55; }
+  50%       { transform: translateY(-7px)  translateX(-5px); opacity: 0.35; }
+  75%       { transform: translateY(-20px) translateX(3px);  opacity: 0.5;  }
+}
+
+/* ── Neural network ──────────────────────────────────────── */
+@keyframes neural-connection-pulse {
+  0%, 100% { opacity: 0.08; }
+  50%       { opacity: 0.55; }
+}
+
+@keyframes neural-node-idle {
+  0%, 100% { opacity: 0.35; }
+  50%       { opacity: 0.7;  }
+}
+
+@keyframes neural-active-flow {
+  0%   { stroke-dashoffset: 200; opacity: 0.9; }
+  100% { stroke-dashoffset: 0;   opacity: 0.3; }
+}
+
+/* ── Waveform bars ───────────────────────────────────────── */
+@keyframes waveform-dance {
+  0%, 100% { transform: scaleY(0.15); }
+  50%       { transform: scaleY(1);   }
+}
+
+/* ── Thinking step ───────────────────────────────────────── */
+@keyframes step-tag-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ── Segment progress fill ───────────────────────────────── */
+@keyframes segment-fill {
+  from { opacity: 0; transform: scaleX(0); }
+  to   { opacity: 1; transform: scaleX(1); }
 }
 
 @layer utilities {

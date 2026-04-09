@@ -5,32 +5,85 @@ import { BiometricSliders } from '@/components/scan/BiometricSliders'
 import { HabitGrid } from '@/components/scan/HabitGrid'
 import { VoiceInput } from '@/components/scan/VoiceInput'
 import { AgentModeSelector } from '@/components/scan/AgentModeSelector'
-import { ArchetypeDriftLabel } from '@/components/scan/ArchetypeDriftLabel'
-import { Button } from '@/components/ui/Button'
+import { CircularHUD } from '@/components/scan/CircularHUD'
+import { ScanCore } from '@/components/scan/ScanCore'
+import { BottomDrawer } from '@/components/scan/BottomDrawer'
 
 export default function ScanPage() {
   const router = useRouter()
-  const handleAnalyze = () => {
-    // Store biometrics are already in Zustand — navigate directly
-    router.push('/thinking')
-  }
+  const handleAnalyze = () => router.push('/thinking')
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div
+      className="dark-theme min-h-screen flex flex-col"
+      style={{ background: 'var(--bg)', color: 'var(--text)' }}
+    >
+      {/* Ambient background effects */}
+      <ScanCore />
+
       {/* Header */}
-      <header className="flex items-center justify-between px-8 py-5 border-b border-[0.5px] border-[var(--border)]">
-        <div className="flex items-center gap-3">
-          <span className="font-mono-data">ATLAS</span>
-          <span className="text-[var(--border-2)]">·</span>
-          <span className="font-mono-data">SCAN</span>
+      <header
+        className="relative flex items-center justify-between px-8 py-4"
+        style={{
+          borderBottom: '1px solid var(--border)',
+          zIndex: 10,
+        }}
+      >
+        <div className="flex items-center gap-2">
+          <span
+            className="font-orbitron tracking-[0.2em] uppercase"
+            style={{
+              fontSize: 11,
+              color: 'var(--glow)',
+              textShadow: '0 0 8px rgba(var(--glow-rgb), 0.6)',
+            }}
+          >
+            ATLAS
+          </span>
+          <span style={{ color: 'var(--border-2)' }}>·</span>
+          <span
+            className="font-mono tracking-[0.15em] uppercase"
+            style={{ fontSize: 10, color: 'var(--text-3)' }}
+          >
+            SCAN
+          </span>
         </div>
-        <ArchetypeDriftLabel />
+        <div className="flex items-center gap-2">
+          <span
+            className="font-mono tracking-[0.08em] uppercase"
+            style={{ fontSize: 9, color: 'var(--text-3)' }}
+          >
+            BIOMETRIC INPUT
+          </span>
+          <div
+            className="w-1.5 h-1.5 rounded-full"
+            style={{
+              background: 'var(--glow)',
+              boxShadow: '0 0 6px var(--glow)',
+              animation: 'neural-node-idle 2s ease-in-out infinite',
+            }}
+          />
+        </div>
       </header>
 
-      <main className="flex-1 max-w-2xl mx-auto w-full px-8 py-10 flex flex-col gap-10">
+      {/* Main content */}
+      <main
+        className="relative flex-1 max-w-2xl mx-auto w-full px-8 py-8 flex flex-col gap-8 pb-36"
+        style={{ zIndex: 10 }}
+      >
+        {/* Circular HUD */}
+        <section className="flex flex-col items-center">
+          <CircularHUD />
+        </section>
+
         {/* Biometrics */}
         <section>
-          <div className="font-mono-data mb-5">BIOMETRICS</div>
+          <div
+            className="mb-4 font-mono tracking-[0.14em] uppercase"
+            style={{ fontSize: 10, color: 'var(--text-3)' }}
+          >
+            BIOMETRICS
+          </div>
           <BiometricSliders />
         </section>
 
@@ -48,17 +101,10 @@ export default function ScanPage() {
         <section>
           <AgentModeSelector />
         </section>
-
-        {/* CTA */}
-        <div className="flex flex-col gap-3 pt-2">
-          <Button size="lg" onClick={handleAnalyze} className="w-full">
-            Analyze with Gemini →
-          </Button>
-          <p className="text-[12px] text-[var(--text-3)] text-center">
-            One Gemini call · Results in ~10 seconds
-          </p>
-        </div>
       </main>
+
+      {/* Sticky bottom CTA drawer */}
+      <BottomDrawer onAnalyze={handleAnalyze} />
     </div>
   )
 }

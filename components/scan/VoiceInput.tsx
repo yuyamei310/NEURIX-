@@ -7,6 +7,43 @@ import type { Habit } from '@/types/atlas'
 
 type VoiceState = 'idle' | 'listening' | 'confirming'
 
+// Pre-computed waveform bar data (deterministic, no Math.random at render)
+const WAVEFORM_BARS = Array.from({ length: 16 }, (_, i) => {
+  const a = ((i * 1664525 + 1013904223) & 0x7fffffff)
+  const b = ((a * 22695477 + 1) & 0x7fffffff)
+  return {
+    duration: 0.35 + (a % 100) / 100 * 0.45,
+    delay: i * 0.04,
+    minScale: 0.12 + (b % 30) / 100,
+  }
+})
+
+function Waveform({ active }: { active: boolean }) {
+  return (
+    <div className="flex items-center gap-[2px]" style={{ height: 32 }}>
+      {WAVEFORM_BARS.map((bar, i) => (
+        <div
+          key={i}
+          className="rounded-full"
+          style={{
+            width: 2,
+            height: 28,
+            background: active
+              ? `linear-gradient(to top, rgba(var(--glow-rgb), 0.4), var(--glow))`
+              : 'var(--border-2)',
+            transformOrigin: 'center',
+            transform: active ? undefined : `scaleY(${bar.minScale})`,
+            animation: active
+              ? `waveform-dance ${bar.duration}s ease-in-out ${bar.delay}s infinite`
+              : undefined,
+            transition: 'background 0.3s',
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
 export function VoiceInput() {
   const [state, setState] = useState<VoiceState>('idle')
   const [confirmation, setConfirmation] = useState('')
@@ -22,7 +59,7 @@ export function VoiceInput() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+      const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
       if (SR) setSupported(true)
     }
   }, [])
@@ -63,7 +100,6 @@ export function VoiceInput() {
         if (data.age) updates.age = data.age
         if (data.habits?.length) updates.habits = data.habits as Habit[]
 
-        // Animate slider values via RAF
         if (Object.keys(updates).length > 0) {
           animateSliders(updates)
         } else {
@@ -124,18 +160,41 @@ export function VoiceInput() {
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="font-mono-data">VOICE INPUT</div>
-      <div className="flex items-center gap-3">
+    <div className="flex flex-col gap-3">
+      <span
+        className="font-mono tracking-[0.14em] uppercase"
+        style={{ fontSize: 10, color: 'var(--text-3)' }}
+      >
+        VOICE INPUT
+      </span>
+
+      <div className="flex items-center gap-4">
+        {/* Mic button */}
         <button
           onClick={startListening}
           disabled={state !== 'idle'}
-          className="relative w-10 h-10 rounded-full border border-[0.5px] border-[var(--border-2)] flex items-center justify-center hover:bg-[var(--surface-2)] transition-colors cursor-pointer disabled:opacity-50"
+          className="relative flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer disabled:opacity-50"
+          style={{
+            border: '1px solid',
+            borderColor: state === 'listening' ? 'var(--glow)' : 'var(--border-2)',
+            background: state === 'listening' ? 'rgba(var(--glow-rgb), 0.08)' : 'transparent',
+            boxShadow: state === 'listening' ? '0 0 12px rgba(var(--glow-rgb), 0.3)' : 'none',
+          }}
         >
           {state === 'listening' && (
-            <span className="absolute inset-0 rounded-full border border-[var(--text)] pulse-ring" />
+            <span
+              className="absolute inset-0 rounded-full pulse-ring"
+              style={{ borderColor: 'var(--glow)' }}
+            />
           )}
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke={state === 'listening' ? 'var(--glow)' : 'var(--text-3)'}
+            strokeWidth="1.5"
+          >
             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
             <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
             <line x1="12" y1="19" x2="12" y2="23" />
@@ -143,15 +202,23 @@ export function VoiceInput() {
           </svg>
         </button>
 
-        <span className="text-[13px] text-[var(--text-3)]">
-          {state === 'idle' && 'Tap to speak your biometrics'}
-          {state === 'listening' && 'Listening...'}
-          {state === 'confirming' && 'Confirming...'}
-        </span>
+        {/* Waveform or status text */}
+        {state === 'listening' ? (
+          <Waveform active />
+        ) : (
+          <span style={{ fontSize: 13, color: 'var(--text-3)' }}>
+            {state === 'idle' && 'Tap to speak your biometrics'}
+            {state === 'confirming' && (
+              <span style={{ color: 'var(--glow)' }}>Confirming...</span>
+            )}
+          </span>
+        )}
       </div>
 
       {confirmation && state === 'idle' && (
-        <p className="text-[13px] text-[var(--text-2)] fade-in pl-[52px]">{confirmation}</p>
+        <p className="fade-in pl-14" style={{ fontSize: 13, color: 'var(--text-2)' }}>
+          {confirmation}
+        </p>
       )}
     </div>
   )

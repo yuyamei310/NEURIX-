@@ -4,7 +4,43 @@ import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAtlasStore } from '@/store/atlasStore'
 import { ThinkingSequence } from '@/components/thinking/ThinkingSequence'
+import { NeuralNetwork } from '@/components/thinking/NeuralNetwork'
 import type { ArchetypeResult, SoulTwin, AdvisorResult, ReflectionResult } from '@/types/atlas'
+
+const TOTAL_STEPS = 6
+
+function SegmentedProgress({ completedSteps, activeStep }: { completedSteps: number; activeStep: number }) {
+  return (
+    <div className="flex items-center gap-1.5 w-full">
+      {Array.from({ length: TOTAL_STEPS }, (_, i) => {
+        const isDone   = i < completedSteps
+        const isActive = i === activeStep && i >= completedSteps
+        return (
+          <div
+            key={i}
+            className="flex-1 rounded-full overflow-hidden"
+            style={{ height: 3, background: 'var(--border)' }}
+          >
+            <div
+              className="h-full rounded-full"
+              style={{
+                width: isDone ? '100%' : isActive ? '60%' : '0%',
+                background: isDone
+                  ? 'var(--glow)'
+                  : isActive
+                  ? `linear-gradient(to right, var(--glow), rgba(var(--glow-rgb), 0.4))`
+                  : 'transparent',
+                boxShadow: (isDone || isActive) ? '0 0 6px rgba(var(--glow-rgb), 0.5)' : 'none',
+                transition: 'width 0.4s ease, background 0.3s',
+                transformOrigin: 'left',
+              }}
+            />
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
 export default function ThinkingPage() {
   const router = useRouter()
@@ -12,6 +48,8 @@ export default function ThinkingPage() {
   const setResult = useAtlasStore((s) => s.setResult)
   const setInsightPeek = useAtlasStore((s) => s.setInsightPeek)
   const [apiError, setApiError] = useState<string | null>(null)
+  const [activeStep, setActiveStep] = useState(0)
+  const [completedSteps, setCompletedSteps] = useState(0)
 
   const animationDoneRef = useRef(false)
   const apiDoneRef = useRef(false)
@@ -43,7 +81,13 @@ export default function ThinkingPage() {
 
   const handleAnimationComplete = () => {
     animationDoneRef.current = true
+    setCompletedSteps(TOTAL_STEPS)
     tryNavigate()
+  }
+
+  const handleStepChange = (stepIndex: number) => {
+    setActiveStep(stepIndex)
+    setCompletedSteps(stepIndex)
   }
 
   useEffect(() => {
@@ -103,7 +147,6 @@ export default function ThinkingPage() {
           }
         }
 
-        // Safety: mark done even if no 'done' event
         apiDoneRef.current = true
         tryNavigate()
       } catch (err) {
@@ -124,16 +167,39 @@ export default function ThinkingPage() {
 
   if (apiError) {
     return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center px-8">
+      <div
+        className="dark-theme min-h-screen flex flex-col items-center justify-center px-8"
+        style={{ background: 'var(--bg)', color: 'var(--text)' }}
+      >
         <div className="max-w-lg w-full flex flex-col gap-6">
-          <div className="font-mono-data text-red-500">ATLAS · ERROR</div>
-          <h2 className="text-[22px] font-semibold tracking-tight text-[var(--text)]">
+          <div
+            className="font-mono tracking-[0.14em] uppercase"
+            style={{ fontSize: 10, color: '#f87171' }}
+          >
+            ATLAS · ERROR
+          </div>
+          <h2 style={{ fontSize: 22, fontWeight: 600, letterSpacing: '-0.02em' }}>
             Analysis failed
           </h2>
-          <p className="text-[13px] text-[var(--text-2)] font-mono-data">{apiError}</p>
+          <p
+            className="font-mono"
+            style={{ fontSize: 12, color: 'var(--text-2)', letterSpacing: '0.06em' }}
+          >
+            {apiError}
+          </p>
           <button
             onClick={() => router.replace('/scan')}
-            className="self-start px-5 py-2.5 text-[13px] font-mono-data bg-[var(--text)] text-white rounded-[10px] hover:opacity-80 transition-opacity cursor-pointer"
+            className="self-start rounded-lg transition-all duration-200 cursor-pointer"
+            style={{
+              padding: '10px 20px',
+              fontSize: 12,
+              fontFamily: 'var(--mono)',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              border: '1px solid rgba(var(--glow-rgb), 0.4)',
+              background: 'rgba(var(--glow-rgb), 0.06)',
+              color: 'var(--glow)',
+            }}
           >
             ← Try again
           </button>
@@ -143,19 +209,77 @@ export default function ThinkingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-8">
-      <div className="max-w-lg w-full">
-        {/* Header */}
-        <div className="mb-10">
-          <div className="font-mono-data mb-2">ATLAS · ANALYZING PROFILE</div>
-          <h2 className="text-[22px] font-semibold tracking-tight text-[var(--text)]">
-            ATLAS is analyzing your profile...
-          </h2>
+    <div
+      className="dark-theme min-h-screen flex flex-col"
+      style={{ background: 'var(--bg)', color: 'var(--text)' }}
+    >
+      {/* Header */}
+      <header
+        className="px-8 py-4 flex items-center justify-between"
+        style={{ borderBottom: '1px solid var(--border)' }}
+      >
+        <div className="flex items-center gap-2">
+          <span
+            className="font-orbitron tracking-[0.2em] uppercase"
+            style={{
+              fontSize: 11,
+              color: 'var(--glow)',
+              textShadow: '0 0 8px rgba(var(--glow-rgb), 0.6)',
+            }}
+          >
+            ATLAS
+          </span>
+          <span style={{ color: 'var(--border-2)' }}>·</span>
+          <span
+            className="font-mono tracking-[0.15em] uppercase"
+            style={{ fontSize: 10, color: 'var(--text-3)' }}
+          >
+            ANALYZING
+          </span>
         </div>
+        <div
+          className="font-mono tracking-[0.1em] uppercase"
+          style={{ fontSize: 9, color: 'var(--text-3)' }}
+        >
+          {completedSteps}/{TOTAL_STEPS} STEPS
+        </div>
+      </header>
 
-        {/* Steps */}
-        <ThinkingSequence onComplete={handleAnimationComplete} />
-      </div>
+      <main className="flex-1 flex flex-col items-center justify-center px-8 py-10">
+        <div className="w-full max-w-2xl flex flex-col gap-10">
+          {/* Neural network visualization */}
+          <section>
+            <NeuralNetwork activeStep={activeStep} />
+          </section>
+
+          {/* Segmented progress bar */}
+          <section className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span
+                className="font-orbitron tracking-[0.15em] uppercase"
+                style={{ fontSize: 10, color: 'var(--text-3)' }}
+              >
+                Processing Pipeline
+              </span>
+              <span
+                className="font-mono"
+                style={{ fontSize: 10, color: 'var(--glow)', opacity: 0.7 }}
+              >
+                {Math.round((completedSteps / TOTAL_STEPS) * 100)}%
+              </span>
+            </div>
+            <SegmentedProgress completedSteps={completedSteps} activeStep={activeStep} />
+          </section>
+
+          {/* Step sequence */}
+          <section>
+            <ThinkingSequence
+              onComplete={handleAnimationComplete}
+              onStepChange={handleStepChange}
+            />
+          </section>
+        </div>
+      </main>
     </div>
   )
 }

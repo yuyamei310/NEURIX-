@@ -14,14 +14,14 @@ export function LandingHero() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center px-6 bg-white">
+    <main className="min-h-screen flex flex-col items-center justify-center px-6 bg-[#0a0a0a]">
       {/* Wordmark */}
       <div className="mb-16 text-center">
-        <div className="font-mono-data mb-4">TEAM USA · ATHLETE INTELLIGENCE</div>
-        <h1 className="text-hero mb-6">ATLAS</h1>
+        <div className="font-mono-data mb-4">NEURIX · HUMAN INTELLIGENCE ANALYSIS SYSTEM</div>
+        <h1 className="text-hero mb-6">NEURIX</h1>
         <p className="text-body max-w-[440px] mx-auto text-center">
-          Input your biometrics, speak your story — ATLAS finds your place in
-          120 years of Team USA history and shows you the path forward.
+          Input your biometrics, speak your story — NEURIX analyzes your biometric profile against
+          120 years of Team USA history and maps your path forward.
         </p>
       </div>
 

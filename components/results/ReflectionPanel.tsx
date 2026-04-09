@@ -9,89 +9,117 @@ interface ReflectionPanelProps {
   twins: SoulTwin[]
 }
 
-export function ReflectionPanel({ reflection, twins }: ReflectionPanelProps) {
-  // Default open: era matching oldest soul twin
-  const defaultEra = (() => {
-    if (!twins.length) return '1968' as EraKey
-    // Find earliest era from soul twins
-    const years = twins.map((t) => {
-      const match = t.era.match(/\d{4}/)
-      return match ? parseInt(match[0]) : 9999
-    })
-    const minYear = Math.min(...years)
-    if (minYear <= 1940) return '1932'
-    if (minYear <= 1975) return '1968'
-    if (minYear <= 2005) return '1996'
-    return 'LA28'
-  })() as EraKey
-
-  const [activeEra, setActiveEra] = useState<EraKey | null>(defaultEra)
-
-  const toggleEra = (key: EraKey) => {
-    setActiveEra((prev) => (prev === key ? null : key))
-  }
+export function ReflectionPanel({ reflection }: ReflectionPanelProps) {
+  const [hoveredEra, setHoveredEra] = useState<EraKey | null>(null)
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="font-mono-data">— REFLECTION</div>
-
-      {/* Era timeline */}
-      <div className="flex items-center gap-0 select-none">
-        {eraKeys.map((key, i) => (
-          <div key={key} className="flex items-center">
-            <button
-              onClick={() => toggleEra(key)}
-              className={`font-mono text-[12px] px-2 py-1 rounded-[6px] border border-[0.5px] transition-colors cursor-pointer ${
-                activeEra === key
-                  ? 'bg-[var(--text)] text-white border-[var(--text)]'
-                  : 'text-[var(--text-2)] border-[var(--border-2)] hover:bg-[var(--surface-2)]'
-              }`}
-            >
-              [{key}]
-            </button>
-            {i < eraKeys.length - 1 && (
-              <div className="w-8 h-px bg-[var(--border-2)]" />
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Inline era card — click-to-expand, 200ms fade */}
+    <div
+      className="flex flex-col h-full"
+      style={{ fontFamily: 'var(--mono)' }}
+    >
       <div
-        className="overflow-hidden transition-all duration-200"
-        style={{
-          maxHeight: activeEra ? '200px' : '0',
-          opacity: activeEra ? 1 : 0,
-        }}
+        className="px-8 pt-8 pb-3 text-[8px] tracking-widest uppercase"
+        style={{ opacity: 0.22 }}
       >
-        {activeEra && (
-          <div className="bg-[var(--surface-1)] border border-[0.5px] border-[var(--border)] rounded-[10px] p-4 flex flex-col gap-2">
-            <div className="font-mono text-[12px] font-semibold text-[var(--text)]">
-              {eraData[activeEra].label}
-            </div>
-            <p className="text-[13px] text-[var(--text-2)] leading-relaxed">
-              {eraData[activeEra].context}
-            </p>
-            <div className="flex gap-1.5 flex-wrap">
-              {eraData[activeEra].archetypes.map((a) => (
-                <span
-                  key={a}
-                  className="text-[10px] font-mono tracking-widest uppercase text-[var(--text-3)] border border-[0.5px] border-[var(--border)] rounded-[4px] px-1.5 py-0.5"
-                >
-                  {a}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
+        // SYSTEM LOG · ERA TIMELINE
       </div>
 
-      {/* Reflection narrative */}
-      <blockquote className="border-l-2 border-[var(--border-2)] pl-5">
-        <p className="text-body italic leading-loose text-[var(--text-2)]">
-          &ldquo;{reflection}&rdquo;
-        </p>
-      </blockquote>
+      {/* Log entries */}
+      <div className="flex-1 overflow-y-auto">
+        {eraKeys.map((key, i) => {
+          const era = eraData[key]
+          const isHovered = hoveredEra === key
+
+          return (
+            <div
+              key={key}
+              className="border-b cursor-default transition-colors"
+              style={{
+                borderColor: 'rgba(255,255,255,0.04)',
+                background: isHovered ? 'rgba(0,229,255,0.028)' : 'transparent',
+              }}
+              onMouseEnter={() => setHoveredEra(key)}
+              onMouseLeave={() => setHoveredEra(null)}
+            >
+              {/* Log row */}
+              <div className="flex items-center gap-4 px-8 py-4">
+                <span
+                  className="text-[8px] tracking-widest shrink-0 transition-colors"
+                  style={{ color: isHovered ? 'rgba(0,229,255,0.6)' : 'rgba(255,255,255,0.18)' }}
+                >
+                  [{String(i + 1).padStart(2, '0')}]
+                </span>
+                <span
+                  className="text-[10px] tracking-widest uppercase font-semibold transition-opacity shrink-0"
+                  style={{ opacity: isHovered ? 1 : 0.38 }}
+                >
+                  {key}
+                </span>
+                <span
+                  className="text-[9px] transition-opacity"
+                  style={{ opacity: isHovered ? 0.5 : 0.18 }}
+                >
+                  {era.label.split(' · ').slice(1).join(' · ')}
+                </span>
+                <span
+                  className="ml-auto text-[8px] tracking-widest uppercase shrink-0 transition-opacity"
+                  style={{ opacity: isHovered ? 0.35 : 0.12 }}
+                >
+                  EXPAND ▾
+                </span>
+              </div>
+
+              {/* Expandable detail */}
+              <div
+                className="overflow-hidden transition-all duration-200"
+                style={{ maxHeight: isHovered ? 140 : 0 }}
+              >
+                <div
+                  className="mx-8 mb-4 pl-5 border-l"
+                  style={{ borderColor: 'rgba(0,229,255,0.18)' }}
+                >
+                  <p
+                    className="text-[10px] leading-relaxed mb-2"
+                    style={{ opacity: 0.42 }}
+                  >
+                    {era.context}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {era.archetypes.map((a) => (
+                      <span
+                        key={a}
+                        className="text-[8px] tracking-widest uppercase border px-2 py-0.5"
+                        style={{
+                          borderColor: 'rgba(255,255,255,0.1)',
+                          opacity: 0.45,
+                        }}
+                      >
+                        {a}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+
+        {/* Reflection quote as final log entry */}
+        <div className="px-8 py-6">
+          <div
+            className="text-[8px] tracking-widest uppercase mb-3"
+            style={{ opacity: 0.18 }}
+          >
+            [REFLECTION]
+          </div>
+          <p
+            className="text-[10px] leading-relaxed italic"
+            style={{ opacity: 0.32 }}
+          >
+            &ldquo;{reflection}&rdquo;
+          </p>
+        </div>
+      </div>
     </div>
   )
 }

@@ -81,7 +81,7 @@ export function AgentTabs() {
             className={`px-5 py-2 rounded-pill text-[13px] font-medium border border-[0.5px] transition-colors cursor-pointer ${
               activeAgent === key
                 ? 'bg-[var(--text)] text-white border-[var(--text)]'
-                : 'bg-white text-[var(--text-2)] border-[var(--border-2)] hover:bg-[var(--surface-2)]'
+                : 'bg-transparent text-[var(--text-2)] border-[var(--border-2)] hover:bg-[var(--surface-2)]'
             }`}
           >
             {label}

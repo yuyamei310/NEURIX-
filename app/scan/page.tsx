@@ -1,13 +1,13 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { ScanCore } from '@/components/scan/ScanCore'
+import { BottomDrawer, DrawerSection } from '@/components/scan/BottomDrawer'
 import { BiometricSliders } from '@/components/scan/BiometricSliders'
 import { HabitGrid } from '@/components/scan/HabitGrid'
 import { VoiceInput } from '@/components/scan/VoiceInput'
 import { AgentModeSelector } from '@/components/scan/AgentModeSelector'
 import { CircularHUD } from '@/components/scan/CircularHUD'
-import { ScanCore } from '@/components/scan/ScanCore'
-import { BottomDrawer } from '@/components/scan/BottomDrawer'
 
 export default function ScanPage() {
   const router = useRouter()
@@ -104,7 +104,20 @@ export default function ScanPage() {
       </main>
 
       {/* Sticky bottom CTA drawer */}
-      <BottomDrawer onAnalyze={handleAnalyze} />
+      <BottomDrawer onAnalyze={handleAnalyze}>
+        <DrawerSection title="BIOMETRICS">
+          <BiometricSliders />
+        </DrawerSection>
+        <DrawerSection title="VOICE INPUT">
+          <VoiceInput />
+        </DrawerSection>
+        <DrawerSection title="ACTIVITY BACKGROUND">
+          <HabitGrid />
+        </DrawerSection>
+        <DrawerSection title="AGENT MODE">
+          <AgentModeSelector />
+        </DrawerSection>
+      </BottomDrawer>
     </div>
   )
 }

@@ -51,6 +51,20 @@ export default function ThinkingPage() {
   const [activeStep, setActiveStep] = useState(0)
   const [completedSteps, setCompletedSteps] = useState(0)
 
+  const STAGED_MESSAGES = [
+    'Mapping biomechanics...',
+    'Detecting neural patterns...',
+    'Comparing historical records...',
+  ]
+  const [stagedIdx, setStagedIdx] = useState(0)
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setStagedIdx((i) => (i + 1) % STAGED_MESSAGES.length)
+    }, 2000)
+    return () => clearInterval(t)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   const animationDoneRef = useRef(false)
   const apiDoneRef = useRef(false)
   const apiErrorRef = useRef<string | null>(null)
@@ -247,6 +261,14 @@ export default function ThinkingPage() {
 
       <main className="flex-1 flex flex-col items-center justify-center px-8 py-10">
         <div className="w-full max-w-2xl flex flex-col gap-10">
+          {/* Staged message */}
+          <div
+            className="font-mono tracking-[0.08em] uppercase"
+            style={{ fontSize: 11, color: 'var(--text-3)' }}
+          >
+            {STAGED_MESSAGES[stagedIdx]}
+          </div>
+
           {/* Neural network visualization */}
           <section>
             <NeuralNetwork activeStep={activeStep} />

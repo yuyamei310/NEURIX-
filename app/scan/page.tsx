@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { ScanCore } from '@/components/scan/ScanCore'
-import { BottomDrawer } from '@/components/scan/BottomDrawer'
+import { BottomDrawer, DrawerSection } from '@/components/scan/BottomDrawer'
 import { BiometricSliders } from '@/components/scan/BiometricSliders'
 import { HabitGrid } from '@/components/scan/HabitGrid'
 import { VoiceInput } from '@/components/scan/VoiceInput'
@@ -24,25 +24,26 @@ export default function ScanPage() {
       </header>
 
       {/* Center stage — ScanCore fills remaining space above drawer */}
-      <main className="flex-1 flex items-center justify-center" style={{ paddingBottom: '56px' }}>
-        <ScanCore />
+      <main className="flex-1 flex items-center justify-center min-h-0" style={{ paddingBottom: '56px' }}>
+        <div className="w-full h-full">
+          <ScanCore />
+        </div>
       </main>
 
       {/* Bottom drawer with all inputs */}
       <BottomDrawer onAnalyze={handleAnalyze}>
-        <section>
-          <div className="font-mono-data mb-5">BIOMETRICS</div>
+        <DrawerSection title="BIOMETRICS">
           <BiometricSliders />
-        </section>
-        <section>
+        </DrawerSection>
+        <DrawerSection title="VOICE INPUT">
           <VoiceInput />
-        </section>
-        <section>
+        </DrawerSection>
+        <DrawerSection title="ACTIVITY BACKGROUND">
           <HabitGrid />
-        </section>
-        <section>
+        </DrawerSection>
+        <DrawerSection title="AGENT MODE">
           <AgentModeSelector />
-        </section>
+        </DrawerSection>
       </BottomDrawer>
 
     </div>

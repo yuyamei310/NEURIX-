@@ -21,10 +21,24 @@ const config: Config = {
         'text-3': 'var(--text-3)',
         accent: 'var(--accent)',
         'accent-inv': 'var(--accent-inv)',
+        // Neon palette
+        glow: 'var(--glow)',
+        'glow-2': 'var(--glow-2)',
+        'glow-3': 'var(--glow-3)',
+        'glow-4': 'var(--glow-4)',
+        // Glass surfaces
+        'glass-1': 'var(--glass-1)',
+        'glass-border': 'var(--glass-border)',
+        // Archetype colors
+        'color-power':     'var(--color-power)',
+        'color-endurance': 'var(--color-endurance)',
+        'color-technical': 'var(--color-technical)',
+        'color-hybrid':    'var(--color-hybrid)',
       },
       fontFamily: {
-        sans: ['var(--sans)'],
-        mono: ['var(--mono)'],
+        sans:    ['var(--font-sans)', '-apple-system', 'Helvetica Neue', 'sans-serif'],
+        mono:    ['var(--mono)'],
+        display: ['var(--font-display)', 'sans-serif'],
       },
       borderWidth: {
         '0.5': '0.5px',

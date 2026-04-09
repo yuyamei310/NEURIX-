@@ -33,7 +33,6 @@ export function HabitGrid() {
 
   return (
     <div>
-      <div className="font-mono-data mb-3">ACTIVITY BACKGROUND</div>
       <div className="flex flex-wrap gap-2">
         {HABITS.map(({ key, label }) => {
           const active = biometrics.habits.includes(key)

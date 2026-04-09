@@ -15,7 +15,6 @@ export function AgentModeSelector() {
 
   return (
     <div>
-      <div className="font-mono-data mb-3">AGENT MODE</div>
       <div className="grid grid-cols-3 gap-2">
         {MODES.map(({ key, label, desc }) => {
           const active = agentMode === key

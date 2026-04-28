@@ -2,8 +2,8 @@
 
 import type { CSSProperties } from 'react'
 import { useAtlasStore } from '@/store/atlasStore'
-import { localClassify } from '@/lib/classifier'
-import { getSyntheticArchiveProfile } from '@/lib/syntheticArchive'
+import { localClassify } from '@/core/classifier'
+import { getSyntheticArchiveProfile } from '@/core/syntheticArchive'
 import type { Habit } from '@/types/atlas'
 
 const HABITS: { key: Habit; label: string }[] = [

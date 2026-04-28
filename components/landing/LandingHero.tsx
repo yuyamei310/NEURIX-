@@ -25,7 +25,7 @@ export function LandingHero() {
 
   const handleStart = () => {
     reset()
-    router.push('/scan')
+    router.push('/onboarding')
   }
 
   return (

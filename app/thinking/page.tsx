@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useAtlasStore } from '@/store/atlasStore'
 import { ThinkingSequence } from '@/components/thinking/ThinkingSequence'
 import type { PipelineEvents } from '@/components/thinking/ThinkingSequence'
-import { getSyntheticArchiveProfile } from '@/lib/syntheticArchive'
+import { getSyntheticArchiveProfile } from '@/core/syntheticArchive'
 import type {
   ArchetypeResult,
   SoulTwin,

@@ -1,4 +1,4 @@
-import { localClassify } from '@/lib/classifier'
+import { localClassify } from '@/core/classifier'
 import type {
   AdvisorResult,
   Archetype,

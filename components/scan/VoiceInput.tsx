@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useAtlasStore } from '@/store/atlasStore'
-import { localClassify } from '@/lib/classifier'
+import { localClassify } from '@/core/classifier'
 import type { Habit } from '@/types/atlas'
 
 type VoiceState = 'idle' | 'listening' | 'confirming'

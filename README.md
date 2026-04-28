@@ -1,50 +1,118 @@
-# NEURIX
+# NEURIX — Human Intelligence Analysis System
 
-NEURIX is an ethical AI debrief experience for exploring athletic archetype signals. A user enters biometrics, activity background, voice input, and an agent mode; NEURIX then produces an anonymized, synthetic, Team USA-inspired archetype debrief.
+> A system that analyzes your physical profile and maps it against 120 years of Team USA data.
 
-## Challenge-Safe Data Policy
+---
 
-- NEURIX does not use real athlete names.
-- NEURIX does not display real athlete records.
-- NEURIX does not claim real historical matching.
-- All archive language refers to synthetic, anonymized, historically inspired patterns.
-- Olympic-inspired and Paralympic-inspired pathways are treated with equal prominence.
+## 🧠 What This Is
 
-## Demo Flow
+NEURIX is not a tool — it is a system.
 
-1. Landing: introduces the Human Intelligence Analysis System.
-2. Scan: collects height, weight, age, habits, voice input, and agent mode.
-3. Thinking: visualizes the pipeline through body signal, habit vector, synthetic archive, ethics filter, and agent synthesis.
-4. Results: reveals the archetype lock, synthetic archive ID, signal confidence, sport pathway, agent lens, archive echoes, and debrief card export.
+It allows users to:
 
-## Agent Lenses
+* Input their biometric profile
+* See how their body aligns with historical athlete archetypes
+* Explore potential sports pathways
+* Understand their profile through AI-driven reasoning
 
-- Advisor: explains the reasoning and signal factors.
-- Coach: turns the signal into sport pathways and training protocol.
-- Mentor: frames the result as a longer LA28 possibility arc.
+---
 
-## AI Pipeline
+## 🎯 Challenge Alignment
 
-The app uses Gemini for narrative and structured JSON generation, with a deterministic synthetic fallback for demo reliability. If Gemini fails or an API key is missing, NEURIX still returns a complete synthetic debrief marked as fallback output.
+This project is built for:
 
-## Local Development
+**Challenge 4 — The Athlete Archetype Agent**
 
-```bash
-npm install
-npm run dev
+✔ Uses Gemini API for:
+
+* Archetype classification
+* Narrative generation
+* Agent reasoning (Advisor / Coach / Mentor)
+
+✔ Deployed on Google Cloud
+
+✔ Demonstrates:
+
+* Olympic & Paralympic parity
+* Conditional reasoning (no guaranteed outcomes)
+* Fan-centric "Digital Mirror" experience
+
+---
+
+## 🚀 Core Experience
+
+```plaintext
+User Input
+   ↓
+NEURIX Analysis
+   ↓
+Archetype + Narrative
+   ↓
+Agent Modes (Advisor / Coach / Mentor)
+   ↓
+DNA Card (Shareable)
 ```
 
-Open `http://localhost:3000`.
+---
 
-## Verification
+## 🏗 System Architecture
 
-```bash
-npm run lint
-npm run build
+```plaintext
+        ┌──────────────┐
+        │   User Input │
+        └──────┬───────┘
+               ↓
+        ┌──────────────┐
+        │   Router     │
+        └──────┬───────┘
+               ↓
+    ┌──────────┴──────────┐
+    │                     │
+┌────────────┐     ┌────────────┐
+│   Skills   │     │   Memory   │
+└─────┬──────┘     └─────┬──────┘
+      ↓                  ↓
+        ┌──────────────┐
+        │   Gemini AI  │
+        └──────────────┘
+               ↓
+        ┌──────────────┐
+        │   Response   │
+        └──────────────┘
 ```
 
-## Known Limitations
+---
 
-- The Spline body visualization is external, so NEURIX includes a local SVG fallback for demo safety.
-- The archive is intentionally synthetic and should not be interpreted as real athlete data.
-- Recommendations are exploratory pathways, not performance predictions.
+## 🧩 Key Features
+
+* AI-driven archetype classification
+* Multi-agent system (Advisor / Coach / Mentor)
+* Real-time input interpretation
+* Narrative-based output (not just data)
+* Shareable Athlete DNA card
+
+---
+
+## ⚙️ Tech Stack
+
+* Frontend: Next.js + Tailwind
+* AI: Gemini API
+* Voice (optional): Web Speech API
+* Deployment: Google Cloud Run
+
+---
+
+## 📊 Data & Reasoning
+
+* Uses historical Team USA datasets
+* Applies conditional phrasing:
+
+  * "could align with"
+  * "may suit"
+  * "has historically appeared"
+
+---
+
+## 🔐 License
+
+This project is licensed under the Apache License 2.0.

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { callGemini, parseGeminiJSON } from '@/lib/gemini'
-import { buildVoiceExtractPrompt } from '@/lib/prompts'
+import { callGemini, parseGeminiJSON } from '@/core/gemini'
+import { buildVoiceExtractPrompt } from '@/core/prompts'
 
 export async function POST(req: NextRequest) {
   const { transcript } = await req.json()

@@ -5,7 +5,7 @@ import { useAtlasStore } from '@/store/atlasStore'
 import { AgentAdvisor } from './AgentAdvisor'
 import { AgentCoach } from './AgentCoach'
 import { AgentMentor } from './AgentMentor'
-import { getSyntheticArchiveProfile } from '@/lib/syntheticArchive'
+import { getSyntheticArchiveProfile } from '@/core/syntheticArchive'
 import type { AgentMode } from '@/types/atlas'
 
 const TABS: { key: AgentMode; label: string; desc: string }[] = [

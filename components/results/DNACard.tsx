@@ -1,7 +1,7 @@
 'use client'
 
-import { archetypeBadgeLabel } from '@/lib/classifier'
-import { ETHICS_NOTE, getSyntheticArchiveProfile } from '@/lib/syntheticArchive'
+import { archetypeBadgeLabel } from '@/core/classifier'
+import { ETHICS_NOTE, getSyntheticArchiveProfile } from '@/core/syntheticArchive'
 import type { AtlasResult } from '@/types/atlas'
 
 interface DNACardProps {

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { eraData, eraKeys, type EraKey } from '@/lib/eraData'
+import { eraData, eraKeys, type EraKey } from '@/core/eraData'
 import type { SoulTwin } from '@/types/atlas'
 
 interface ReflectionPanelProps {

@@ -1,7 +1,7 @@
 'use client'
 
 import { useAtlasStore } from '@/store/atlasStore'
-import { localClassify } from '@/lib/classifier'
+import { localClassify } from '@/core/classifier'
 import { Slider } from '@/components/ui/Slider'
 
 export function BiometricSliders() {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { callGemini, parseGeminiJSON } from '@/lib/gemini'
-import { buildCoachPrompt, buildMentorPrompt } from '@/lib/prompts'
-import { buildDemoFallbackAnalysis } from '@/lib/syntheticArchive'
+import { callGemini, parseGeminiJSON } from '@/core/gemini'
+import { buildCoachPrompt, buildMentorPrompt } from '@/core/prompts'
+import { buildDemoFallbackAnalysis } from '@/core/syntheticArchive'
 import type { BiometricInput, AgentMode, CoachResult, MentorResult } from '@/types/atlas'
 
 export async function POST(req: NextRequest) {

@@ -414,6 +414,12 @@ body {
   animation: data-flicker 9s infinite;
 }
 
+/* ── System log entrance ── */
+
+.sys-log-in {
+  animation: sys-log-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* ── Scrollbar hide ── */
 
 .hide-scrollbar::-webkit-scrollbar { display: none; }

@@ -1,9 +1,9 @@
 'use client'
 
 import { useAtlasStore } from '@/store/atlasStore'
-import { archetypeBadgeLabel } from '@/lib/classifier'
+import { archetypeBadgeLabel } from '@/core/classifier'
 import { Badge } from '@/components/ui/Badge'
-import { getSyntheticArchiveProfile } from '@/lib/syntheticArchive'
+import { getSyntheticArchiveProfile } from '@/core/syntheticArchive'
 
 export function ArchetypeDriftLabel() {
   const { archetype, confidence } = useAtlasStore((s) => s.localClassification)

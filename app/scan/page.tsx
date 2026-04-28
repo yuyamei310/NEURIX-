@@ -9,7 +9,7 @@ import { HabitGrid } from '@/components/scan/HabitGrid'
 import { VoiceInput } from '@/components/scan/VoiceInput'
 import { AgentModeSelector } from '@/components/scan/AgentModeSelector'
 import { useAtlasStore } from '@/store/atlasStore'
-import { getSyntheticArchiveProfile } from '@/lib/syntheticArchive'
+import { getSyntheticArchiveProfile } from '@/core/syntheticArchive'
 
 export default function ScanPage() {
   const router = useRouter()

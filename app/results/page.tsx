@@ -11,8 +11,8 @@ import { SoulTwins } from '@/components/results/SoulTwins'
 import { ReflectionPanel } from '@/components/results/ReflectionPanel'
 import { AgentTabs } from '@/components/results/AgentTabs'
 import { DNACard } from '@/components/results/DNACard'
-import { exportDNACard } from '@/lib/dnaExport'
-import { ETHICS_NOTE, getSyntheticArchiveProfile } from '@/lib/syntheticArchive'
+import { exportDNACard } from '@/core/dnaExport'
+import { ETHICS_NOTE, getSyntheticArchiveProfile } from '@/core/syntheticArchive'
 
 export default function ResultsPage() {
   const router = useRouter()
@@ -23,53 +23,46 @@ export default function ResultsPage() {
   const biometrics = useAtlasStore((s) => s.biometrics)
   const [canvasDataUrl, setCanvasDataUrl] = useState<string | undefined>()
   const [modelHovered, setModelHovered] = useState(false)
+  const [titleChars, setTitleChars] = useState(0)
+  const [counts, setCounts] = useState({ confidence: 0, cluster: 0, olympic: 0, paralympic: 0, align: 0 })
+  const reflectionRef = useRef<HTMLDivElement>(null)
+  const agentRef = useRef<HTMLDivElement>(null)
+  const twinsRef = useRef<HTMLDivElement>(null)
+  const [reflectionVisible, setReflectionVisible] = useState(false)
+  const [agentVisible, setAgentVisible] = useState(false)
+  const [twinsVisible, setTwinsVisible] = useState(false)
 
   useEffect(() => {
     if (!result) router.replace('/scan')
   }, [result, router])
 
-  if (!result) return null
-
-  const profile = getSyntheticArchiveProfile(result.archetype.archetype)
-  const hydratedCoach = coachResult ?? result.coach
-  const hydratedMentor = mentorResult ?? result.mentor
-  const sports = hydratedCoach?.sport_recommendations ?? profile.sportPathways
-  const topSport = sports[0]
-  const topTwin = result.soul_twins[0]
-  const confidenceRaw = Math.round(result.archetype.confidence * 100)
-
-  const agentNarrative =
-    activeAgent === 'coach'
-      ? hydratedCoach?.narrative ?? result.advisor.narrative
-      : activeAgent === 'mentor'
-      ? hydratedMentor?.narrative ?? result.advisor.narrative
-      : result.advisor.narrative
-
-  // ── Typewriter: archetype title ──────────────────────────────────
-  const fullTitle = (result.archetype.archetype + ' profile locked').toUpperCase()
-  const [titleChars, setTitleChars] = useState(0)
   useEffect(() => {
+    if (!result) return
+    const title = (result.archetype.archetype + ' profile locked').toUpperCase()
     let i = 0
     const id = setInterval(() => {
       i++
       setTitleChars(i)
-      if (i >= fullTitle.length) clearInterval(id)
+      if (i >= title.length) clearInterval(id)
     }, 58)
     return () => clearInterval(id)
-  }, [fullTitle])
-  const archetypeDisplay = fullTitle.slice(0, titleChars)
-  const titleDone = titleChars >= fullTitle.length
+  }, [result])
 
-  // ── Number countup: confidence, cluster, olympic, paralympic, align ─
-  const [counts, setCounts] = useState({ confidence: 0, cluster: 0, olympic: 0, paralympic: 0, align: 0 })
   useEffect(() => {
-    type Key = keyof typeof counts
+    if (!result) return
+    const archetypeProfile = getSyntheticArchiveProfile(result.archetype.archetype)
+    const coach = coachResult ?? result.coach
+    const sports = coach?.sport_recommendations ?? archetypeProfile.sportPathways
+    const topSportEntry = sports[0]
+    const conf = Math.round(result.archetype.confidence * 100)
+
+    type Key = 'confidence' | 'cluster' | 'olympic' | 'paralympic' | 'align'
     const targets: Record<Key, number> = {
-      confidence: confidenceRaw,
+      confidence: conf,
       cluster: result.archetype.cluster_size,
       olympic: result.archetype.olympic_count,
       paralympic: result.archetype.paralympic_count,
-      align: topSport.alignment_score,
+      align: topSportEntry.alignment_score,
     }
     const delays: Record<Key, number> = { confidence: 350, align: 500, cluster: 600, olympic: 700, paralympic: 800 }
     const duration = 1500
@@ -87,15 +80,7 @@ export default function ResultsPage() {
       }, delays[key])
     )
     return () => timers.forEach(clearTimeout)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // ── Scroll reveal ─────────────────────────────────────────────────
-  const reflectionRef = useRef<HTMLDivElement>(null)
-  const agentRef = useRef<HTMLDivElement>(null)
-  const twinsRef = useRef<HTMLDivElement>(null)
-  const [reflectionVisible, setReflectionVisible] = useState(false)
-  const [agentVisible, setAgentVisible] = useState(false)
-  const [twinsVisible, setTwinsVisible] = useState(false)
+  }, [result, coachResult])
 
   useEffect(() => {
     type Entry = { ref: MutableRefObject<HTMLDivElement | null>; setter: (v: boolean) => void }
@@ -116,6 +101,27 @@ export default function ResultsPage() {
     watched.forEach(({ ref }) => { if (ref.current) obs.observe(ref.current) })
     return () => obs.disconnect()
   }, [])
+
+  if (!result) return null
+
+  const profile = getSyntheticArchiveProfile(result.archetype.archetype)
+  const hydratedCoach = coachResult ?? result.coach
+  const hydratedMentor = mentorResult ?? result.mentor
+  const sports = hydratedCoach?.sport_recommendations ?? profile.sportPathways
+  const topSport = sports[0]
+  const topTwin = result.soul_twins[0]
+  const confidenceRaw = Math.round(result.archetype.confidence * 100)
+
+  const agentNarrative =
+    activeAgent === 'coach'
+      ? hydratedCoach?.narrative ?? result.advisor.narrative
+      : activeAgent === 'mentor'
+      ? hydratedMentor?.narrative ?? result.advisor.narrative
+      : result.advisor.narrative
+
+  const fullTitle = (result.archetype.archetype + ' profile locked').toUpperCase()
+  const archetypeDisplay = fullTitle.slice(0, titleChars)
+  const titleDone = titleChars >= fullTitle.length
 
   const handleShare = async () => {
     await exportDNACard(canvasDataUrl)

@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { callGemini, streamGemini, parseGeminiJSON } from '@/lib/gemini'
+import { callGemini, streamGemini, parseGeminiJSON } from '@/core/gemini'
 import {
   buildArchetypePrompt,
   buildAdvisorPrompt,
@@ -7,12 +7,12 @@ import {
   buildReflectionPrompt,
   buildCoachPrompt,
   buildMentorPrompt,
-} from '@/lib/prompts'
+} from '@/core/prompts'
 import {
   buildDemoFallbackAnalysis,
   enrichArchetypeResult,
   getSyntheticArchiveProfile,
-} from '@/lib/syntheticArchive'
+} from '@/core/syntheticArchive'
 import type { BiometricInput } from '@/types/atlas'
 import type {
   ArchetypeResult,

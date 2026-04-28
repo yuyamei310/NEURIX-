@@ -8,7 +8,7 @@ import { HolographicBody } from '@/components/scan/HolographicBody'
 import { ScanHUD } from '@/components/scan/ScanHUD'
 import { BodyNodes } from '@/components/scan/BodyNodes'
 import { useAtlasStore } from '@/store/atlasStore'
-import { getSyntheticArchiveProfile } from '@/lib/syntheticArchive'
+import { getSyntheticArchiveProfile } from '@/core/syntheticArchive'
 
 const STATUS_MESSAGES = [
   'Analyzing biomechanical signal...',

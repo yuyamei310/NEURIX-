@@ -1,4 +1,4 @@
-import { ETHICS_NOTE, getSyntheticArchiveProfile } from '@/lib/syntheticArchive'
+import { ETHICS_NOTE, getSyntheticArchiveProfile } from '@/core/syntheticArchive'
 import type { Archetype, AgentMode, BiometricInput } from '@/types/atlas'
 
 const SYSTEM = (bio: BiometricInput, mode: AgentMode) => {

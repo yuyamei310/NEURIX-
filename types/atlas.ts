@@ -34,6 +34,11 @@ export interface ArchetypeResult {
   olympic_count: number
   paralympic_count: number
   time_span: string
+  synthetic_archive_id: string
+  archive_basis: string
+  ethics_note: string
+  signal_label: string
+  demo_fallback?: boolean
 }
 
 export interface SoulTwin {
@@ -69,6 +74,8 @@ export interface AdvisorResult {
   olympic_note: string
   paralympic_note: string
   confidence_explanation: string
+  ethics_note?: string
+  demo_fallback?: boolean
 }
 
 export interface CoachResult {
@@ -76,6 +83,8 @@ export interface CoachResult {
   sport_recommendations: SportRecommendation[]
   training_phases: TrainingPhase[]
   important_note: string
+  ethics_note?: string
+  demo_fallback?: boolean
 }
 
 export interface MentorTimeline {
@@ -90,10 +99,14 @@ export interface MentorResult {
   timeline: MentorTimeline[]
   la28_connection: string
   soul_message: string
+  ethics_note?: string
+  demo_fallback?: boolean
 }
 
 export interface ReflectionResult {
   reflection: string
+  ethics_note?: string
+  demo_fallback?: boolean
 }
 
 export interface AtlasResult {

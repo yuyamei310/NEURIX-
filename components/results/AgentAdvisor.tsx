@@ -29,23 +29,24 @@ export function AgentAdvisor({ data }: AgentAdvisorProps) {
 
       {/* Historical context */}
       <div>
-        <div className="font-mono-data mb-2">HISTORICAL CONTEXT</div>
+        <div className="font-mono-data mb-2">SYNTHETIC ARCHIVE CONTEXT</div>
         <p className="text-[13px] text-[var(--text-2)] leading-relaxed">{data.historical_context}</p>
       </div>
 
       {/* Olympic + Paralympic notes — same font size */}
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-[var(--surface-1)] border border-[0.5px] border-[var(--border)] rounded-[10px] p-3 flex flex-col gap-1.5">
-          <span className="font-mono-data">OLYMPIC NOTE</span>
+          <span className="font-mono-data">OLYMPIC-INSPIRED NOTE</span>
           <p className="text-[12px] text-[var(--text-2)] leading-relaxed">{data.olympic_note}</p>
         </div>
         <div className="bg-[var(--surface-1)] border border-[0.5px] border-[var(--border)] rounded-[10px] p-3 flex flex-col gap-1.5">
-          <span className="font-mono-data">PARALYMPIC NOTE</span>
+          <span className="font-mono-data">PARALYMPIC-INSPIRED NOTE</span>
           <p className="text-[12px] text-[var(--text-2)] leading-relaxed">{data.paralympic_note}</p>
         </div>
       </div>
 
       <p className="text-[12px] text-[var(--text-3)] italic">{data.confidence_explanation}</p>
+      {data.ethics_note && <p className="text-[11px] text-[var(--text-3)] font-mono uppercase tracking-widest">{data.ethics_note}</p>}
     </div>
   )
 }

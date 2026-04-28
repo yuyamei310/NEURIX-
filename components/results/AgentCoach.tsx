@@ -17,39 +17,58 @@ export function AgentCoach({ data }: AgentCoachProps) {
 
       {/* Sport recommendations */}
       <div>
-        <div className="font-mono-data mb-3">SPORT RECOMMENDATIONS</div>
-        <div className="flex flex-col gap-3">
+        <div className="font-mono-data mb-4">SPORT PATHWAYS</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {data.sport_recommendations.map((rec) => (
-            <div key={rec.rank} className="flex gap-4 py-3 border-b border-[0.5px] border-[var(--border)] last:border-0">
-              <span className="font-mono text-[20px] font-semibold text-[var(--border-2)] w-6 flex-shrink-0 pt-0.5">
-                {rec.rank}
-              </span>
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-[14px] font-medium text-[var(--text)]">{rec.sport}</span>
-                  {rec.is_paralympic && <Badge label="PARA" variant="paralympic" />}
-                  <span className="font-mono text-[11px] text-[var(--text-3)]">{rec.alignment_score}%</span>
+            <article
+              key={rec.rank}
+              className="min-h-[168px] rounded-[8px] border border-white/[0.08] bg-white/[0.025] p-4 flex flex-col gap-4"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="font-mono text-[11px] text-[var(--text-3)] border border-white/[0.08] rounded-full w-7 h-7 flex items-center justify-center shrink-0">
+                    {rec.rank}
+                  </span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-[15px] font-semibold text-[var(--text)] leading-tight">{rec.sport}</span>
+                      {rec.is_paralympic && <Badge label="PARA" variant="paralympic" />}
+                    </div>
+                    <div className="font-mono text-[10px] tracking-widest uppercase text-[var(--text-3)] mt-1">
+                      Sport pathway
+                    </div>
+                  </div>
                 </div>
-                <p className="text-[12px] text-[var(--text-2)] leading-relaxed">{rec.why}</p>
-                <p className="text-[11px] text-[var(--text-3)]">{rec.entry_point}</p>
+                <div className="font-mono text-[18px] font-semibold text-[var(--text)] whitespace-nowrap">
+                  {rec.alignment_score}%
+                </div>
               </div>
-            </div>
+
+              <p className="text-[12px] text-[var(--text-2)] leading-relaxed">{rec.why}</p>
+
+              <div className="mt-auto pt-3 border-t border-white/[0.06]">
+                <div className="font-mono text-[9px] tracking-widest uppercase text-[var(--text-3)] mb-1">
+                  Entry point
+                </div>
+                <p className="text-[11px] text-[var(--text-3)] leading-relaxed">{rec.entry_point}</p>
+              </div>
+            </article>
           ))}
         </div>
       </div>
 
       {/* Training phases accordion */}
       <div>
-        <div className="font-mono-data mb-3">TRAINING PHASES</div>
-        <div className="flex flex-col gap-2">
+        <div className="font-mono-data mb-4">TRAINING PROTOCOL</div>
+        <div className="flex flex-col gap-3">
           {data.training_phases.map((phase, i) => (
             <div
               key={i}
-              className="border border-[0.5px] border-[var(--border)] rounded-[10px] overflow-hidden"
+              className="border border-[0.5px] border-white/[0.08] bg-white/[0.02] rounded-[8px] overflow-hidden"
             >
               <button
                 onClick={() => setOpenPhase(openPhase === i ? null : i)}
-                className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-[var(--surface-2)] transition-colors cursor-pointer"
+                className="w-full flex items-center justify-between px-4 py-3.5 text-left hover:bg-[var(--surface-2)] transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <span className="text-[13px] font-medium text-[var(--text)]">{phase.phase}</span>
@@ -68,6 +87,7 @@ export function AgentCoach({ data }: AgentCoachProps) {
       </div>
 
       <p className="text-[12px] text-[var(--text-3)] italic">{data.important_note}</p>
+      {data.ethics_note && <p className="text-[11px] text-[var(--text-3)] font-mono uppercase tracking-widest">{data.ethics_note}</p>}
     </div>
   )
 }

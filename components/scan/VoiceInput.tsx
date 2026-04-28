@@ -57,10 +57,16 @@ export function VoiceInput() {
         const data = await res.json()
         setConfirmation(data.confirmation_message || '')
 
+        const clamp = (v: number | undefined, min: number, max: number) =>
+          v !== undefined && !isNaN(v) ? Math.min(Math.max(Math.round(v), min), max) : undefined
+
         const updates: Partial<typeof biometrics> = {}
-        if (data.height) updates.height = data.height
-        if (data.weight) updates.weight = data.weight
-        if (data.age) updates.age = data.age
+        const h = clamp(data.height, 100, 220)
+        const w = clamp(data.weight, 30, 200)
+        const a = clamp(data.age, 10, 90)
+        if (h !== undefined) updates.height = h
+        if (w !== undefined) updates.weight = w
+        if (a !== undefined) updates.age = a
         if (data.habits?.length) updates.habits = data.habits as Habit[]
 
         // Animate slider values via RAF

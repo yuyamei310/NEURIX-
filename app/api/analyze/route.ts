@@ -5,10 +5,23 @@ import {
   buildAdvisorPrompt,
   buildSoulTwinPrompt,
   buildReflectionPrompt,
+  buildCoachPrompt,
+  buildMentorPrompt,
 } from '@/lib/prompts'
-import { paralympicFallback } from '@/lib/paralympicFallback'
+import {
+  buildDemoFallbackAnalysis,
+  enrichArchetypeResult,
+  getSyntheticArchiveProfile,
+} from '@/lib/syntheticArchive'
 import type { BiometricInput } from '@/types/atlas'
-import type { ArchetypeResult, SoulTwin, AdvisorResult, ReflectionResult } from '@/types/atlas'
+import type {
+  ArchetypeResult,
+  SoulTwin,
+  AdvisorResult,
+  ReflectionResult,
+  CoachResult,
+  MentorResult,
+} from '@/types/atlas'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
@@ -37,7 +50,7 @@ export async function POST(req: NextRequest) {
           callGemini(buildAdvisorPrompt(bio)),
         ])
 
-        const archetype = parseGeminiJSON<ArchetypeResult>(archetypeRaw)
+        const archetype = enrichArchetypeResult(parseGeminiJSON<ArchetypeResult>(archetypeRaw), 'hybrid')
         send({ type: 'archetype', data: archetype })
 
         const advisor = parseGeminiJSON<AdvisorResult>(advisorRaw)
@@ -64,10 +77,10 @@ export async function POST(req: NextRequest) {
         const soulParsed = parseGeminiJSON<{ soul_twins: SoulTwin[] }>(soulRaw)
         let twins = soulParsed.soul_twins ?? []
 
-        // Paralympic fallback
+        // Synthetic Paralympic parity fallback
         const hasParalympic = twins.some((t) => t.games_type === 'Paralympic')
         if (!hasParalympic) {
-          twins = [...twins, paralympicFallback[archetype.archetype]]
+          twins = [...twins, getSyntheticArchiveProfile(archetype.archetype).eraEchoes[1]]
         }
         send({ type: 'soul_twins', data: twins })
 
@@ -76,9 +89,30 @@ export async function POST(req: NextRequest) {
         const reflection = parseGeminiJSON<ReflectionResult>(reflRaw)
         send({ type: 'reflection', data: reflection })
 
+        // 5. Preload selected agent lens for a smoother demo reveal.
+        if (bio.agentMode === 'coach') {
+          const coachRaw = await callGemini(buildCoachPrompt(bio))
+          const coach = parseGeminiJSON<CoachResult>(coachRaw)
+          send({ type: 'coach', data: coach })
+        }
+
+        if (bio.agentMode === 'mentor') {
+          const mentorRaw = await callGemini(buildMentorPrompt(bio))
+          const mentor = parseGeminiJSON<MentorResult>(mentorRaw)
+          send({ type: 'mentor', data: mentor })
+        }
+
         send({ type: 'done', data: null })
       } catch (err) {
-        send({ type: 'error', data: String(err) })
+        const fallback = buildDemoFallbackAnalysis(bio)
+        send({ type: 'archetype', data: fallback.archetype })
+        send({ type: 'advisor', data: fallback.advisor })
+        send({ type: 'insight_peek', data: fallback.advisor.narrative.split('.')[0] + '.' })
+        send({ type: 'soul_twins', data: fallback.soul_twins })
+        send({ type: 'reflection', data: fallback.reflection })
+        if (bio.agentMode === 'coach') send({ type: 'coach', data: fallback.coach })
+        if (bio.agentMode === 'mentor') send({ type: 'mentor', data: fallback.mentor })
+        send({ type: 'done', data: { fallback: true, reason: String(err) } })
       } finally {
         controller.close()
       }

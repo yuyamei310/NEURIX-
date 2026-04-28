@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NEURIX
 
-## Getting Started
+NEURIX is an ethical AI debrief experience for exploring athletic archetype signals. A user enters biometrics, activity background, voice input, and an agent mode; NEURIX then produces an anonymized, synthetic, Team USA-inspired archetype debrief.
 
-First, run the development server:
+## Challenge-Safe Data Policy
+
+- NEURIX does not use real athlete names.
+- NEURIX does not display real athlete records.
+- NEURIX does not claim real historical matching.
+- All archive language refers to synthetic, anonymized, historically inspired patterns.
+- Olympic-inspired and Paralympic-inspired pathways are treated with equal prominence.
+
+## Demo Flow
+
+1. Landing: introduces the Human Intelligence Analysis System.
+2. Scan: collects height, weight, age, habits, voice input, and agent mode.
+3. Thinking: visualizes the pipeline through body signal, habit vector, synthetic archive, ethics filter, and agent synthesis.
+4. Results: reveals the archetype lock, synthetic archive ID, signal confidence, sport pathway, agent lens, archive echoes, and debrief card export.
+
+## Agent Lenses
+
+- Advisor: explains the reasoning and signal factors.
+- Coach: turns the signal into sport pathways and training protocol.
+- Mentor: frames the result as a longer LA28 possibility arc.
+
+## AI Pipeline
+
+The app uses Gemini for narrative and structured JSON generation, with a deterministic synthetic fallback for demo reliability. If Gemini fails or an API key is missing, NEURIX still returns a complete synthetic debrief marked as fallback output.
+
+## Local Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Verification
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm run build
+```
 
-## Learn More
+## Known Limitations
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- The Spline body visualization is external, so NEURIX includes a local SVG fallback for demo safety.
+- The archive is intentionally synthetic and should not be interpreted as real athlete data.
+- Recommendations are exploratory pathways, not performance predictions.

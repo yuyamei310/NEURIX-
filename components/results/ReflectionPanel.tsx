@@ -21,7 +21,7 @@ export function ReflectionPanel({ reflection }: ReflectionPanelProps) {
         className="px-8 pt-8 pb-3 text-[8px] tracking-widest uppercase"
         style={{ opacity: 0.22 }}
       >
-        // SYSTEM LOG · ERA TIMELINE
+        {'// SYNTHETIC ERA ECHOES'}
       </div>
 
       {/* Log entries */}

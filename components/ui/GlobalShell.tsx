@@ -61,14 +61,14 @@ export function GlobalShell({ children }: { children: ReactNode }) {
       {/* Noise overlay */}
       <div
         className="noise-overlay fixed inset-0 pointer-events-none"
-        style={{ zIndex: 9998 }}
+        style={{ zIndex: 20 }}
         aria-hidden
       />
 
       {/* System status bar — bottom left */}
       <div
         className="fixed bottom-3 left-4 pointer-events-none select-none"
-        style={{ zIndex: 9990 }}
+        style={{ zIndex: 30 }}
         aria-hidden
       >
         <span className="status-bar">
@@ -88,7 +88,7 @@ export function GlobalShell({ children }: { children: ReactNode }) {
               width: 32,
               height: 32,
               borderRadius: '50%',
-              border: '1px solid rgba(0,229,255,0.25)',
+              border: '1px solid rgba(255,107,53,0.25)',
               willChange: 'transform',
             }}
             aria-hidden
@@ -109,7 +109,7 @@ export function GlobalShell({ children }: { children: ReactNode }) {
                 left: 0,
                 right: 0,
                 height: 1,
-                background: 'rgba(0,229,255,0.75)',
+                background: 'rgba(255,107,53,0.75)',
                 transform: 'translateY(-50%)',
               }}
             />
@@ -121,7 +121,7 @@ export function GlobalShell({ children }: { children: ReactNode }) {
                 top: 0,
                 bottom: 0,
                 width: 1,
-                background: 'rgba(0,229,255,0.75)',
+                background: 'rgba(255,107,53,0.75)',
                 transform: 'translateX(-50%)',
               }}
             />
@@ -134,9 +134,9 @@ export function GlobalShell({ children }: { children: ReactNode }) {
                 width: 3,
                 height: 3,
                 borderRadius: '50%',
-                background: 'rgba(0,229,255,1)',
+                background: 'rgba(255,107,53,1)',
                 transform: 'translate(-50%, -50%)',
-                boxShadow: '0 0 6px rgba(0,229,255,0.8)',
+                boxShadow: '0 0 6px rgba(255,107,53,0.8)',
               }}
             />
           </div>

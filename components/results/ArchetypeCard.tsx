@@ -27,7 +27,7 @@ export function ArchetypeCard({ data, biometrics, onShare }: ArchetypeCardProps)
         className="text-[8px] tracking-widest uppercase"
         style={{ opacity: 0.22 }}
       >
-        // PROFILE SUMMARY
+        {'// SYNTHETIC PROFILE'}
       </div>
 
       {/* Biometrics */}
@@ -54,19 +54,19 @@ export function ArchetypeCard({ data, biometrics, onShare }: ArchetypeCardProps)
       <div className="grid grid-cols-3 gap-3">
         <div>
           <div className="text-[8px] tracking-widest uppercase mb-1" style={{ opacity: 0.25 }}>
-            OLY
+            OLY-SYN
           </div>
           <div className="text-[17px] font-semibold">{data.olympic_count.toLocaleString()}</div>
         </div>
         <div>
           <div className="text-[8px] tracking-widest uppercase mb-1" style={{ opacity: 0.25 }}>
-            PARA
+            PARA-SYN
           </div>
           <div className="text-[17px] font-semibold">{data.paralympic_count.toLocaleString()}</div>
         </div>
         <div>
           <div className="text-[8px] tracking-widest uppercase mb-1" style={{ opacity: 0.25 }}>
-            TOTAL
+            NODES
           </div>
           <div className="text-[17px] font-semibold">{data.cluster_size.toLocaleString()}</div>
         </div>
@@ -74,13 +74,13 @@ export function ArchetypeCard({ data, biometrics, onShare }: ArchetypeCardProps)
 
       {/* Time span */}
       <div className="text-[9px] tracking-widest" style={{ opacity: 0.18 }}>
-        SPAN: {data.time_span}
+        ARCHIVE: {data.synthetic_archive_id}
       </div>
 
       {/* Sport compatibility tags */}
       <div className="mt-auto">
         <div className="text-[8px] tracking-widest uppercase mb-2" style={{ opacity: 0.18 }}>
-          SPORT COMPAT
+          SPORT PATHWAYS
         </div>
         <div className="flex flex-wrap gap-1">
           {sports.map((s) => (
@@ -101,9 +101,12 @@ export function ArchetypeCard({ data, biometrics, onShare }: ArchetypeCardProps)
           className="text-[8px] tracking-widest uppercase cursor-pointer transition-opacity hover:opacity-60 text-left"
           style={{ opacity: 0.22 }}
         >
-          ↗ EXPORT DNA CARD
+          ↗ EXPORT DEBRIEF CARD
         </button>
       )}
+      <p className="text-[8px] tracking-widest uppercase leading-relaxed" style={{ opacity: 0.2 }}>
+        {data.ethics_note}
+      </p>
     </div>
   )
 }

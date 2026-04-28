@@ -53,7 +53,7 @@ export function BottomDrawer({ children, onAnalyze }: BottomDrawerProps) {
         className="fixed bottom-0 left-0 right-0 z-50 flex flex-col"
         style={{
           height: '65vh',
-          transform: open ? 'translateY(0)' : 'translateY(calc(100% - 56px))',
+          transform: open ? 'translateY(0)' : 'translateY(calc(100% - 64px))',
           transition: 'transform 350ms cubic-bezier(0.32, 0.72, 0, 1)',
           boxShadow: open ? '0 -30px 80px rgba(0,0,0,0.7)' : '0 -4px 20px rgba(0,0,0,0.3)',
         }}
@@ -61,24 +61,40 @@ export function BottomDrawer({ children, onAnalyze }: BottomDrawerProps) {
         {/* Handle strip */}
         <button
           onClick={() => setOpen((v) => !v)}
-          className="flex items-center justify-between px-6 h-14 shrink-0 border-t border-white/[0.12] cursor-pointer w-full text-left"
-          style={{ background: 'rgba(255,255,255,0.06)' }}
+          className="flex h-16 w-full shrink-0 cursor-pointer items-center justify-between gap-4 border-t px-5 text-left outline-none sm:px-6"
+          style={{
+            background: open ? 'rgba(8,8,8,0.95)' : 'rgba(255,107,53,0.06)',
+            backdropFilter: 'blur(18px)',
+            WebkitBackdropFilter: 'blur(18px)',
+            borderColor: open ? 'rgba(255,255,255,0.1)' : 'rgba(255,107,53,0.35)',
+            boxShadow: open ? 'none' : '0 -4px 24px rgba(255,107,53,0.08)',
+            transition: 'background 350ms ease, border-color 350ms ease, box-shadow 350ms ease',
+          }}
         >
-          <div className="flex flex-col gap-0.5">
-            <span className="font-mono-data" style={{ color: 'rgba(255,255,255,0.7)' }}>
-              ▲ SYSTEM INPUT
+          <div className="flex min-w-0 flex-1 flex-col gap-1">
+            <span
+              className="font-mono-data"
+              style={{
+                color: open ? 'rgba(255,255,255,0.6)' : 'rgba(255,107,53,0.85)',
+                transition: 'color 350ms ease',
+              }}
+            >
+              SYSTEM INPUT
             </span>
             <span
-              className="font-mono-data transition-all duration-300"
-              style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)' }}
+              className="font-mono truncate leading-none normal-case transition-all duration-300"
+              style={{ fontSize: '11px', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.38)' }}
             >
               {open ? 'Tap to close' : stripSummary}
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex shrink-0 items-center gap-3">
             <div className="flex flex-col items-end gap-1">
-              <span className="font-mono-data" style={{ fontSize: '9px', color: 'rgba(255,255,255,0.25)' }}>
+              <span
+                className="font-mono-data"
+                style={{ fontSize: '9px', color: open ? 'rgba(255,255,255,0.22)' : 'rgba(255,107,53,0.55)', transition: 'color 350ms ease' }}
+              >
                 {completion}%
               </span>
               <div
@@ -87,21 +103,37 @@ export function BottomDrawer({ children, onAnalyze }: BottomDrawerProps) {
               >
                 <div
                   className="h-full rounded-full transition-all duration-700 ease-out"
-                  style={{ width: `${completion}%`, background: 'rgba(255,255,255,0.5)' }}
+                  style={{
+                    width: `${completion}%`,
+                    background: open ? 'rgba(255,255,255,0.5)' : '#ff6b35',
+                  }}
                 />
               </div>
             </div>
-            <span
-              className="font-mono-data text-sm"
+
+            {/* Chevron — rotates when open */}
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              aria-hidden
               style={{
-                display: 'inline-block',
-                color: 'rgba(255,255,255,0.4)',
+                flexShrink: 0,
                 transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 350ms ease-in-out',
+                transition: 'transform 350ms cubic-bezier(0.32, 0.72, 0, 1), color 350ms ease',
+                color: open ? 'rgba(255,255,255,0.35)' : '#ff6b35',
+                filter: open ? 'none' : 'drop-shadow(0 0 4px rgba(255,107,53,0.5))',
               }}
             >
-              ↑
-            </span>
+              <path
+                d="M5 7.5l5 5 5-5"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </div>
         </button>
 
@@ -116,7 +148,7 @@ export function BottomDrawer({ children, onAnalyze }: BottomDrawerProps) {
         >
           {/* Header status */}
           <div className="mb-6 pb-5 border-b border-white/[0.06]">
-            <p className="font-mono-data mb-1">▲ SYSTEM INPUT</p>
+            <p className="font-mono-data mb-1">▲ INPUT QUEUE</p>
             <p
               className="text-xs text-white/60 transition-opacity duration-500"
               key={getStatusLine(completion)}
@@ -149,7 +181,7 @@ export function BottomDrawer({ children, onAnalyze }: BottomDrawerProps) {
 
             <button
               onClick={onAnalyze}
-              className="w-full py-3.5 rounded-full bg-white text-black font-semibold tracking-widest uppercase transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full cursor-pointer rounded-full bg-white py-3.5 font-semibold uppercase tracking-widest text-black outline-none transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
               style={{ fontFamily: 'var(--mono)', fontSize: '12px' }}
             >
               Begin Full Scan →

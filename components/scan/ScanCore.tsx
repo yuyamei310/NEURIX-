@@ -7,6 +7,8 @@ import { HUDPanel } from '@/components/ui/FloatingCard'
 import { HolographicBody } from '@/components/scan/HolographicBody'
 import { ScanHUD } from '@/components/scan/ScanHUD'
 import { BodyNodes } from '@/components/scan/BodyNodes'
+import { useAtlasStore } from '@/store/atlasStore'
+import { getSyntheticArchiveProfile } from '@/lib/syntheticArchive'
 
 const STATUS_MESSAGES = [
   'Analyzing biomechanical signal...',
@@ -21,6 +23,8 @@ const READINESS_MESSAGES = [
 export function ScanCore() {
   const [statusIdx, setStatusIdx]       = useState(0)
   const [readinessIdx, setReadinessIdx] = useState(0)
+  const { archetype } = useAtlasStore((s) => s.localClassification)
+  const profile = getSyntheticArchiveProfile(archetype)
 
   useEffect(() => {
     const t1 = setInterval(() => setStatusIdx((i) => (i + 1) % STATUS_MESSAGES.length), 3000)
@@ -36,6 +40,7 @@ export function ScanCore() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background: 'radial-gradient(circle at center, rgba(255,255,255,0.06), transparent 60%)',
+          boxShadow: `inset 0 0 220px ${profile.color}10`,
         }}
       />
 
@@ -77,6 +82,12 @@ export function ScanCore() {
         style={{ top: 'calc(50% + 240px)' }}
       >
         NEURIX calibrating your profile...
+      </div>
+      <div
+        className="absolute font-mono text-[9px] tracking-[0.2em] uppercase pointer-events-none"
+        style={{ top: 'calc(50% + 265px)', color: profile.color, opacity: 0.78 }}
+      >
+        {profile.id} · {profile.signalLabel}
       </div>
 
       {/* HUD Panel — top left (System Status) */}

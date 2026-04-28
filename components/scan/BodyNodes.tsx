@@ -17,10 +17,10 @@ interface NodeDef {
 
 const BODY_NODES: NodeDef[] = [
   {
-    id: 'neural',
-    label: 'NEURAL',
-    metric: 'Neural efficiency: 78%',
-    detail: 'Processing 2.1ms · HRV 52',
+    id: 'hybrid',
+    label: 'HYBRID',
+    metric: 'Adaptability signal: 78%',
+    detail: 'Team read · mixed output',
     value: 78,
     top: 'calc(50% - 350px)',   // cy - 310 (with -40px body offset)
     left: 'calc(50% + 5px)',
@@ -28,10 +28,10 @@ const BODY_NODES: NodeDef[] = [
     cardDown: true,             // card opens below (node is near top of frame)
   },
   {
-    id: 'cardio',
-    label: 'CARDIO',
-    metric: 'Cardiac output: 91%',
-    detail: 'Zone 2 · VO₂max 48',
+    id: 'endurance',
+    label: 'ENDURANCE',
+    metric: 'Aerobic pattern: 91%',
+    detail: 'Rhythm · repeated output',
     value: 91,
     top: 'calc(50% - 202px)',
     left: 'calc(50% - 22px)',
@@ -40,9 +40,9 @@ const BODY_NODES: NodeDef[] = [
   },
   {
     id: 'strength',
-    label: 'STRENGTH',
-    metric: 'Muscle output: 82%',
-    detail: 'Upper body · Activation 82%',
+    label: 'POWER',
+    metric: 'Force pattern: 82%',
+    detail: 'Strength · acceleration',
     value: 82,
     top: 'calc(50% - 162px)',
     left: 'calc(50% - 178px)',
@@ -50,10 +50,10 @@ const BODY_NODES: NodeDef[] = [
     cardDown: false,
   },
   {
-    id: 'mobility',
-    label: 'MOBILITY',
-    metric: 'Flexibility score: 64%',
-    detail: 'Lower body · Range 64',
+    id: 'technical',
+    label: 'TECHNICAL',
+    metric: 'Control pattern: 64%',
+    detail: 'Balance · precision',
     value: 64,
     top: 'calc(50% + 155px)',
     left: 'calc(50% + 12px)',
@@ -120,18 +120,19 @@ function BodyNode({
         style={{
           width: isHovered ? 26 : 16,
           height: isHovered ? 26 : 16,
-          background: 'radial-gradient(circle, rgba(255,255,255,0.32) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, var(--active-archetype-color, rgba(255,255,255,0.32)) 0%, transparent 70%)',
           opacity: isHovered ? 1 : 0.55,
         }}
       />
 
       {/* Core dot */}
       <div
-        className="w-2 h-2 rounded-full bg-white relative z-10 transition-all duration-200"
+        className="w-2 h-2 rounded-full relative z-10 transition-all duration-200"
         style={{
+          background: 'var(--active-archetype-color, #fff)',
           opacity: isHovered ? 1 : 0.65,
           boxShadow: isHovered
-            ? '0 0 8px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.3)'
+            ? '0 0 8px var(--active-archetype-color, rgba(255,255,255,0.9)), 0 0 20px var(--active-archetype-soft, rgba(255,255,255,0.3))'
             : '0 0 0px rgba(255,255,255,0)',
         }}
       />
@@ -153,7 +154,7 @@ function BodyNode({
       >
         <polyline
           points={getLinePoints(node)}
-          stroke="rgba(255,255,255,0.2)"
+          stroke="var(--active-archetype-color, rgba(255,255,255,0.2))"
           strokeWidth="0.5"
           fill="none"
           style={{ filter: 'drop-shadow(0 0 2px rgba(255,255,255,0.4))' }}
@@ -163,7 +164,7 @@ function BodyNode({
           cx={node.cardSide === 'right' ? 16 : -16}
           cy={node.cardDown ? 40 : -40}
           r="1.2"
-          fill="rgba(255,255,255,0.5)"
+          fill="var(--active-archetype-color, rgba(255,255,255,0.5))"
           style={{ filter: 'drop-shadow(0 0 3px rgba(255,255,255,0.6))' }}
         />
       </svg>
@@ -190,8 +191,8 @@ function BodyNode({
           <div
             className="px-3 py-2.5"
             style={{
-              background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: 'rgba(8,8,8,0.72)',
+              border: '1px solid var(--active-archetype-soft, rgba(255,255,255,0.08))',
             }}
           >
             {/* System label */}
@@ -218,7 +219,7 @@ function BodyNode({
               <div
                 style={{
                   height: '100%',
-                  background: 'rgba(255,255,255,0.32)',
+                  background: 'var(--active-archetype-color, rgba(255,255,255,0.32))',
                   width: isHovered ? `${node.value}%` : '0%',
                   transition: 'width 480ms ease 80ms',
                 }}

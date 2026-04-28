@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { callGemini, parseGeminiJSON } from '@/lib/gemini'
 import { buildCoachPrompt, buildMentorPrompt } from '@/lib/prompts'
+import { buildDemoFallbackAnalysis } from '@/lib/syntheticArchive'
 import type { BiometricInput, AgentMode, CoachResult, MentorResult } from '@/types/atlas'
 
 export async function POST(req: NextRequest) {
@@ -21,6 +22,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ error: 'Invalid mode' }, { status: 400 })
   } catch (err) {
+    const fallback = buildDemoFallbackAnalysis(bio)
+    if (mode === 'coach') return NextResponse.json(fallback.coach)
+    if (mode === 'mentor') return NextResponse.json(fallback.mentor)
     return NextResponse.json({ error: String(err) }, { status: 500 })
   }
 }

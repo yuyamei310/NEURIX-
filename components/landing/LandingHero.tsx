@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { useAtlasStore } from '@/store/atlasStore'
 import { ParticleField } from './ParticleField'
 
-const FEATURES = ['Voice input', 'Live 3D body', 'AI archetype', 'Soul twins', 'Paralympic-first']
+const FEATURES = ['Voice input', 'Live 3D body', 'Synthetic archive', 'Agent lenses', 'Ethics-safe']
 
 export function LandingHero() {
   const router = useRouter()
@@ -119,8 +119,8 @@ export function LandingHero() {
           className="reveal-3 max-w-[400px] mx-auto leading-relaxed mt-7 tracking-wide"
           style={{ fontSize: 13, color: 'rgba(255,255,255,0.36)' }}
         >
-          Input your biometrics, speak your story — NEURIX maps your path against
-          120 years of Team USA history.
+          Input your biometrics, speak your story — NEURIX maps your path through
+          120 years of Team USA-inspired archetype patterns.
         </p>
 
         {/* CTA button */}
@@ -202,7 +202,7 @@ export function LandingHero() {
         style={{ zIndex: 10 }}
         aria-hidden
       >
-        <span className="status-bar">Powered by Gemini · Google Cloud Run</span>
+        <span className="status-bar">Powered by Gemini · No real athlete data used</span>
       </div>
 
     </main>

@@ -13,14 +13,14 @@ export async function exportDNACard(canvasDataUrl?: string): Promise<void> {
   if (!cardEl) return
 
   const canvas = await html2canvas(cardEl, {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#080808',
     scale: 2,
     useCORS: true,
     logging: false,
   })
 
   const link = document.createElement('a')
-  link.download = 'my-athlete-dna.png'
+  link.download = 'neurix-ethical-debrief-card.png'
   link.href = canvas.toDataURL('image/png')
   link.click()
 }

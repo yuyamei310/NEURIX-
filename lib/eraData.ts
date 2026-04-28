@@ -6,27 +6,27 @@ export interface EraInfo {
 
 export const eraData: Record<string, EraInfo> = {
   '1932': {
-    label: '1932 · Los Angeles',
+    label: '1932-inspired · Los Angeles',
     context:
-      'Power archetypes dominated early Team USA strength events. Paralympic competition had not yet begun — these athletes set the foundation.',
+      'A fictionalized early-era archive echo where strength and precision patterns are modeled without real athlete records.',
     archetypes: ['Power', 'Technical'],
   },
   '1968': {
-    label: '1968 · Mexico City',
+    label: '1968-inspired · Mexico City',
     context:
-      'The first Paralympic Games in the Americas. Power and hybrid profiles expanded significantly across both programs.',
+      'A synthetic parity node that imagines Olympic and Paralympic-inspired power and hybrid pathways with equal prominence.',
     archetypes: ['Power', 'Hybrid'],
   },
   '1996': {
-    label: '1996 · Atlanta',
+    label: '1996-inspired · Atlanta',
     context:
-      'Atlanta marked a turning point — Paralympic integration grew, and strength-dominant profiles appeared across a wider range of disciplines.',
+      'An anonymized archive echo for broad sport expansion, adaptive pathways, and mixed archetype signals.',
     archetypes: ['Power', 'Endurance', 'Hybrid'],
   },
   LA28: {
-    label: 'LA28 · Los Angeles',
+    label: 'LA28 horizon · Los Angeles',
     context:
-      'Home games. Team USA is building toward its broadest representation across Olympic and Paralympic disciplines in history.',
+      'A future-facing scenario node used for narrative possibility, not eligibility, selection, or real athlete prediction.',
     archetypes: ['All'],
   },
 }

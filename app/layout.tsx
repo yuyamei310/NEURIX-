@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Space_Grotesk, Orbitron } from 'next/font/google'
 import './globals.css'
 import { GlobalShell } from '@/components/ui/GlobalShell'
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary'
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -20,14 +21,16 @@ const orbitron = Orbitron({
 export const metadata: Metadata = {
   title: 'NEURIX — Human Intelligence Analysis System',
   description:
-    'Input your biometrics, speak your story — NEURIX analyzes your biometric profile against 120 years of Team USA history and maps your path forward.',
+    'Input your biometrics, speak your story — NEURIX maps your profile through a synthetic, anonymized Team USA-inspired archetype archive.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${orbitron.variable}`}>
       <body>
-        <GlobalShell>{children}</GlobalShell>
+        <ErrorBoundary>
+          <GlobalShell>{children}</GlobalShell>
+        </ErrorBoundary>
       </body>
     </html>
   )

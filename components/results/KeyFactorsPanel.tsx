@@ -16,7 +16,7 @@ export function KeyFactorsPanel({ factors }: KeyFactorsPanelProps) {
         className="text-[8px] tracking-widest uppercase"
         style={{ opacity: 0.22 }}
       >
-        // SYSTEM INSIGHTS
+        {'// ADVISOR SIGNALS'}
       </div>
 
       <div className="flex flex-col gap-4">

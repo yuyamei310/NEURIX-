@@ -13,7 +13,7 @@ export function Badge({ label, variant = 'default', className = '' }: BadgeProps
     default: 'bg-[var(--surface-2)] text-[var(--text-3)] border-[var(--border)]',
     olympic: 'bg-[var(--text)] text-white border-[var(--text)]',
     paralympic: 'bg-[var(--text)] text-white border-[var(--text)]',
-    archetype: 'bg-white text-[var(--text)] border-[var(--border-2)]',
+    archetype: 'bg-[var(--surface-2)] text-[var(--text)] border-[var(--border-2)]',
   }
 
   return (

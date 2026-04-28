@@ -13,7 +13,7 @@ export function AgentMentor({ data }: AgentMentorProps) {
 
       {/* 4-phase timeline */}
       <div>
-        <div className="font-mono-data mb-4">4-YEAR PATH TO LA28</div>
+        <div className="font-mono-data mb-4">LA28 POSSIBILITY ARC</div>
         <div className="flex flex-col gap-0 relative">
           {/* Vertical line */}
           <div className="absolute left-[7px] top-2 bottom-2 w-px bg-[var(--border-2)]" />
@@ -48,6 +48,7 @@ export function AgentMentor({ data }: AgentMentorProps) {
           &ldquo;{data.soul_message}&rdquo;
         </p>
       </div>
+      {data.ethics_note && <p className="text-[11px] text-[var(--text-3)] font-mono uppercase tracking-widest text-center">{data.ethics_note}</p>}
     </div>
   )
 }

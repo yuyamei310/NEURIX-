@@ -5,12 +5,13 @@ import { useAtlasStore } from '@/store/atlasStore'
 import { AgentAdvisor } from './AgentAdvisor'
 import { AgentCoach } from './AgentCoach'
 import { AgentMentor } from './AgentMentor'
+import { getSyntheticArchiveProfile } from '@/lib/syntheticArchive'
 import type { AgentMode } from '@/types/atlas'
 
-const TABS: { key: AgentMode; label: string }[] = [
-  { key: 'advisor', label: 'Advisor' },
-  { key: 'coach', label: 'Coach' },
-  { key: 'mentor', label: 'Mentor' },
+const TABS: { key: AgentMode; label: string; desc: string }[] = [
+  { key: 'advisor', label: 'Advisor', desc: 'Blueprint reasoning' },
+  { key: 'coach', label: 'Coach', desc: 'Pathway protocol' },
+  { key: 'mentor', label: 'Mentor', desc: 'LA28 story arc' },
 ]
 
 export function AgentTabs() {
@@ -25,41 +26,46 @@ export function AgentTabs() {
 
   const [visible, setVisible] = useState(true)
   const [loading, setLoading] = useState(false)
+  const [loadError, setLoadError] = useState<AgentMode | null>(null)
+
+  const fetchAgentMode = async (mode: 'coach' | 'mentor') => {
+    setLoading(true)
+    setLoadError(null)
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 15000)
+    try {
+      const res = await fetch('/api/agent-mode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bio: biometrics, mode }),
+        signal: controller.signal,
+      })
+      const data = await res.json()
+      if (mode === 'coach') setCoachResult(data)
+      else setMentorResult(data)
+    } catch (err) {
+      if ((err as Error).name === 'AbortError') {
+        setLoadError(mode)
+      }
+    } finally {
+      clearTimeout(timeout)
+      setLoading(false)
+    }
+  }
 
   const switchTab = async (mode: AgentMode) => {
     if (mode === activeAgent) return
     setVisible(false)
     await new Promise((r) => setTimeout(r, 200))
     setActiveAgent(mode)
+    setLoadError(null)
     setVisible(true)
 
-    // Lazy-fetch coach/mentor
-    if (mode === 'coach' && !coachResult) {
-      setLoading(true)
-      try {
-        const res = await fetch('/api/agent-mode', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ bio: biometrics, mode: 'coach' }),
-        })
-        const data = await res.json()
-        setCoachResult(data)
-      } catch { /* silent */ }
-      setLoading(false)
+    if (mode === 'coach' && !coachResult && !result?.coach) {
+      fetchAgentMode('coach')
     }
-
-    if (mode === 'mentor' && !mentorResult) {
-      setLoading(true)
-      try {
-        const res = await fetch('/api/agent-mode', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ bio: biometrics, mode: 'mentor' }),
-        })
-        const data = await res.json()
-        setMentorResult(data)
-      } catch { /* silent */ }
-      setLoading(false)
+    if (mode === 'mentor' && !mentorResult && !result?.mentor) {
+      fetchAgentMode('mentor')
     }
   }
 
@@ -69,22 +75,27 @@ export function AgentTabs() {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!result) return null
+  const profile = getSyntheticArchiveProfile(result.archetype.archetype)
+  const hydratedCoach = coachResult ?? result.coach
+  const hydratedMentor = mentorResult ?? result.mentor
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Tab pills */}
-      <div className="flex gap-2">
-        {TABS.map(({ key, label }) => (
+      {/* Agent lens controls */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-px border border-white/[0.06] bg-white/[0.04]">
+        {TABS.map(({ key, label, desc }) => (
           <button
             key={key}
             onClick={() => switchTab(key)}
-            className={`px-5 py-2 rounded-pill text-[13px] font-medium border border-[0.5px] transition-colors cursor-pointer ${
+            className={`p-4 text-left transition-colors cursor-pointer ${
               activeAgent === key
-                ? 'bg-[var(--text)] text-white border-[var(--text)]'
-                : 'bg-transparent text-[var(--text-2)] border-[var(--border-2)] hover:bg-[var(--surface-2)]'
+                ? 'bg-[var(--surface-2)] text-white'
+                : 'bg-[var(--bg)] text-[var(--text-2)] hover:bg-[var(--surface-1)]'
             }`}
+            style={activeAgent === key ? { boxShadow: `inset 0 2px 0 ${profile.color}` } : undefined}
           >
-            {label}
+            <span className="block font-mono text-[13px] font-semibold uppercase tracking-widest">{label}</span>
+            <span className="block mt-1 font-mono text-[9px] uppercase tracking-widest opacity-45">{desc}</span>
           </button>
         ))}
       </div>
@@ -101,23 +112,37 @@ export function AgentTabs() {
           </div>
         )}
 
+        {!loading && loadError && (
+          <div className="py-8 flex flex-col gap-3">
+            <span className="text-[13px] font-mono text-[var(--text-3)]">
+              Analysis timed out — Gemini took too long.
+            </span>
+            <button
+              onClick={() => fetchAgentMode(loadError as 'coach' | 'mentor')}
+              className="self-start px-4 py-2 text-[12px] font-mono border border-white/10 text-white/50 hover:text-white/80 hover:border-white/20 transition-colors rounded-[8px] cursor-pointer"
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
         {!loading && activeAgent === 'advisor' && result.advisor && (
           <AgentAdvisor data={result.advisor} />
         )}
 
-        {!loading && activeAgent === 'coach' && coachResult && (
-          <AgentCoach data={coachResult} />
+        {!loading && activeAgent === 'coach' && hydratedCoach && (
+          <AgentCoach data={hydratedCoach} />
         )}
 
-        {!loading && activeAgent === 'mentor' && mentorResult && (
-          <AgentMentor data={mentorResult} />
+        {!loading && activeAgent === 'mentor' && hydratedMentor && (
+          <AgentMentor data={hydratedMentor} />
         )}
 
-        {!loading && activeAgent === 'coach' && !coachResult && (
+        {!loading && activeAgent === 'coach' && !hydratedCoach && (
           <div className="py-4 text-[13px] text-[var(--text-3)]">Loading coach analysis...</div>
         )}
 
-        {!loading && activeAgent === 'mentor' && !mentorResult && (
+        {!loading && activeAgent === 'mentor' && !hydratedMentor && (
           <div className="py-4 text-[13px] text-[var(--text-3)]">Loading mentor analysis...</div>
         )}
       </div>

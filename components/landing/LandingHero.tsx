@@ -46,32 +46,32 @@ export function LandingHero() {
         <div
           className="absolute top-0 left-0 w-7 h-7"
           style={{
-            borderTop: '1px solid rgba(0,229,255,0.28)',
-            borderLeft: '1px solid rgba(0,229,255,0.28)',
+            borderTop: '1px solid rgba(255,138,76,0.28)',
+            borderLeft: '1px solid rgba(255,138,76,0.28)',
             animation: 'bracket-pulse 3.2s ease-in-out infinite',
           }}
         />
         <div
           className="absolute top-0 right-0 w-7 h-7"
           style={{
-            borderTop: '1px solid rgba(0,229,255,0.28)',
-            borderRight: '1px solid rgba(0,229,255,0.28)',
+            borderTop: '1px solid rgba(255,138,76,0.28)',
+            borderRight: '1px solid rgba(255,138,76,0.28)',
             animation: 'bracket-pulse 3.2s 0.8s ease-in-out infinite',
           }}
         />
         <div
           className="absolute bottom-0 left-0 w-7 h-7"
           style={{
-            borderBottom: '1px solid rgba(0,229,255,0.28)',
-            borderLeft: '1px solid rgba(0,229,255,0.28)',
+            borderBottom: '1px solid rgba(255,138,76,0.28)',
+            borderLeft: '1px solid rgba(255,138,76,0.28)',
             animation: 'bracket-pulse 3.2s 1.6s ease-in-out infinite',
           }}
         />
         <div
           className="absolute bottom-0 right-0 w-7 h-7"
           style={{
-            borderBottom: '1px solid rgba(0,229,255,0.28)',
-            borderRight: '1px solid rgba(0,229,255,0.28)',
+            borderBottom: '1px solid rgba(255,138,76,0.28)',
+            borderRight: '1px solid rgba(255,138,76,0.28)',
             animation: 'bracket-pulse 3.2s 2.4s ease-in-out infinite',
           }}
         />
@@ -108,7 +108,7 @@ export function LandingHero() {
             fontFamily: 'var(--display)',
             fontSize: 'clamp(68px, 12vw, 122px)',
             color: '#ffffff',
-            textShadow: '0 0 60px rgba(0,229,255,0.22), 0 0 140px rgba(0,229,255,0.08)',
+            textShadow: '0 0 60px rgba(255,138,76,0.22), 0 0 140px rgba(255,138,76,0.08)',
           }}
         >
           NEURIX
@@ -131,7 +131,7 @@ export function LandingHero() {
             style={{
               position: 'absolute',
               inset: '-60%',
-              background: 'radial-gradient(ellipse, rgba(0,229,255,0.14) 0%, transparent 65%)',
+              background: 'radial-gradient(ellipse, rgba(255,138,76,0.14) 0%, transparent 65%)',
               filter: 'blur(20px)',
               animation: 'breathe 3s ease-in-out infinite',
               pointerEvents: 'none',
@@ -149,25 +149,25 @@ export function LandingHero() {
               textTransform: 'uppercase',
               padding: '18px 52px',
               background: 'transparent',
-              border: '1px solid rgba(0,229,255,0.5)',
-              color: 'rgba(0,229,255,0.88)',
+              border: '1px solid rgba(255,138,76,0.5)',
+              color: 'rgba(255,138,76,0.88)',
               cursor: 'none',
               transition: 'background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease',
-              boxShadow: '0 0 22px rgba(0,229,255,0.12), inset 0 0 22px rgba(0,229,255,0.03)',
+              boxShadow: '0 0 22px rgba(255,138,76,0.12), inset 0 0 22px rgba(255,138,76,0.03)',
             }}
             onMouseEnter={e => {
               const el = e.currentTarget
-              el.style.background = 'rgba(0,229,255,0.07)'
-              el.style.borderColor = 'rgba(0,229,255,0.85)'
-              el.style.boxShadow = '0 0 44px rgba(0,229,255,0.32), inset 0 0 32px rgba(0,229,255,0.06)'
-              el.style.color = 'rgba(0,229,255,1)'
+              el.style.background = 'rgba(255,138,76,0.07)'
+              el.style.borderColor = 'rgba(255,138,76,0.85)'
+              el.style.boxShadow = '0 0 44px rgba(255,138,76,0.32), inset 0 0 32px rgba(255,138,76,0.06)'
+              el.style.color = 'rgba(255,138,76,1)'
             }}
             onMouseLeave={e => {
               const el = e.currentTarget
               el.style.background = 'transparent'
-              el.style.borderColor = 'rgba(0,229,255,0.5)'
-              el.style.boxShadow = '0 0 22px rgba(0,229,255,0.12), inset 0 0 22px rgba(0,229,255,0.03)'
-              el.style.color = 'rgba(0,229,255,0.88)'
+              el.style.borderColor = 'rgba(255,138,76,0.5)'
+              el.style.boxShadow = '0 0 22px rgba(255,138,76,0.12), inset 0 0 22px rgba(255,138,76,0.03)'
+              el.style.color = 'rgba(255,138,76,0.88)'
             }}
           >
             BEGIN SCAN ↗
@@ -184,7 +184,7 @@ export function LandingHero() {
                   height: 4,
                   borderRadius: '50%',
                   background: 'var(--glow)',
-                  boxShadow: '0 0 6px rgba(0,229,255,0.7)',
+                  boxShadow: '0 0 6px rgba(255,138,76,0.7)',
                 }}
               />
               <span className="status-bar" style={{ color: 'rgba(255,255,255,0.2)' }}>

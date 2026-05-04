@@ -36,7 +36,7 @@ export function ReflectionPanel({ reflection }: ReflectionPanelProps) {
               className="border-b cursor-default transition-colors"
               style={{
                 borderColor: 'rgba(255,255,255,0.04)',
-                background: isHovered ? 'rgba(0,229,255,0.028)' : 'transparent',
+                background: isHovered ? 'rgba(255,107,53,0.028)' : 'transparent',
               }}
               onMouseEnter={() => setHoveredEra(key)}
               onMouseLeave={() => setHoveredEra(null)}
@@ -45,7 +45,7 @@ export function ReflectionPanel({ reflection }: ReflectionPanelProps) {
               <div className="flex items-center gap-4 px-8 py-4">
                 <span
                   className="text-[8px] tracking-widest shrink-0 transition-colors"
-                  style={{ color: isHovered ? 'rgba(0,229,255,0.6)' : 'rgba(255,255,255,0.18)' }}
+                  style={{ color: isHovered ? 'rgba(255,107,53,0.6)' : 'rgba(255,255,255,0.18)' }}
                 >
                   [{String(i + 1).padStart(2, '0')}]
                 </span>
@@ -76,7 +76,7 @@ export function ReflectionPanel({ reflection }: ReflectionPanelProps) {
               >
                 <div
                   className="mx-8 mb-4 pl-5 border-l"
-                  style={{ borderColor: 'rgba(0,229,255,0.18)' }}
+                  style={{ borderColor: 'rgba(255,107,53,0.18)' }}
                 >
                   <p
                     className="text-[10px] leading-relaxed mb-2"

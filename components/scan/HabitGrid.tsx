@@ -3,8 +3,9 @@
 import type { CSSProperties } from 'react'
 import { useAtlasStore } from '@/store/atlasStore'
 import { localClassify } from '@/core/classifier'
-import { getSyntheticArchiveProfile } from '@/core/syntheticArchive'
 import type { Habit } from '@/types/atlas'
+
+const ORANGE = '#FF8A4C'
 
 const HABITS: { key: Habit; label: string }[] = [
   { key: 'strength', label: 'Strength training' },
@@ -20,10 +21,8 @@ const HABITS: { key: Habit; label: string }[] = [
 
 export function HabitGrid() {
   const biometrics = useAtlasStore((s) => s.biometrics)
-  const localClassification = useAtlasStore((s) => s.localClassification)
   const setBiometrics = useAtlasStore((s) => s.setBiometrics)
   const setLocalClassification = useAtlasStore((s) => s.setLocalClassification)
-  const profile = getSyntheticArchiveProfile(localClassification.archetype)
 
   const toggle = (key: Habit) => {
     const current = biometrics.habits
@@ -52,12 +51,12 @@ export function HabitGrid() {
               style={
                 active
                   ? {
-                      background: profile.color,
-                      borderColor: profile.color,
+                      background: ORANGE,
+                      borderColor: ORANGE,
                       color: '#050505',
-                      boxShadow: `0 0 16px ${profile.color}30`,
+                      boxShadow: `0 0 16px ${ORANGE}30`,
                     }
-                  : { '--tw-ring-color': profile.color } as CSSProperties
+                  : { '--tw-ring-color': ORANGE } as CSSProperties
               }
             >
               {label}

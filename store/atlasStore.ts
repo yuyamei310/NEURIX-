@@ -2,7 +2,7 @@
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { BiometricInput, LocalClassification, AtlasResult, AgentMode, CoachResult, MentorResult } from '@/types/atlas'
+import type { BiometricInput, LocalClassification, AtlasResult, AgentMode, CoachResult, MentorResult, UserProfile } from '@/types/atlas'
 
 interface AtlasStore {
   // Input
@@ -16,6 +16,9 @@ interface AtlasStore {
   mentorResult: MentorResult | null
   activeAgent: AgentMode
 
+  // Long-term memory — persists across sessions
+  userProfile: UserProfile | null
+
   // Actions
   setBiometrics: (b: Partial<BiometricInput>) => void
   setLocalClassification: (c: LocalClassification) => void
@@ -24,6 +27,7 @@ interface AtlasStore {
   setCoachResult: (r: CoachResult) => void
   setMentorResult: (r: MentorResult) => void
   setActiveAgent: (mode: AgentMode) => void
+  setUserProfile: (p: UserProfile) => void
   reset: () => void
 }
 
@@ -42,7 +46,7 @@ const defaultClassification: LocalClassification = {
 
 export const useAtlasStore = create<AtlasStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       biometrics: defaultBiometrics,
       localClassification: defaultClassification,
       insightPeek: '',
@@ -50,6 +54,7 @@ export const useAtlasStore = create<AtlasStore>()(
       coachResult: null,
       mentorResult: null,
       activeAgent: 'advisor',
+      userProfile: null,
 
       setBiometrics: (b) =>
         set((state) => ({ biometrics: { ...state.biometrics, ...b } })),
@@ -58,7 +63,16 @@ export const useAtlasStore = create<AtlasStore>()(
 
       setInsightPeek: (peek) => set({ insightPeek: peek }),
 
-      setResult: (r) => set({ result: r }),
+      setResult: (r) => {
+        const bio = get().biometrics
+        const profile: UserProfile = {
+          height: bio.height,
+          weight: bio.weight,
+          archetype: r.archetype.archetype,
+          lastUpdated: new Date().toISOString(),
+        }
+        set({ result: r, userProfile: profile })
+      },
 
       setCoachResult: (r) => set({ coachResult: r }),
 
@@ -66,8 +80,10 @@ export const useAtlasStore = create<AtlasStore>()(
 
       setActiveAgent: (mode) => set({ activeAgent: mode }),
 
+      setUserProfile: (p) => set({ userProfile: p }),
+
       reset: () =>
-        set({
+        set((state) => ({
           biometrics: defaultBiometrics,
           localClassification: defaultClassification,
           insightPeek: '',
@@ -75,27 +91,39 @@ export const useAtlasStore = create<AtlasStore>()(
           coachResult: null,
           mentorResult: null,
           activeAgent: 'advisor',
-        }),
+          // userProfile is intentionally preserved — it is long-term memory
+          userProfile: state.userProfile,
+        })),
     }),
     {
-      name: 'atlas-session',
+      name: 'atlas-memory',
       storage: {
         getItem: (name) => {
           if (typeof window === 'undefined') return null
-          const item = sessionStorage.getItem(name)
+          const item = localStorage.getItem(name)
           return item ? JSON.parse(item) : null
         },
         setItem: (name, value) => {
           if (typeof window !== 'undefined') {
-            sessionStorage.setItem(name, JSON.stringify(value))
+            localStorage.setItem(name, JSON.stringify(value))
           }
         },
         removeItem: (name) => {
           if (typeof window !== 'undefined') {
-            sessionStorage.removeItem(name)
+            localStorage.removeItem(name)
           }
         },
       },
+      // Only persist the long-term memory fields + active session result
+      partialize: (state) =>
+        ({
+          userProfile: state.userProfile,
+          biometrics: state.biometrics,
+          result: state.result,
+          coachResult: state.coachResult,
+          mentorResult: state.mentorResult,
+          activeAgent: state.activeAgent,
+        }) as AtlasStore,
     }
   )
 )

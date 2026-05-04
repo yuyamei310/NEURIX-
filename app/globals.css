@@ -288,6 +288,18 @@ body {
   100% { transform: translateY(200%); opacity: 0; }
 }
 
+@keyframes hud-scan-pass {
+  0%   { transform: translateY(-72px); opacity: 0; }
+  10%  { opacity: 0.72; }
+  88%  { opacity: 0.72; }
+  100% { transform: translateY(572px); opacity: 0; }
+}
+
+@keyframes hud-sweep-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 @keyframes waveform {
   0%, 100% { transform: scaleY(0.15); }
   50%       { transform: scaleY(1); }

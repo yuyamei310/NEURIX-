@@ -1,0 +1,25 @@
+team,noc,country,games_type,year,sport,height_cm,weight_kg,age,hometown_region,classification
+Team USA,USA,United States,Olympic,1904,Shot put,184,96,25,Midwest,
+Team USA,USA,United States,Olympic,1932,Discus,181,92,27,West,
+Team USA,USA,United States,Olympic,1968,Wrestling,176,84,24,South,
+Team USA,USA,United States,Olympic,1984,Weightlifting,170,88,26,West,
+Team USA,USA,United States,Paralympic,1996,Para powerlifting,174,86,29,South,Bench press category
+Team USA,USA,United States,Paralympic,2012,Para athletics throws,178,90,31,Northeast,F-series
+Team USA,USA,United States,Olympic,1972,Cycling road,178,67,23,West,
+Team USA,USA,United States,Olympic,1984,Distance running,170,59,24,Midwest,
+Team USA,USA,United States,Olympic,2000,Triathlon,174,63,27,West,
+Team USA,USA,United States,Paralympic,2008,Para cycling,172,61,28,South,C-series
+Team USA,USA,United States,Paralympic,2016,Para athletics racing,168,58,25,Northeast,T-series
+Team USA,USA,United States,Olympic,2020,Marathon,166,55,30,West,
+Team USA,USA,United States,Olympic,1956,Gymnastics,162,54,19,Midwest,
+Team USA,USA,United States,Olympic,1988,Diving,170,61,22,West,
+Team USA,USA,United States,Olympic,2004,Archery,168,62,27,South,
+Team USA,USA,United States,Olympic,2016,Shooting sport,172,66,31,Northeast,
+Team USA,USA,United States,Paralympic,2012,Para archery,166,60,29,West,Open class
+Team USA,USA,United States,Paralympic,2020,Para shooting,171,65,32,South,SH class
+Team USA,USA,United States,Olympic,1936,Basketball,188,82,23,Midwest,
+Team USA,USA,United States,Olympic,1984,Volleyball,185,78,24,West,
+Team USA,USA,United States,Olympic,1996,Soccer,177,72,22,South,
+Team USA,USA,United States,Paralympic,2008,Wheelchair basketball,176,74,28,Northeast,Wheelchair team sport
+Team USA,USA,United States,Paralympic,2016,Sitting volleyball,174,71,27,West,Sitting volleyball
+Team USA,USA,United States,Olympic,2020,Rugby sevens,180,80,25,South,

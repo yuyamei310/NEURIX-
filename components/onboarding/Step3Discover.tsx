@@ -31,7 +31,7 @@ const CARDS = [
     num: '04',
     title: 'Your Athlete DNA',
     desc: 'Generate a visual card you can share',
-    glowColor: 'rgba(0,229,255,0.45)',
+    glowColor: 'rgba(255,138,76,0.45)',
   },
 ]
 

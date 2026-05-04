@@ -313,78 +313,15 @@ export function ScanHUD() {
             )
           })}
 
-          {/* ── System micro-text: edge labels ── */}
-
-          {/* bottom-left */}
-          <div className="absolute font-mono text-[9px] tracking-widest uppercase"
-            style={{ bottom: '8%', left: '6%', color: 'rgba(255,255,255,0.25)' }}>
-            BIOMECHANICAL ANALYSIS
-          </div>
-
-          {/* top-right */}
-          <div className="absolute font-mono text-[9px] tracking-widest uppercase"
-            style={{ top: '6%', right: '6%', color: 'rgba(255,255,255,0.2)' }}>
-            SYS · NEURIX · v2.4
-          </div>
-
-          {/* near neural node — left of body, upper */}
-          <div className="absolute font-mono text-[10px] tracking-widest uppercase"
-            style={{ top: cy - 320, left: '5%', color: 'rgba(255,255,255,0.22)' }}>
-            NEURAL SYNC
-          </div>
-
-          {/* right side, upper-mid */}
-          <div className="absolute font-mono text-[9px] tracking-widest uppercase"
-            style={{ top: cy - 205, right: '5%', color: 'rgba(255,255,255,0.18)' }}>
-            CORE SIGNAL LOCKED
-          </div>
-
-          {/* left side, strength area */}
-          <div className="absolute font-mono text-[9px] tracking-widest uppercase"
-            style={{ top: cy - 148, left: '4%', color: 'rgba(255,255,255,0.18)' }}>
-            UPPER BODY ANALYSIS
-          </div>
-
-          {/* right side, lower */}
-          <div className="absolute font-mono text-[9px] tracking-widest uppercase"
-            style={{ top: cy + 185, right: '6%', color: 'rgba(255,255,255,0.18)' }}>
-            LOWER BODY SYNC
-          </div>
-
-          {/* bottom center */}
+          {/* ── Minimal system labels ── */}
           <div className="absolute font-mono text-[10px] tracking-widest uppercase"
             style={{ bottom: '14%', left: '50%', transform: 'translateX(-50%)', color: 'rgba(255,255,255,0.2)' }}>
             BIOMECH SCAN ACTIVE
           </div>
 
-          {/* top center */}
           <div className="absolute font-mono text-[9px] tracking-widest uppercase"
             style={{ top: '7%', left: '50%', transform: 'translateX(-50%)', color: 'rgba(255,255,255,0.14)' }}>
             SCAN DEPTH: 98.2%
-          </div>
-
-          {/* right side lower-mid */}
-          <div className="absolute font-mono text-[9px] tracking-widest uppercase"
-            style={{ bottom: '22%', right: '5%', color: 'rgba(255,255,255,0.15)' }}>
-            MOBILITY TRACKED
-          </div>
-
-          {/* left side lower */}
-          <div className="absolute font-mono text-[9px] tracking-widest uppercase"
-            style={{ bottom: '28%', left: '5%', color: 'rgba(255,255,255,0.15)' }}>
-            SIGNAL INTEGRITY: 92%
-          </div>
-
-          {/* top-left corner */}
-          <div className="absolute font-mono text-[9px] tracking-widest uppercase"
-            style={{ top: '6%', left: '6%', color: 'rgba(255,255,255,0.14)' }}>
-            SCAN PROTOCOL ACTIVE
-          </div>
-
-          {/* right side near scan ring */}
-          <div className="absolute font-mono text-[9px] tracking-widest uppercase"
-            style={{ top: cy + 60, right: '4%', color: 'rgba(255,255,255,0.13)' }}>
-            CARDIO STREAM ACTIVE
           </div>
         </>
       )}

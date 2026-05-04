@@ -1,5 +1,4 @@
-import { localClassify } from '@/core/classifier'
-import { getPublicArchiveCluster } from '@/core/publicArchive'
+import { localClassify } from '@/lib/classifier'
 import type {
   AdvisorResult,
   Archetype,
@@ -126,17 +125,16 @@ export function getSyntheticArchiveProfile(archetype: Archetype): SyntheticArchi
 export function enrichArchetypeResult(result: Partial<ArchetypeResult>, fallbackArchetype: Archetype): ArchetypeResult {
   const archetype = result.archetype ?? fallbackArchetype
   const profile = getSyntheticArchiveProfile(archetype)
-  const publicCluster = getPublicArchiveCluster(archetype)
   return {
     archetype,
     confidence: result.confidence ?? 0.72,
-    reasoning: result.reasoning ?? `This profile could align with the ${archetype} signal in NEURIX's ${publicCluster ? 'anonymous public aggregate archive' : 'synthetic fallback archive'}. The classification is an anonymized pattern read, not a real athlete comparison.`,
-    cluster_size: result.cluster_size ?? publicCluster?.count ?? profile.nodeCount,
-    olympic_count: result.olympic_count ?? publicCluster?.olympic_count ?? profile.olympicSignals,
-    paralympic_count: result.paralympic_count ?? publicCluster?.paralympic_count ?? profile.paralympicSignals,
-    time_span: result.time_span ?? publicCluster?.time_span ?? profile.timeSpan,
-    synthetic_archive_id: result.synthetic_archive_id ?? publicCluster?.archive_id ?? profile.id,
-    archive_basis: result.archive_basis ?? publicCluster?.basis ?? profile.basis,
+    reasoning: result.reasoning ?? `This profile could align with the ${archetype} signal in NEURIX's synthetic archive. The classification is an anonymized pattern read, not a real athlete comparison.`,
+    cluster_size: result.cluster_size ?? profile.nodeCount,
+    olympic_count: result.olympic_count ?? profile.olympicSignals,
+    paralympic_count: result.paralympic_count ?? profile.paralympicSignals,
+    time_span: result.time_span ?? profile.timeSpan,
+    synthetic_archive_id: result.synthetic_archive_id ?? profile.id,
+    archive_basis: result.archive_basis ?? profile.basis,
     ethics_note: result.ethics_note ?? ETHICS_NOTE,
     signal_label: result.signal_label ?? profile.signalLabel,
     demo_fallback: result.demo_fallback,

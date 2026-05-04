@@ -1,6 +1,8 @@
 'use client'
 
+import type { CSSProperties } from 'react'
 import { useState } from 'react'
+import { useAtlasStore } from '@/store/atlasStore'
 
 interface NodeDef {
   id: string
@@ -86,19 +88,22 @@ function CornerAccents() {
 function BodyNode({
   node,
   isHovered,
+  isActive,
   onMouseEnter,
   onMouseLeave,
 }: {
   node: NodeDef
   isHovered: boolean
+  isActive: boolean
   onMouseEnter: () => void
   onMouseLeave: () => void
 }) {
-  const cardPos: React.CSSProperties = {}
+  const cardPos: CSSProperties = {}
   if (node.cardSide === 'right') cardPos.left = 20
   else cardPos.right = 20
   if (node.cardDown) cardPos.top = 20
   else cardPos.bottom = 20
+  const emphasized = isHovered || isActive
 
   return (
     <div
@@ -118,10 +123,11 @@ function BodyNode({
       <div
         className="absolute rounded-full transition-all duration-300"
         style={{
-          width: isHovered ? 26 : 16,
-          height: isHovered ? 26 : 16,
+          width: emphasized ? 28 : 16,
+          height: emphasized ? 28 : 16,
           background: 'radial-gradient(circle, var(--active-archetype-color, rgba(255,255,255,0.32)) 0%, transparent 70%)',
-          opacity: isHovered ? 1 : 0.55,
+          opacity: emphasized ? 1 : 0.42,
+          animation: isActive && !isHovered ? 'hudPulse 3.6s ease-in-out infinite' : undefined,
         }}
       />
 
@@ -130,8 +136,8 @@ function BodyNode({
         className="w-2 h-2 rounded-full relative z-10 transition-all duration-200"
         style={{
           background: 'var(--active-archetype-color, #fff)',
-          opacity: isHovered ? 1 : 0.65,
-          boxShadow: isHovered
+          opacity: emphasized ? 1 : 0.58,
+          boxShadow: emphasized
             ? '0 0 8px var(--active-archetype-color, rgba(255,255,255,0.9)), 0 0 20px var(--active-archetype-soft, rgba(255,255,255,0.3))'
             : '0 0 0px rgba(255,255,255,0)',
         }}
@@ -242,6 +248,15 @@ function BodyNode({
 
 export function BodyNodes() {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
+  const { habits } = useAtlasStore((s) => s.biometrics)
+  const { archetype } = useAtlasStore((s) => s.localClassification)
+
+  const activeIds = new Set<string>([
+    archetype === 'power' ? 'strength' : archetype,
+    ...(habits.some((h) => ['running', 'swimming', 'wheelchair_sport', 'para_athletics'].includes(h)) ? ['endurance'] : []),
+    ...(habits.some((h) => ['strength', 'martial_arts'].includes(h)) ? ['strength'] : []),
+    ...(habits.some((h) => ['gymnastics', 'racket', 'team_sports'].includes(h)) ? ['technical'] : []),
+  ])
 
   return (
     <div className="absolute inset-0">
@@ -250,6 +265,7 @@ export function BodyNodes() {
           key={node.id}
           node={node}
           isHovered={hoveredId === node.id}
+          isActive={activeIds.has(node.id)}
           onMouseEnter={() => setHoveredId(node.id)}
           onMouseLeave={() => setHoveredId(null)}
         />

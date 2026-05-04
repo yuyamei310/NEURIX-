@@ -13,7 +13,7 @@ import {
   enrichArchetypeResult,
   getSyntheticArchiveProfile,
 } from '@/core/syntheticArchive'
-import type { BiometricInput } from '@/types/atlas'
+import type { BiometricInput, UserProfile } from '@/types/atlas'
 import type {
   ArchetypeResult,
   SoulTwin,
@@ -34,7 +34,8 @@ export async function POST(req: NextRequest) {
       headers: { 'Content-Type': 'application/json' },
     })
   }
-  const bio: BiometricInput = JSON.parse(text)
+  const parsed: BiometricInput & { userProfile?: UserProfile } = JSON.parse(text)
+  const { userProfile, ...bio } = parsed
 
   const encoder = new TextEncoder()
   const stream = new ReadableStream({
@@ -46,8 +47,8 @@ export async function POST(req: NextRequest) {
       try {
         // 1. Archetype + advisor in parallel (non-streaming for reliability)
         const [archetypeRaw, advisorRaw] = await Promise.all([
-          callGemini(buildArchetypePrompt(bio)),
-          callGemini(buildAdvisorPrompt(bio)),
+          callGemini(buildArchetypePrompt(bio, userProfile)),
+          callGemini(buildAdvisorPrompt(bio, userProfile)),
         ])
 
         const archetype = enrichArchetypeResult(parseGeminiJSON<ArchetypeResult>(archetypeRaw), 'hybrid')
@@ -58,7 +59,7 @@ export async function POST(req: NextRequest) {
 
         // 2. Insight peek — stream narrative prompt and grab first sentence
         const narrativeStream = await streamGemini(
-          `${buildAdvisorPrompt(bio)}\n\nReturn ONLY the narrative field value as plain text (no JSON). 1-2 sentences only.`
+          `${buildAdvisorPrompt(bio, userProfile)}\n\nReturn ONLY the narrative field value as plain text (no JSON). 1-2 sentences only.`
         )
         let insightText = ''
         for await (const chunk of narrativeStream.stream) {
@@ -73,7 +74,7 @@ export async function POST(req: NextRequest) {
         }
 
         // 3. Soul twins
-        const soulRaw = await callGemini(buildSoulTwinPrompt(bio))
+        const soulRaw = await callGemini(buildSoulTwinPrompt(bio, userProfile))
         const soulParsed = parseGeminiJSON<{ soul_twins: SoulTwin[] }>(soulRaw)
         let twins = soulParsed.soul_twins ?? []
 
@@ -85,19 +86,19 @@ export async function POST(req: NextRequest) {
         send({ type: 'soul_twins', data: twins })
 
         // 4. Reflection
-        const reflRaw = await callGemini(buildReflectionPrompt(bio, archetype.archetype))
+        const reflRaw = await callGemini(buildReflectionPrompt(bio, archetype.archetype, userProfile))
         const reflection = parseGeminiJSON<ReflectionResult>(reflRaw)
         send({ type: 'reflection', data: reflection })
 
         // 5. Preload selected agent lens for a smoother demo reveal.
         if (bio.agentMode === 'coach') {
-          const coachRaw = await callGemini(buildCoachPrompt(bio))
+          const coachRaw = await callGemini(buildCoachPrompt(bio, userProfile))
           const coach = parseGeminiJSON<CoachResult>(coachRaw)
           send({ type: 'coach', data: coach })
         }
 
         if (bio.agentMode === 'mentor') {
-          const mentorRaw = await callGemini(buildMentorPrompt(bio))
+          const mentorRaw = await callGemini(buildMentorPrompt(bio, userProfile))
           const mentor = parseGeminiJSON<MentorResult>(mentorRaw)
           send({ type: 'mentor', data: mentor })
         }

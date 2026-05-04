@@ -19,6 +19,7 @@ import type {
 export default function ThinkingPage() {
   const router = useRouter()
   const biometrics = useAtlasStore((s) => s.biometrics)
+  const userProfile = useAtlasStore((s) => s.userProfile)
   const setResult = useAtlasStore((s) => s.setResult)
   const setCoachResult = useAtlasStore((s) => s.setCoachResult)
   const setMentorResult = useAtlasStore((s) => s.setMentorResult)
@@ -39,12 +40,33 @@ export default function ThinkingPage() {
     'Applying ethics filter...',
     'Preparing agent synthesis...',
   ]
+
+  const MEMORY_LOGS = userProfile
+    ? [
+        'Accessing stored profile...',
+        `Stored profile loaded — ${userProfile.archetype} archetype detected`,
+        'Re-analyzing based on previous data...',
+        'Synchronizing user memory...',
+        'Updating stored profile...',
+        `Cross-referencing ${userProfile.height}cm/${userProfile.weight}kg signature...`,
+      ]
+    : []
+
   const [stagedIdx, setStagedIdx] = useState(0)
+  const [memoryLogIdx, setMemoryLogIdx] = useState(0)
 
   useEffect(() => {
     const t = setInterval(() => {
       setStagedIdx((i) => (i + 1) % STAGED_MESSAGES.length)
     }, 2000)
+    return () => clearInterval(t)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!MEMORY_LOGS.length) return
+    const t = setInterval(() => {
+      setMemoryLogIdx((i) => (i + 1) % MEMORY_LOGS.length)
+    }, 2400)
     return () => clearInterval(t)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -103,7 +125,7 @@ export default function ThinkingPage() {
         const res = await fetch('/api/analyze', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(biometrics),
+          body: JSON.stringify({ ...biometrics, ...(userProfile ? { userProfile } : {}) }),
           signal: controller?.signal,
         })
 
@@ -196,17 +218,18 @@ export default function ThinkingPage() {
 
   if (lockReveal) {
     const profile = getSyntheticArchiveProfile(lockReveal.archetype)
+    const ORANGE = '#FF8A4C'
     return (
       <div
         className="relative min-h-screen overflow-hidden bg-[var(--bg)] flex items-center justify-center px-8"
-        style={{ '--active-archetype-color': profile.color } as CSSProperties}
+        style={{ '--active-archetype-color': ORANGE } as CSSProperties}
       >
         <div className="absolute inset-0 sys-grid opacity-60" />
         <div className="scan-beam" />
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: `radial-gradient(circle at center, ${profile.color}24, transparent 58%)`,
+            background: `radial-gradient(circle at center, ${ORANGE}24, transparent 58%)`,
           }}
         />
         <div className="relative z-10 text-center flex flex-col items-center">
@@ -216,9 +239,9 @@ export default function ThinkingPage() {
           <h1
             className="font-mono font-black uppercase leading-none"
             style={{
-              color: profile.color,
+              color: ORANGE,
               fontSize: 'clamp(44px, 9vw, 104px)',
-              textShadow: `0 0 42px ${profile.color}55`,
+              textShadow: `0 0 42px ${ORANGE}55`,
             }}
           >
             {lockReveal.archetype} profile locked
@@ -230,7 +253,7 @@ export default function ThinkingPage() {
             <div
               className="h-full w-full"
               style={{
-                background: `linear-gradient(90deg, transparent, ${profile.color}, transparent)`,
+                background: `linear-gradient(90deg, transparent, ${ORANGE}, transparent)`,
                 animation: 'progress 1.2s linear forwards',
               }}
             />
@@ -256,6 +279,19 @@ export default function ThinkingPage() {
           <div className="font-mono-data text-white/40">
             {STAGED_MESSAGES[stagedIdx]}
           </div>
+
+          {/* Memory session logs — only shown when a stored profile exists */}
+          {MEMORY_LOGS.length > 0 && (
+            <div className="mt-1 flex flex-col gap-1">
+              <div
+                className="font-mono text-[9px] tracking-[0.16em] uppercase"
+                style={{ color: '#FF8A4C99' }}
+              >
+                {MEMORY_LOGS[memoryLogIdx]}
+              </div>
+            </div>
+          )}
+
           <div className="font-mono text-[9px] tracking-[0.22em] uppercase text-white/25">
             No real athlete identity or record used
           </div>

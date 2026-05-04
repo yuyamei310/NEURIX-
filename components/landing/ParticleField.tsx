@@ -14,7 +14,7 @@ interface Particle {
 
 function pickColor(): string {
   const r = Math.random()
-  if (r < 0.60) return '0,229,255'   // cyan  60%
+  if (r < 0.60) return '255,138,76'  // orange 60%
   if (r < 0.92) return '255,255,255' // white 32%
   return '180,0,255'                  // violet 8%
 }
@@ -65,7 +65,7 @@ export function ParticleField() {
           const dist = Math.sqrt(dx * dx + dy * dy)
           if (dist < 85) {
             const alpha = ((1 - dist / 85) * 0.11).toFixed(3)
-            ctx.strokeStyle = `rgba(0,229,255,${alpha})`
+            ctx.strokeStyle = `rgba(255,138,76,${alpha})`
             ctx.lineWidth = 0.5
             ctx.beginPath()
             ctx.moveTo(particles[i].x, particles[i].y)

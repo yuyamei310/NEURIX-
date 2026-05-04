@@ -2,135 +2,144 @@
 
 ## Overview
 
-NEURIX is a Next.js 15 application that runs a multi-stage AI pipeline to produce an ethical athletic archetype debrief. The system processes biometric input through a series of deterministic and generative stages, with a synthetic fallback at every AI boundary.
+NEURIX is a Next.js 14 application that produces an ethical athletic archetype debrief. It combines deterministic local classification, a reproducible public aggregate archive pipeline, Gemini-generated reasoning, and a synthetic fallback at every AI boundary.
 
+```plaintext
+Raw permitted public CSVs
+    -> scripts/build-public-archive.mjs
+    -> anonymous aggregate clusters
+    -> core/publicArchive.ts
+
+User input
+    -> scan UI
+    -> local signal preview
+    -> /api/analyze
+    -> Gemini + archive context
+    -> results UI + DNA card export
 ```
+
+## Runtime Flow
+
+```plaintext
 User Input
-    │
-    ▼
-┌─────────────┐
-│  Scan Stage  │  biometrics (height/weight/age), habits, voice input, agent mode
-└──────┬──────┘
-       │
-       ▼
-┌─────────────────────┐
-│  Voice Parse API    │  Gemini extracts biometrics from voice transcript
-│  /api/voice-parse   │  → buildVoiceExtractPrompt()
-└──────┬──────────────┘
-       │
-       ▼
-┌─────────────────────┐
-│  Analyze API        │  Gemini classifies archetype + generates soul twins + reflection
-│  /api/analyze       │  → buildArchetypePrompt() + buildSoulTwinPrompt() + buildReflectionPrompt()
-└──────┬──────────────┘
-       │
-       ▼
-┌──────────────────────┐
-│  Agent Mode API      │  Gemini generates agent-specific narrative (advisor/coach/mentor)
-│  /api/agent-mode     │  → buildAdvisorPrompt() / buildCoachPrompt() / buildMentorPrompt()
-└──────┬───────────────┘
-       │
-       ▼
-┌─────────────┐
-│  Results    │  archetype lock, synthetic archive ID, sport pathways, debrief card
-└─────────────┘
+    |
+    v
+Scan Stage
+    biometrics, habits, voice input, selected agent mode
+    |
+    v
+Voice Parse API
+    /api/voice-parse
+    Gemini extracts optional biometric JSON from transcript
+    |
+    v
+Analyze API
+    /api/analyze
+    streams archetype, advisor, insight peek, soul twins, reflection
+    |
+    v
+Agent Mode API
+    /api/agent-mode
+    lazily hydrates Coach or Mentor lens when needed
+    |
+    v
+Results
+    archetype lock, provenance panel, parity comparison, sport pathways, debrief card
 ```
-
----
 
 ## Directory Structure
 
-```
-/app              Next.js App Router pages and API routes
-  /api
-    /analyze      archetype classification + soul twins + reflection
-    /agent-mode   advisor / coach / mentor narrative generation
-    /voice-parse  voice transcript → biometric JSON
-  /scan           biometric input UI
-  /thinking       pipeline visualization (animated stages)
-  /results        debrief output UI
-  /onboarding     intro flow
+```plaintext
+/app
+  /api/analyze        streaming archetype + debrief route
+  /api/agent-mode     coach / mentor route
+  /api/voice-parse    voice transcript parser route
+  /scan               biometric input UI
+  /thinking           pipeline visualization
+  /results            debrief output UI
 
-/core             AI pipeline logic and data utilities
-  gemini.ts       Gemini client (callGemini, streamGemini, parseGeminiJSON)
-  prompts.ts      all prompt builder functions
-  classifier.ts   deterministic local archetype classifier (BMI + habit heuristics)
-  syntheticArchive.ts  synthetic archive profiles and fallback debrief generator
-  eraData.ts      era-based synthetic archive data
-  morphControl.ts Three.js body mesh morph targets
-  dnaExport.ts    debrief card HTML-to-canvas export
-  paralympicFallback.ts  Paralympic-specific fallback data
+/components
+  /scan               biometric controls, body scan, HUD layers
+  /results            cards, data provenance, parity comparison, agent tabs, DNA export card
+  /three              body visualization fallback logic
+  /ui                 shared primitives
 
-/skills           agent skill definitions
-  advisor.md      Advisor skill spec
-  coach.md        Coach skill spec
-  mentor.md       Mentor skill spec
+/core
+  classifier.ts       deterministic local archetype preview
+  gemini.ts           Gemini client + JSON parser
+  prompts.ts          prompt contracts and ethics policy
+  publicArchive.ts    generated public aggregate archive adapter
+  syntheticArchive.ts synthetic fallback archive and debriefs
+  dnaExport.ts        HTML-to-canvas card export
 
-/components       React UI components
-  /landing        landing page hero
-  /scan           biometric sliders, voice input, habit grid
-  /thinking       pipeline stage animations
-  /results        archetype lock, agent tabs, reflection panel, DNA card
-  /three          Three.js body mesh visualization
-  /ui             shared UI primitives
+/data
+  /raw                permitted public CSV inputs, not generated output
+  /processed          anonymous aggregate cluster JSON
 
-/store            Zustand state
-  atlasStore.ts   global app state (biometrics, results, agent mode)
+/scripts
+  build-public-archive.mjs  CSV ingestion, US filtering, anonymized clustering
 
-/types            TypeScript type definitions
-  atlas.ts        Archetype, AgentMode, BiometricInput, DebriefResult
-  gemini.ts       Gemini response shape types
+/store
+  atlasStore.ts       Zustand app state and local memory
+
+/types
+  atlas.ts            shared app contracts
 ```
 
----
+## Public Archive Pipeline
 
-## AI Pipeline Detail
+`scripts/build-public-archive.mjs` reads CSV files from `data/raw`, filters to US/Team USA rows, normalizes flexible column names, classifies rows into `power`, `endurance`, `technical`, and `hybrid`, then writes aggregate-only output to `data/processed/team-usa-archetype-clusters.json`.
+
+The repository includes `data/raw/sample-team-usa-public.csv`, an anonymous balanced sample that lets judges run the pipeline without private data.
+
+Privacy and contest-safety rules:
+
+- Athlete names are never written to generated outputs.
+- Clusters smaller than the minimum threshold are suppressed.
+- Outputs are anonymous aggregates, not individual athlete matches.
+- Finish times, exact scoring results, images, logos, and likenesses are not used in app output.
+- If public aggregate data is absent, the app explicitly falls back to the synthetic archive.
+
+## AI Pipeline
 
 ### Stage 1 — Voice Parse
-**Route:** `POST /api/voice-parse`
-**Input:** raw voice transcript string
-**Output:** `{ height, weight, age, habits, confirmation_message }`
-**Fallback:** returns null values; UI prompts manual entry
 
-### Stage 2 — Archetype Classification
-**Route:** `POST /api/analyze`
-**Input:** `BiometricInput` (height, weight, age, habits, agentMode)
-**Output:** `{ archetype, confidence, reasoning, cluster_size, synthetic_archive_id, soul_twins, reflection }`
-**Fallback:** `buildDemoFallbackAnalysis()` in `core/syntheticArchive.ts` — deterministic, always returns a complete result
+- Route: `POST /api/voice-parse`
+- Input: raw voice transcript
+- Output: `{ height, weight, age, habits, confirmation_message }`
+- Fallback: returns an error and lets the UI continue with manual input.
 
-### Stage 3 — Agent Narrative
-**Route:** `POST /api/agent-mode`
-**Input:** `BiometricInput` + `agentMode`
-**Output:** mode-specific JSON (see `/skills/*.md` for output shapes)
-**Fallback:** pre-written synthetic narrative per archetype + agent mode
+### Stage 2 — Archetype Analysis
 
----
+- Route: `POST /api/analyze`
+- Input: `BiometricInput` and optional stored profile memory
+- Output stream: `archetype`, `advisor`, `insight_peek`, `soul_twins`, `reflection`, optional selected agent lens
+- Fallback: `buildDemoFallbackAnalysis()` returns complete synthetic debrief data.
 
-## Deterministic Fallback System
+### Stage 3 — Agent Lens
 
-Every Gemini call is wrapped in a try/catch. If the API key is missing, the request fails, or the response cannot be parsed as valid JSON, NEURIX returns a complete synthetic result. This means the demo always works regardless of API state.
-
-Fallback path: `core/syntheticArchive.ts` → `buildDemoFallbackAnalysis()` and `buildParalympicFallback()`
-
----
+- Route: `POST /api/agent-mode`
+- Modes: `coach`, `mentor`
+- Output: sport recommendations, training phases, or LA28 narrative timeline.
+- Fallback: prewritten synthetic lens data by archetype.
 
 ## Ethics Layer
 
-All prompts include a system instruction enforcing:
-- No real athlete names or records
-- Conditional phrasing only ("could align", "synthetic patterns suggest")
-- Equal prominence for Olympic-inspired and Paralympic-inspired pathways
-- Ethics note included in every structured JSON response
+All prompt contracts enforce:
 
-The `ETHICS_NOTE` constant is defined in `core/syntheticArchive.ts` and injected into every prompt.
+- No real athlete names or identifiable athlete details in outputs.
+- No real record, finish-time, or score claims.
+- Conditional language only.
+- Equal Olympic and Paralympic prominence.
+- Clear labeling when the synthetic fallback archive is used.
 
----
+## Deployment
 
-## State Management
+The repository includes a standalone Next.js configuration and Dockerfile suitable for Cloud Run:
 
-Zustand store (`store/atlasStore.ts`) holds:
-- `biometrics` — current BiometricInput
-- `results` — DebriefResult from /api/analyze
-- `agentMode` — selected agent lens
-- `agentResult` — agent-mode narrative from /api/agent-mode
-- `step` — current pipeline step for the Thinking visualization
+```bash
+npm run build
+docker build -t neurix .
+```
+
+Cloud Run should receive `GEMINI_API_KEY` as a secret or environment variable.

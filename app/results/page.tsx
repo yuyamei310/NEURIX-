@@ -11,6 +11,9 @@ import { SoulTwins } from '@/components/results/SoulTwins'
 import { ReflectionPanel } from '@/components/results/ReflectionPanel'
 import { AgentTabs } from '@/components/results/AgentTabs'
 import { DNACard } from '@/components/results/DNACard'
+import { MemoryPanel } from '@/components/results/MemoryPanel'
+import { DataProvenancePanel } from '@/components/results/DataProvenancePanel'
+import { PathwayComparison } from '@/components/results/PathwayComparison'
 import { exportDNACard } from '@/core/dnaExport'
 import { ETHICS_NOTE, getSyntheticArchiveProfile } from '@/core/syntheticArchive'
 
@@ -21,6 +24,7 @@ export default function ResultsPage() {
   const mentorResult = useAtlasStore((s) => s.mentorResult)
   const activeAgent = useAtlasStore((s) => s.activeAgent)
   const biometrics = useAtlasStore((s) => s.biometrics)
+  const userProfile = useAtlasStore((s) => s.userProfile)
   const [canvasDataUrl, setCanvasDataUrl] = useState<string | undefined>()
   const [modelHovered, setModelHovered] = useState(false)
   const [titleChars, setTitleChars] = useState(0)
@@ -105,6 +109,7 @@ export default function ResultsPage() {
   if (!result) return null
 
   const profile = getSyntheticArchiveProfile(result.archetype.archetype)
+  const ORANGE = '#FF8A4C'
   const hydratedCoach = coachResult ?? result.coach
   const hydratedMentor = mentorResult ?? result.mentor
   const sports = hydratedCoach?.sport_recommendations ?? profile.sportPathways
@@ -134,8 +139,8 @@ export default function ResultsPage() {
         background: 'var(--bg)',
         color: 'var(--text)',
         fontFamily: 'var(--mono)',
-        '--active-archetype-color': profile.color,
-        '--active-archetype-soft': `${profile.color}22`,
+        '--active-archetype-color': ORANGE,
+        '--active-archetype-soft': `${ORANGE}22`,
       } as CSSProperties}
     >
       {/* CRT scanline */}
@@ -157,7 +162,7 @@ export default function ResultsPage() {
         </button>
         <div className="flex items-center gap-5">
           <span className="font-mono text-[9px] tracking-widest uppercase text-white/25">SYS://ETHICAL-DEBRIEF</span>
-          <span className="font-mono text-[9px]" style={{ color: profile.color }}>● SYNTHETIC</span>
+          <span className="font-mono text-[9px]" style={{ color: ORANGE }}>● SYNTHETIC</span>
         </div>
       </header>
 
@@ -166,7 +171,7 @@ export default function ResultsPage() {
         {/* Ambient radial */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: `radial-gradient(circle at 50% 0%, ${profile.color}1e, transparent 52%)` }}
+          style={{ background: `radial-gradient(circle at 50% 0%, ${ORANGE}1e, transparent 52%)` }}
         />
         {/* Scan beam sweeps while title types in */}
         {!titleDone && (
@@ -174,15 +179,15 @@ export default function ResultsPage() {
             className="absolute left-0 right-0 pointer-events-none"
             style={{
               height: '2px',
-              background: `linear-gradient(90deg, transparent, ${profile.color}99, transparent)`,
-              boxShadow: `0 0 18px ${profile.color}66`,
+              background: `linear-gradient(90deg, transparent, ${ORANGE}99, transparent)`,
+              boxShadow: `0 0 18px ${ORANGE}66`,
               zIndex: 2,
               animation: 'scan-beam 2.5s linear forwards',
             }}
           />
         )}
 
-        <div className="relative font-mono text-[9px] tracking-[0.22em] uppercase mb-5 reveal-1" style={{ color: profile.color }}>
+        <div className="relative font-mono text-[9px] tracking-[0.22em] uppercase mb-5 reveal-1" style={{ color: ORANGE }}>
           [CLASSIFIED DEBRIEF READY] · {result.archetype.synthetic_archive_id} · {ETHICS_NOTE}
         </div>
 
@@ -195,8 +200,8 @@ export default function ResultsPage() {
               className="font-mono font-black tracking-tight leading-none reveal-2"
               style={{
                 fontSize: 'clamp(48px, 8vw, 96px)',
-                color: profile.color,
-                textShadow: `0 0 50px ${profile.color}33`,
+                color: ORANGE,
+                textShadow: `0 0 50px ${ORANGE}33`,
                 minHeight: '1.1em',
                 textTransform: 'uppercase',
               }}
@@ -213,7 +218,7 @@ export default function ResultsPage() {
               <div
                 className="h-full"
                 style={{
-                  background: `linear-gradient(90deg, ${profile.color}, transparent)`,
+                  background: `linear-gradient(90deg, ${ORANGE}, transparent)`,
                   width: titleDone ? '100%' : '0%',
                   transition: 'width 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
@@ -232,7 +237,7 @@ export default function ResultsPage() {
           <div className="grid grid-cols-2 gap-px border border-white/[0.06] bg-white/[0.04]">
             <div className="p-4 bg-[var(--bg)] stat-1">
               <div className="font-mono text-[8px] tracking-widest uppercase mb-2 text-white/25">Signal confidence</div>
-              <div className="font-mono text-[34px] font-bold" style={{ color: profile.color }}>
+              <div className="font-mono text-[34px] font-bold" style={{ color: ORANGE }}>
                 {counts.confidence}%
               </div>
               <div className="mt-2 h-[2px] bg-white/10 overflow-hidden">
@@ -240,7 +245,7 @@ export default function ResultsPage() {
                   className="h-full"
                   style={{
                     width: `${counts.confidence}%`,
-                    background: profile.color,
+                    background: ORANGE,
                     transition: 'width 150ms linear',
                   }}
                 />
@@ -249,7 +254,7 @@ export default function ResultsPage() {
             <div className="p-4 bg-[var(--bg)] stat-2">
               <div className="font-mono text-[8px] tracking-widest uppercase mb-2 text-white/25">Top pathway</div>
               <div className="font-mono text-[16px] font-bold uppercase">{topSport.sport}</div>
-              <div className="mt-2 text-[9px] tracking-widest uppercase" style={{ color: profile.color }}>
+              <div className="mt-2 text-[9px] tracking-widest uppercase" style={{ color: ORANGE }}>
                 {counts.align}% align
               </div>
             </div>
@@ -269,10 +274,13 @@ export default function ResultsPage() {
         </div>
       </section>
 
+      <DataProvenancePanel archetype={result.archetype} />
+
       {/* ── 3-col data grid (stagger panels in) ──────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-[264px_minmax(0,1fr)_264px] gap-px bg-white/[0.028] border-b border-white/[0.04]">
-        <div className="panel-1" style={{ background: 'var(--bg)' }}>
+        <div className="panel-1 flex flex-col" style={{ background: 'var(--bg)' }}>
           <ArchetypeCard data={result.archetype} biometrics={biometrics} onShare={handleShare} />
+          {userProfile && <MemoryPanel profile={userProfile} />}
         </div>
 
         <div className="relative overflow-hidden min-h-[520px] panel-2" style={{ background: 'var(--bg)' }}>
@@ -284,20 +292,20 @@ export default function ResultsPage() {
 
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 4 }}>
             <div className="relative" style={{ width: 0, height: 0 }}>
-              <div className="ring-spin-slow absolute border rounded-full" style={{ width: 400, height: 400, top: -200, left: -200, borderColor: `${profile.color}18` }} />
-              <div className="ring-spin-ccw absolute rounded-full" style={{ width: 298, height: 298, top: -149, left: -149, border: `1px dashed ${profile.color}24` }} />
-              <div className="ring-spin-cw absolute border rounded-full" style={{ width: 208, height: 208, top: -104, left: -104, borderColor: `${profile.color}18` }} />
-              <div className="absolute rounded-full" style={{ width: 6, height: 6, top: -3, left: -3, background: profile.color, boxShadow: `0 0 14px ${profile.color}` }} />
+              <div className="ring-spin-slow absolute border rounded-full" style={{ width: 400, height: 400, top: -200, left: -200, borderColor: `${ORANGE}18` }} />
+              <div className="ring-spin-ccw absolute rounded-full" style={{ width: 298, height: 298, top: -149, left: -149, border: `1px dashed ${ORANGE}24` }} />
+              <div className="ring-spin-cw absolute border rounded-full" style={{ width: 208, height: 208, top: -104, left: -104, borderColor: `${ORANGE}18` }} />
+              <div className="absolute rounded-full" style={{ width: 6, height: 6, top: -3, left: -3, background: ORANGE, boxShadow: `0 0 14px ${ORANGE}` }} />
             </div>
           </div>
 
-          <HudDatum position="top-5 right-5" label="Top match" value={topSport.sport} detail={`${topSport.alignment_score}% align`} color={profile.color} />
-          {topTwin && <HudDatum position="bottom-5 left-5" label="Archive echo" value={topTwin.sport} detail={topTwin.era} color={profile.color} />}
+          <HudDatum position="top-5 right-5" label="Top match" value={topSport.sport} detail={`${topSport.alignment_score}% align`} color={ORANGE} />
+          {topTwin && <HudDatum position="bottom-5 left-5" label="Archive echo" value={topTwin.sport} detail={topTwin.era} color={ORANGE} />}
           <div className={`absolute top-5 left-5 transition-all duration-300 ${modelHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} style={{ zIndex: 10 }}>
-            <HudDatum label="Archetype" value={result.archetype.archetype} detail={`${confidenceRaw}% signal`} color={profile.color} />
+            <HudDatum label="Archetype" value={result.archetype.archetype} detail={`${confidenceRaw}% signal`} color={ORANGE} />
           </div>
           <div className={`absolute right-5 bottom-5 transition-all duration-300 ${modelHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} style={{ zIndex: 10 }}>
-            <HudDatum label="Ethics layer" value="Identity safe" detail={ETHICS_NOTE} color={profile.color} />
+            <HudDatum label="Ethics layer" value="Identity safe" detail={ETHICS_NOTE} color={ORANGE} />
           </div>
         </div>
 
@@ -320,7 +328,7 @@ export default function ResultsPage() {
           <div>
             <div className="font-mono text-[8px] tracking-widest uppercase mb-1 text-white/30">Primary sport pathway</div>
             <div className="font-mono font-bold tracking-tight uppercase" style={{ fontSize: 26 }}>{topSport.sport}</div>
-            <div className="font-mono text-[9px] mt-1 tracking-widest" style={{ color: profile.color }}>
+            <div className="font-mono text-[9px] mt-1 tracking-widest" style={{ color: ORANGE }}>
               {topSport.alignment_score}% SYNTHETIC ALIGNMENT
             </div>
           </div>
@@ -328,7 +336,7 @@ export default function ResultsPage() {
           <button
             onClick={handleShare}
             className="font-mono text-[9px] tracking-widest uppercase border px-5 py-3 mt-1 cursor-pointer transition-all hover:bg-white hover:text-black"
-            style={{ borderColor: `${profile.color}66`, color: profile.color }}
+            style={{ borderColor: `${ORANGE}66`, color: ORANGE }}
           >
             Export NEURIX debrief card →
           </button>
@@ -340,6 +348,8 @@ export default function ResultsPage() {
           </button>
         </div>
       </div>
+
+      <PathwayComparison sports={sports} />
 
       {/* ── Agent lenses (scroll reveal) ─────────────────────────── */}
       <div
@@ -359,7 +369,7 @@ export default function ResultsPage() {
         <SoulTwins twins={result.soul_twins} />
       </div>
 
-      <DNACard result={{ ...result, coach: hydratedCoach, mentor: hydratedMentor }} canvasDataUrl={canvasDataUrl} />
+      <DNACard result={{ ...result, coach: hydratedCoach, mentor: hydratedMentor }} userProfile={userProfile} canvasDataUrl={canvasDataUrl} />
     </div>
   )
 }

@@ -5,7 +5,13 @@ import { buildVoiceExtractPrompt } from '@/core/prompts'
 export async function POST(req: NextRequest) {
   const { transcript } = await req.json()
   if (!transcript) {
-    return NextResponse.json({ error: 'No transcript provided' }, { status: 400 })
+    return NextResponse.json({
+      height: null,
+      weight: null,
+      age: null,
+      habits: [],
+      confirmation_message: 'I could not hear biometric details. You can enter them manually below.',
+    })
   }
 
   try {
@@ -19,6 +25,14 @@ export async function POST(req: NextRequest) {
     }>(raw)
     return NextResponse.json(data)
   } catch (err) {
-    return NextResponse.json({ error: String(err) }, { status: 500 })
+    return NextResponse.json({
+      height: null,
+      weight: null,
+      age: null,
+      habits: [],
+      confirmation_message: 'Voice parsing is unavailable right now. Manual input still works.',
+      demo_fallback: true,
+      reason: String(err),
+    })
   }
 }

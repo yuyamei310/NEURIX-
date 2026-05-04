@@ -207,6 +207,11 @@ Exactly 3–4 sentence emotional reflection connecting the user to an anonymized
 
 ---
 
+## Public Archive Context
+
+Prompts may include a `PUBLIC ARCHIVE CONTEXT` block from `core/publicArchive.ts`.
+When `data/processed/team-usa-archetype-clusters.json` contains generated public aggregate clusters, Gemini receives anonymous cluster counts, sport summaries, and parity counts. When the generated archive is empty, prompts explicitly instruct Gemini to use the synthetic fallback archive and label it as synthetic.
+
 ## Deterministic Fallback
 
-If any Gemini call fails, NEURIX falls back to pre-computed synthetic responses in `core/syntheticArchive.ts`. Fallback outputs are marked with `"fallback": true` and contain complete, exhibition-safe debrief data.
+If any Gemini call fails, NEURIX falls back to pre-computed synthetic responses in `core/syntheticArchive.ts`. Fallback outputs are marked with `"demo_fallback": true` and contain complete, exhibition-safe debrief data.

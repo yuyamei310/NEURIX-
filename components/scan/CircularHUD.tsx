@@ -170,6 +170,47 @@ export function CircularHUD() {
         }}
       />
 
+      {/* Active scan field — clipped to the circular core */}
+      <div
+        className="absolute rounded-full overflow-hidden"
+        style={{
+          inset: 34,
+          opacity: 0.9,
+          WebkitMask: 'radial-gradient(circle, black 62%, transparent 63%)',
+          mask: 'radial-gradient(circle, black 62%, transparent 63%)',
+        }}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            borderRadius: '50%',
+            background: `conic-gradient(
+              from 230deg,
+              transparent 0deg,
+              rgba(255,138,76,0.02) 18deg,
+              rgba(255,138,76,0.18) 35deg,
+              rgba(255,255,255,0.18) 42deg,
+              transparent 68deg,
+              transparent 360deg
+            )`,
+            animation: 'hud-sweep-spin 7s linear infinite',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            left: 52,
+            right: 52,
+            top: 0,
+            height: 42,
+            background: 'linear-gradient(180deg, transparent, rgba(255,138,76,0.58), transparent)',
+            boxShadow: '0 0 26px rgba(255,138,76,0.28), 0 0 70px rgba(255,138,76,0.12)',
+            animation: 'hud-scan-pass 4.2s cubic-bezier(0.37, 0, 0.63, 1) infinite',
+          }}
+        />
+      </div>
+
       {/* ─────────────────────────────────────────────
           ORBITING DOTS — travel along the main ring path
           Each dot: zero-size pivot at HUD center,

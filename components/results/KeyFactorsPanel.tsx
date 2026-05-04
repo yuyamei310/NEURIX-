@@ -29,7 +29,7 @@ export function KeyFactorsPanel({ factors }: KeyFactorsPanelProps) {
             <div className="flex items-baseline gap-2">
               <span
                 className="text-[8px]"
-                style={{ color: 'rgba(0,229,255,0.4)' }}
+                style={{ color: 'rgba(255,107,53,0.4)' }}
               >
                 ▶
               </span>

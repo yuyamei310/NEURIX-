@@ -1,17 +1,8 @@
-import { ETHICS_NOTE, getSyntheticArchiveProfile } from '@/core/syntheticArchive'
-import { buildPublicArchivePromptContext } from '@/core/publicArchive'
-import type { Archetype, AgentMode, BiometricInput, UserProfile } from '@/types/atlas'
+import { ETHICS_NOTE, getSyntheticArchiveProfile } from '@/lib/syntheticArchive'
+import type { Archetype, AgentMode, BiometricInput } from '@/types/atlas'
 
-const SYSTEM = (bio: BiometricInput, mode: AgentMode, userProfile?: UserProfile) => {
+const SYSTEM = (bio: BiometricInput, mode: AgentMode) => {
   const bmi = (bio.weight / Math.pow(bio.height / 100, 2)).toFixed(1)
-
-  const memoryBlock = userProfile
-    ? `\nSTORED USER PROFILE (from previous analysis — treat as memory context):
-Archetype: ${userProfile.archetype} | Height: ${userProfile.height}cm | Weight: ${userProfile.weight}kg
-Last analyzed: ${new Date(userProfile.lastUpdated).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-When generating narrative fields, naturally reference this stored profile. Example: "Based on your stored profile (${userProfile.height}cm, ${userProfile.archetype} archetype)..." — only if it adds context, never forced.`
-    : ''
-
   return `You are NORA, an AI analyst for NEURIX, an ethical Human Intelligence Analysis System.
 
 DATA POLICY:
@@ -33,13 +24,11 @@ USER BIOMETRICS:
 Height: ${bio.height}cm | Weight: ${bio.weight}kg | Age: ${bio.age}
 BMI: ${bmi}
 Activity background: ${bio.habits.join(', ') || 'none specified'}
-Agent mode: ${mode}${memoryBlock}`
+Agent mode: ${mode}`
 }
 
-export function buildArchetypePrompt(bio: BiometricInput, userProfile?: UserProfile): string {
-  return `${SYSTEM(bio, bio.agentMode, userProfile)}
-
-${buildPublicArchivePromptContext()}
+export function buildArchetypePrompt(bio: BiometricInput): string {
+  return `${SYSTEM(bio, bio.agentMode)}
 
 Classify this athlete's biometric profile into one of four archetypes:
 - POWER: explosive, strength-dominant, higher BMI, throwing/combat/sprint sports
@@ -77,10 +66,8 @@ Return JSON only:
 }`
 }
 
-export function buildAdvisorPrompt(bio: BiometricInput, userProfile?: UserProfile): string {
-  return `${SYSTEM(bio, 'advisor', userProfile)}
-
-${buildPublicArchivePromptContext()}
+export function buildAdvisorPrompt(bio: BiometricInput): string {
+  return `${SYSTEM(bio, 'advisor')}
 
 The user wants to understand WHY they received this archetype classification.
 Mode: ADVISOR — analytical, data-driven, show the reasoning behind the classification.
@@ -99,10 +86,8 @@ Return JSON:
 }`
 }
 
-export function buildCoachPrompt(bio: BiometricInput, userProfile?: UserProfile): string {
-  return `${SYSTEM(bio, 'coach', userProfile)}
-
-${buildPublicArchivePromptContext()}
+export function buildCoachPrompt(bio: BiometricInput): string {
+  return `${SYSTEM(bio, 'coach')}
 
 The user wants to know WHAT SPORT to pursue based on their profile.
 Mode: COACH — practical, action-oriented, ranked recommendations with starting points.
@@ -134,10 +119,8 @@ Return JSON:
 Include exactly 5 sport recommendations. At least 2 must have is_paralympic: true.`
 }
 
-export function buildMentorPrompt(bio: BiometricInput, userProfile?: UserProfile): string {
-  return `${SYSTEM(bio, 'mentor', userProfile)}
-
-${buildPublicArchivePromptContext()}
+export function buildMentorPrompt(bio: BiometricInput): string {
+  return `${SYSTEM(bio, 'mentor')}
 
 The user wants a LONG-TERM NARRATIVE PATH — where could this go over 4 years leading to LA28.
 Mode: MENTOR — story-driven, timeline-based, emotional and inspiring while staying conditional.
@@ -147,25 +130,25 @@ Return JSON:
   "narrative": "3–4 sentence mentor-voice opening. Acknowledge who they are now. Frame the journey ahead as possibility, not destiny.",
   "timeline": [
     {
-      "phase": "Now · 2026",
+      "phase": "Now · 2025",
       "title": "short evocative chapter title",
       "description": "3–4 sentences. Narrative arc. What could happen. Conditional throughout.",
       "milestone": "one concrete action or milestone for this phase"
     },
     {
-      "phase": "Year 1 · 2027",
+      "phase": "Year 1 · 2026",
       "title": "short evocative chapter title",
       "description": "3–4 sentences.",
       "milestone": "one concrete action or milestone for this phase"
     },
     {
-      "phase": "Year 2–3 · 2028",
+      "phase": "Year 2–3 · 2027",
       "title": "short evocative chapter title",
       "description": "3–4 sentences.",
       "milestone": "one concrete action or milestone for this phase"
     },
     {
-      "phase": "LA28 Horizon",
+      "phase": "Year 4 · 2028",
       "title": "short evocative chapter title",
       "description": "3–4 sentences.",
       "milestone": "one concrete action or milestone for this phase"
@@ -177,10 +160,8 @@ Return JSON:
 }`
 }
 
-export function buildSoulTwinPrompt(bio: BiometricInput, userProfile?: UserProfile): string {
-  return `${SYSTEM(bio, bio.agentMode, userProfile)}
-
-${buildPublicArchivePromptContext()}
+export function buildSoulTwinPrompt(bio: BiometricInput): string {
+  return `${SYSTEM(bio, bio.agentMode)}
 
 Find 2–3 synthetic archive echoes whose anonymized patterns could resemble this user's input.
 
@@ -205,11 +186,9 @@ Return JSON:
 NOTE: Do not use real athlete full names or imply real athlete matching. Use labels like "anonymous power archive node" or "synthetic adaptive team node".`
 }
 
-export function buildReflectionPrompt(bio: BiometricInput, archetype: Archetype, userProfile?: UserProfile): string {
+export function buildReflectionPrompt(bio: BiometricInput, archetype: Archetype): string {
   const profile = getSyntheticArchiveProfile(archetype)
-  return `${SYSTEM(bio, bio.agentMode, userProfile)}
-
-${buildPublicArchivePromptContext(archetype)}
+  return `${SYSTEM(bio, bio.agentMode)}
 
 The user wants to see themselves reflected in a Team USA-inspired synthetic archive.
 Write a short, emotional but grounded reflection that connects their biometric profile to an anonymized archive pattern.

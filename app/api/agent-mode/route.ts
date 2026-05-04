@@ -2,20 +2,20 @@ import { NextRequest, NextResponse } from 'next/server'
 import { callGemini, parseGeminiJSON } from '@/core/gemini'
 import { buildCoachPrompt, buildMentorPrompt } from '@/core/prompts'
 import { buildDemoFallbackAnalysis } from '@/core/syntheticArchive'
-import type { BiometricInput, AgentMode, CoachResult, MentorResult } from '@/types/atlas'
+import type { BiometricInput, AgentMode, CoachResult, MentorResult, UserProfile } from '@/types/atlas'
 
 export async function POST(req: NextRequest) {
-  const { bio, mode }: { bio: BiometricInput; mode: AgentMode } = await req.json()
+  const { bio, mode, userProfile }: { bio: BiometricInput; mode: AgentMode; userProfile?: UserProfile } = await req.json()
 
   try {
     if (mode === 'coach') {
-      const raw = await callGemini(buildCoachPrompt(bio))
+      const raw = await callGemini(buildCoachPrompt(bio, userProfile))
       const data = parseGeminiJSON<CoachResult>(raw)
       return NextResponse.json(data)
     }
 
     if (mode === 'mentor') {
-      const raw = await callGemini(buildMentorPrompt(bio))
+      const raw = await callGemini(buildMentorPrompt(bio, userProfile))
       const data = parseGeminiJSON<MentorResult>(raw)
       return NextResponse.json(data)
     }

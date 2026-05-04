@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "build:archive": "node scripts/build-public-archive.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

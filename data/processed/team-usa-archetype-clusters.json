@@ -1,0 +1,279 @@
+{
+  "schema_version": 1,
+  "source_type": "public_aggregate",
+  "generated_at": "2026-05-04T14:13:56.900Z",
+  "row_count": 24,
+  "us_filtered_count": 24,
+  "privacy": {
+    "names_removed": true,
+    "min_cluster_size": 5,
+    "suppressed_small_clusters": true,
+    "output_level": "anonymous aggregate archetype clusters"
+  },
+  "clusters": [
+    {
+      "archetype": "power",
+      "archive_id": "PUB-POW-006",
+      "basis": "Public Team USA-scope aggregate rows filtered, anonymized, and clustered by biometric and sport-pattern signals.",
+      "count": 6,
+      "olympic_count": 4,
+      "paralympic_count": 2,
+      "time_span": "1904-2012",
+      "average_height_cm": 177,
+      "average_weight_kg": 89,
+      "average_age": 27,
+      "eras": [
+        {
+          "value": "1980s-1999s",
+          "count": 2
+        },
+        {
+          "value": "1900s-1919s",
+          "count": 1
+        },
+        {
+          "value": "1920s-1939s",
+          "count": 1
+        },
+        {
+          "value": "1960s-1979s",
+          "count": 1
+        }
+      ],
+      "sports": [
+        {
+          "value": "Discus",
+          "count": 1
+        },
+        {
+          "value": "Para athletics throws",
+          "count": 1
+        },
+        {
+          "value": "Para powerlifting",
+          "count": 1
+        },
+        {
+          "value": "Shot put",
+          "count": 1
+        },
+        {
+          "value": "Weightlifting",
+          "count": 1
+        }
+      ],
+      "hometown_regions": [
+        {
+          "value": "South",
+          "count": 2
+        },
+        {
+          "value": "West",
+          "count": 2
+        },
+        {
+          "value": "Midwest",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "archetype": "endurance",
+      "archive_id": "PUB-END-006",
+      "basis": "Public Team USA-scope aggregate rows filtered, anonymized, and clustered by biometric and sport-pattern signals.",
+      "count": 6,
+      "olympic_count": 4,
+      "paralympic_count": 2,
+      "time_span": "1972-2020",
+      "average_height_cm": 171,
+      "average_weight_kg": 61,
+      "average_age": 26,
+      "eras": [
+        {
+          "value": "2000s-2019s",
+          "count": 3
+        },
+        {
+          "value": "1960s-1979s",
+          "count": 1
+        },
+        {
+          "value": "1980s-1999s",
+          "count": 1
+        },
+        {
+          "value": "2020s-2039s",
+          "count": 1
+        }
+      ],
+      "sports": [
+        {
+          "value": "Cycling road",
+          "count": 1
+        },
+        {
+          "value": "Distance running",
+          "count": 1
+        },
+        {
+          "value": "Marathon",
+          "count": 1
+        },
+        {
+          "value": "Para athletics racing",
+          "count": 1
+        },
+        {
+          "value": "Para cycling",
+          "count": 1
+        }
+      ],
+      "hometown_regions": [
+        {
+          "value": "West",
+          "count": 3
+        },
+        {
+          "value": "Midwest",
+          "count": 1
+        },
+        {
+          "value": "Northeast",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "archetype": "technical",
+      "archive_id": "PUB-TEC-006",
+      "basis": "Public Team USA-scope aggregate rows filtered, anonymized, and clustered by biometric and sport-pattern signals.",
+      "count": 6,
+      "olympic_count": 4,
+      "paralympic_count": 2,
+      "time_span": "1956-2020",
+      "average_height_cm": 168,
+      "average_weight_kg": 61,
+      "average_age": 27,
+      "eras": [
+        {
+          "value": "2000s-2019s",
+          "count": 3
+        },
+        {
+          "value": "1940s-1959s",
+          "count": 1
+        },
+        {
+          "value": "1980s-1999s",
+          "count": 1
+        },
+        {
+          "value": "2020s-2039s",
+          "count": 1
+        }
+      ],
+      "sports": [
+        {
+          "value": "Archery",
+          "count": 1
+        },
+        {
+          "value": "Diving",
+          "count": 1
+        },
+        {
+          "value": "Gymnastics",
+          "count": 1
+        },
+        {
+          "value": "Para archery",
+          "count": 1
+        },
+        {
+          "value": "Para shooting",
+          "count": 1
+        }
+      ],
+      "hometown_regions": [
+        {
+          "value": "South",
+          "count": 2
+        },
+        {
+          "value": "West",
+          "count": 2
+        },
+        {
+          "value": "Midwest",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "archetype": "hybrid",
+      "archive_id": "PUB-HYB-006",
+      "basis": "Public Team USA-scope aggregate rows filtered, anonymized, and clustered by biometric and sport-pattern signals.",
+      "count": 6,
+      "olympic_count": 4,
+      "paralympic_count": 2,
+      "time_span": "1936-2020",
+      "average_height_cm": 180,
+      "average_weight_kg": 76,
+      "average_age": 25,
+      "eras": [
+        {
+          "value": "1980s-1999s",
+          "count": 2
+        },
+        {
+          "value": "2000s-2019s",
+          "count": 2
+        },
+        {
+          "value": "1920s-1939s",
+          "count": 1
+        },
+        {
+          "value": "2020s-2039s",
+          "count": 1
+        }
+      ],
+      "sports": [
+        {
+          "value": "Basketball",
+          "count": 1
+        },
+        {
+          "value": "Rugby sevens",
+          "count": 1
+        },
+        {
+          "value": "Sitting volleyball",
+          "count": 1
+        },
+        {
+          "value": "Soccer",
+          "count": 1
+        },
+        {
+          "value": "Volleyball",
+          "count": 1
+        }
+      ],
+      "hometown_regions": [
+        {
+          "value": "South",
+          "count": 2
+        },
+        {
+          "value": "West",
+          "count": 2
+        },
+        {
+          "value": "Midwest",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

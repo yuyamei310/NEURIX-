@@ -109,6 +109,13 @@ export interface ReflectionResult {
   demo_fallback?: boolean
 }
 
+export interface UserProfile {
+  height: number
+  weight: number
+  archetype: Archetype
+  lastUpdated: string  // ISO timestamp
+}
+
 export interface AtlasResult {
   archetype: ArchetypeResult
   soul_twins: SoulTwin[]

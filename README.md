@@ -92,9 +92,9 @@ Screenshots for review and deployment are checked in under `docs/screenshots/`.
 
 NEURIX targets the Athlete Archetype Agent challenge by focusing on four judging-critical areas:
 
-### 1. Gemini-Powered Archetype Reasoning
+### 1. Gemini 3 Flash-Powered Archetype Reasoning
 
-Gemini is used for:
+Gemini 3 Flash Preview (`gemini-3-flash-preview`) is used for:
 
 - Archetype explanation
 - Advisor, Coach, and Mentor narrative modes
@@ -321,7 +321,7 @@ This makes the project reliable without pretending fallback data is real.
 - **Language:** TypeScript
 - **UI:** React 18 + Tailwind CSS
 - **State:** Zustand with local persistence
-- **AI:** Gemini via `@google/generative-ai`
+- **AI:** Gemini 3 Flash Preview (`gemini-3-flash-preview`) via `@google/generative-ai`
 - **3D:** Spline iframe visualization
 - **Export:** `html2canvas`
 - **Deployment:** Google Cloud Run-ready Dockerfile
@@ -339,9 +339,10 @@ Add your Gemini key:
 
 ```bash
 GEMINI_API_KEY=...
+GEMINI_MODEL=gemini-3-flash-preview
 ```
 
-Keep `GEMINI_API_KEY` server-side only. Do not prefix it with `NEXT_PUBLIC_`, do not import it into client components, and store real values only in `.env.local` locally or deployment secrets in production.
+Keep `GEMINI_API_KEY` server-side only. Do not prefix it with `NEXT_PUBLIC_`, do not import it into client components, and store real values only in `.env.local` locally or deployment secrets in production. `GEMINI_MODEL` defaults to `gemini-3-flash-preview` if omitted.
 
 Run locally:
 
@@ -379,10 +380,10 @@ The repository includes a standalone Next.js config and Dockerfile.
 
 ```bash
 docker build -t neurix .
-docker run -p 3000:3000 --env GEMINI_API_KEY=your_key neurix
+docker run -p 3000:3000 --env GEMINI_API_KEY=your_key --env GEMINI_MODEL=gemini-3-flash-preview neurix
 ```
 
-For Google Cloud Run, provide `GEMINI_API_KEY` as an environment variable or secret.
+For Google Cloud Run, provide `GEMINI_API_KEY` as an environment variable or secret and set `GEMINI_MODEL=gemini-3-flash-preview`.
 
 ---
 

@@ -1,5 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
 
+const GEMINI_MODEL = process.env.GEMINI_MODEL ?? 'gemini-3-flash-preview'
+
 const getClient = () => {
   const key = process.env.GEMINI_API_KEY
   if (!key) throw new Error('GEMINI_API_KEY not set')
@@ -8,14 +10,14 @@ const getClient = () => {
 
 export async function callGemini(prompt: string): Promise<string> {
   const genAI = getClient()
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+  const model = genAI.getGenerativeModel({ model: GEMINI_MODEL })
   const result = await model.generateContent(prompt)
   return result.response.text()
 }
 
 export async function streamGemini(prompt: string) {
   const genAI = getClient()
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+  const model = genAI.getGenerativeModel({ model: GEMINI_MODEL })
   return model.generateContentStream(prompt)
 }
 

@@ -1,6 +1,6 @@
 # NEURIX — Gemini Prompts
 
-All prompts are built in `core/prompts.ts` and use `gemini-2.0-flash` via `core/gemini.ts`.
+All prompts are built in `core/prompts.ts` and use Gemini 3 Flash Preview (`gemini-3-flash-preview`) via `core/gemini.ts`.
 
 Every prompt injects the `SYSTEM` block which sets the NORA persona, data policy, and user biometrics.
 

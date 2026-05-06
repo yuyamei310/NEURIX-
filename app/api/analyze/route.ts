@@ -26,6 +26,24 @@ import type {
 export const runtime = 'nodejs'
 export const maxDuration = 60
 
+const GEMINI_STEP_TIMEOUT_MS = 12000
+
+async function withTimeout<T>(promise: Promise<T>, label: string, timeoutMs = GEMINI_STEP_TIMEOUT_MS): Promise<T> {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined
+
+  const timeout = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(() => {
+      reject(new Error(`${label} timed out after ${timeoutMs}ms`))
+    }, timeoutMs)
+  })
+
+  try {
+    return await Promise.race([promise, timeout])
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId)
+  }
+}
+
 export async function POST(req: NextRequest) {
   const text = await req.text()
   if (!text) {
@@ -47,8 +65,8 @@ export async function POST(req: NextRequest) {
       try {
         // 1. Archetype + advisor in parallel (non-streaming for reliability)
         const [archetypeRaw, advisorRaw] = await Promise.all([
-          callGemini(buildArchetypePrompt(bio, userProfile)),
-          callGemini(buildAdvisorPrompt(bio, userProfile)),
+          withTimeout(callGemini(buildArchetypePrompt(bio, userProfile)), 'Archetype analysis'),
+          withTimeout(callGemini(buildAdvisorPrompt(bio, userProfile)), 'Advisor analysis'),
         ])
 
         const archetype = enrichArchetypeResult(parseGeminiJSON<ArchetypeResult>(archetypeRaw), 'hybrid')
@@ -58,8 +76,10 @@ export async function POST(req: NextRequest) {
         send({ type: 'advisor', data: advisor })
 
         // 2. Insight peek — stream narrative prompt and grab first sentence
-        const narrativeStream = await streamGemini(
-          `${buildAdvisorPrompt(bio, userProfile)}\n\nReturn ONLY the narrative field value as plain text (no JSON). 1-2 sentences only.`
+        const narrativeStream = await withTimeout(
+          streamGemini(`${buildAdvisorPrompt(bio, userProfile)}\n\nReturn ONLY the narrative field value as plain text (no JSON). 1-2 sentences only.`),
+          'Insight preview',
+          8000
         )
         let insightText = ''
         for await (const chunk of narrativeStream.stream) {
@@ -74,7 +94,7 @@ export async function POST(req: NextRequest) {
         }
 
         // 3. Soul twins
-        const soulRaw = await callGemini(buildSoulTwinPrompt(bio, userProfile))
+        const soulRaw = await withTimeout(callGemini(buildSoulTwinPrompt(bio, userProfile)), 'Archive echoes')
         const soulParsed = parseGeminiJSON<{ soul_twins: SoulTwin[] }>(soulRaw)
         let twins = soulParsed.soul_twins ?? []
 
@@ -86,19 +106,19 @@ export async function POST(req: NextRequest) {
         send({ type: 'soul_twins', data: twins })
 
         // 4. Reflection
-        const reflRaw = await callGemini(buildReflectionPrompt(bio, archetype.archetype, userProfile))
+        const reflRaw = await withTimeout(callGemini(buildReflectionPrompt(bio, archetype.archetype, userProfile)), 'Reflection')
         const reflection = parseGeminiJSON<ReflectionResult>(reflRaw)
         send({ type: 'reflection', data: reflection })
 
         // 5. Preload selected agent lens for a smoother demo reveal.
         if (bio.agentMode === 'coach') {
-          const coachRaw = await callGemini(buildCoachPrompt(bio, userProfile))
+          const coachRaw = await withTimeout(callGemini(buildCoachPrompt(bio, userProfile)), 'Coach analysis')
           const coach = parseGeminiJSON<CoachResult>(coachRaw)
           send({ type: 'coach', data: coach })
         }
 
         if (bio.agentMode === 'mentor') {
-          const mentorRaw = await callGemini(buildMentorPrompt(bio, userProfile))
+          const mentorRaw = await withTimeout(callGemini(buildMentorPrompt(bio, userProfile)), 'Mentor analysis')
           const mentor = parseGeminiJSON<MentorResult>(mentorRaw)
           send({ type: 'mentor', data: mentor })
         }

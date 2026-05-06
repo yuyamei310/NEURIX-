@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useAtlasStore } from '@/store/atlasStore'
 import { ThinkingSequence } from '@/components/thinking/ThinkingSequence'
 import type { PipelineEvents } from '@/components/thinking/ThinkingSequence'
-import { getSyntheticArchiveProfile } from '@/core/syntheticArchive'
+import { buildDemoFallbackAnalysis, getSyntheticArchiveProfile } from '@/core/syntheticArchive'
 import type {
   ArchetypeResult,
   SoulTwin,
@@ -15,6 +15,8 @@ import type {
   CoachResult,
   MentorResult,
 } from '@/types/atlas'
+
+const CLIENT_ANALYSIS_TIMEOUT_MS = 15000
 
 export default function ThinkingPage() {
   const router = useRouter()
@@ -112,8 +114,37 @@ export default function ThinkingPage() {
     tryNavigate()
   }
 
+  const navigateWithFallback = (reason: string) => {
+    if (navigatingRef.current) return
+    navigatingRef.current = true
+
+    const fallback = buildDemoFallbackAnalysis(biometrics)
+    const result = {
+      archetype: { ...fallback.archetype, demo_fallback: true },
+      soul_twins: fallback.soul_twins,
+      reflection: { ...fallback.reflection, demo_fallback: true },
+      advisor: { ...fallback.advisor, demo_fallback: true },
+      coach: { ...fallback.coach, demo_fallback: true },
+      mentor: { ...fallback.mentor, demo_fallback: true },
+    }
+
+    setResult(result)
+    setCoachResult(result.coach)
+    setMentorResult(result.mentor)
+    setInsightPeek(`Fallback debrief prepared: ${reason}.`)
+    setPipelineEvents({ archetype: true, soul_twins: true, reflection: true, done: true })
+    setLockReveal(result.archetype)
+    window.setTimeout(() => router.push('/results'), 900)
+  }
+
   useEffect(() => {
     let controller: AbortController | null = new AbortController()
+    const fallbackTimer = window.setTimeout(() => {
+      if (!apiDoneRef.current) {
+        controller?.abort()
+        navigateWithFallback('Gemini analysis took longer than expected')
+      }
+    }, CLIENT_ANALYSIS_TIMEOUT_MS)
 
     async function fetchAnalysis() {
       if (!biometrics) {
@@ -191,6 +222,7 @@ export default function ThinkingPage() {
     fetchAnalysis()
 
     return () => {
+      clearTimeout(fallbackTimer)
       controller?.abort()
       controller = null
     }

@@ -283,28 +283,60 @@ export default function ResultsPage() {
           {userProfile && <MemoryPanel profile={userProfile} />}
         </div>
 
-        <div className="relative overflow-hidden min-h-[520px] panel-2" style={{ background: 'var(--bg)' }}>
-          <BodyPanel
-            archetype={result.archetype.archetype}
-            onCanvasReady={(url) => setCanvasDataUrl(url)}
-            onHoverChange={setModelHovered}
-          />
+        <div className="group relative overflow-hidden min-h-[420px] sm:min-h-[520px] panel-2" style={{ background: 'var(--bg)' }}>
+          <div className="absolute inset-0" style={{ zIndex: 5 }}>
+            <BodyPanel
+              archetype={result.archetype.archetype}
+              onCanvasReady={(url) => setCanvasDataUrl(url)}
+              onHoverChange={setModelHovered}
+            />
+          </div>
 
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 4 }}>
             <div className="relative" style={{ width: 0, height: 0 }}>
-              <div className="ring-spin-slow absolute border rounded-full" style={{ width: 400, height: 400, top: -200, left: -200, borderColor: `${ORANGE}18` }} />
-              <div className="ring-spin-ccw absolute rounded-full" style={{ width: 298, height: 298, top: -149, left: -149, border: `1px dashed ${ORANGE}24` }} />
-              <div className="ring-spin-cw absolute border rounded-full" style={{ width: 208, height: 208, top: -104, left: -104, borderColor: `${ORANGE}18` }} />
-              <div className="absolute rounded-full" style={{ width: 6, height: 6, top: -3, left: -3, background: ORANGE, boxShadow: `0 0 14px ${ORANGE}` }} />
+              <div
+                className="ring-spin-slow absolute rounded-full"
+                style={{
+                  width: 'clamp(260px, 44vw, 430px)',
+                  height: 'clamp(260px, 44vw, 430px)',
+                  top: 'clamp(-215px, -22vw, -130px)',
+                  left: 'clamp(-215px, -22vw, -130px)',
+                  border: `1.4px solid ${ORANGE}52`,
+                  boxShadow: `0 0 34px ${ORANGE}28, inset 0 0 26px ${ORANGE}14`,
+                }}
+              />
+              <div
+                className="ring-spin-ccw absolute rounded-full"
+                style={{
+                  width: 'clamp(200px, 33vw, 318px)',
+                  height: 'clamp(200px, 33vw, 318px)',
+                  top: 'clamp(-159px, -16.5vw, -100px)',
+                  left: 'clamp(-159px, -16.5vw, -100px)',
+                  border: `1.2px dashed ${ORANGE}70`,
+                  boxShadow: `0 0 22px ${ORANGE}18`,
+                }}
+              />
+              <div
+                className="ring-spin-cw absolute rounded-full"
+                style={{
+                  width: 'clamp(138px, 23vw, 220px)',
+                  height: 'clamp(138px, 23vw, 220px)',
+                  top: 'clamp(-110px, -11.5vw, -69px)',
+                  left: 'clamp(-110px, -11.5vw, -69px)',
+                  border: `1.1px solid ${ORANGE}4f`,
+                  boxShadow: `inset 0 0 18px ${ORANGE}12`,
+                }}
+              />
+              <div className="absolute rounded-full" style={{ width: 7, height: 7, top: -3.5, left: -3.5, background: ORANGE, boxShadow: `0 0 18px ${ORANGE}` }} />
             </div>
           </div>
 
-          <HudDatum position="top-5 right-5" label="Top match" value={topSport.sport} detail={`${topSport.alignment_score}% align`} color={ORANGE} />
-          {topTwin && <HudDatum position="bottom-5 left-5" label="Archive echo" value={topTwin.sport} detail={topTwin.era} color={ORANGE} />}
-          <div className={`absolute top-5 left-5 transition-all duration-300 ${modelHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} style={{ zIndex: 10 }}>
+          <HudDatum position="top-4 right-4 sm:top-5 sm:right-5" label="Top match" value={topSport.sport} detail={`${topSport.alignment_score}% align`} color={ORANGE} />
+          {topTwin && <HudDatum position="bottom-4 left-4 sm:bottom-5 sm:left-5" label="Archive echo" value={topTwin.sport} detail={topTwin.era} color={ORANGE} />}
+          <div className={`absolute top-4 left-4 sm:top-5 sm:left-5 pointer-events-none transition-all duration-300 ${modelHovered ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`} style={{ zIndex: 10 }}>
             <HudDatum label="Archetype" value={result.archetype.archetype} detail={`${confidenceRaw}% signal`} color={ORANGE} />
           </div>
-          <div className={`absolute right-5 bottom-5 transition-all duration-300 ${modelHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} style={{ zIndex: 10 }}>
+          <div className={`absolute right-4 bottom-4 sm:right-5 sm:bottom-5 pointer-events-none transition-all duration-300 ${modelHovered ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`} style={{ zIndex: 10 }}>
             <HudDatum label="Ethics layer" value="Identity safe" detail={ETHICS_NOTE} color={ORANGE} />
           </div>
         </div>
@@ -388,12 +420,12 @@ function HudDatum({
   position?: string
 }) {
   return (
-    <div className={`${position ? `absolute pointer-events-none ${position}` : 'pointer-events-none'}`} style={{ zIndex: 10 }}>
+      <div className={`${position ? `absolute pointer-events-none ${position}` : 'pointer-events-none'}`} style={{ zIndex: 10 }}>
       <div className="font-mono text-[8px] tracking-widest uppercase mb-0.5" style={{ color }}>
         {label}
       </div>
-      <div className="font-mono text-[12px] font-semibold capitalize">{value}</div>
-      <div className="font-mono text-[9px] text-white/30 max-w-[180px]">{detail}</div>
+      <div className="font-mono text-[11px] sm:text-[12px] font-semibold capitalize max-w-[128px] sm:max-w-[180px] truncate">{value}</div>
+      <div className="font-mono text-[8px] sm:text-[9px] text-white/30 max-w-[128px] sm:max-w-[180px] truncate">{detail}</div>
     </div>
   )
 }

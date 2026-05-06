@@ -11,8 +11,8 @@ export function Badge({ label, variant = 'default', className = '' }: BadgeProps
 
   const variants = {
     default: 'bg-[var(--surface-2)] text-[var(--text-3)] border-[var(--border)]',
-    olympic: 'bg-[var(--text)] text-white border-[var(--text)]',
-    paralympic: 'bg-[var(--text)] text-white border-[var(--text)]',
+    olympic: 'bg-[#1a3a5c] text-[#60a5fa] border-[#2a5a8c]',
+    paralympic: 'bg-[#2a1a4a] text-[#c084fc] border-[#4a2a7c]',
     archetype: 'bg-[var(--surface-2)] text-[var(--text)] border-[var(--border-2)]',
   }
 

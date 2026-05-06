@@ -39,50 +39,6 @@ function formatDate(iso: string) {
   }
 }
 
-// Wireframe human SVG — shown when no 3D canvas is available
-function WireframeFigure() {
-  const s = '#FF8A4C'
-  const op = (o: number) => ({ stroke: s, strokeWidth: 0.8, fill: 'none', opacity: o })
-  return (
-    <svg viewBox="0 0 80 128" style={{ width: 72, height: 116, display: 'block' }}>
-      {/* head */}
-      <circle cx="40" cy="13" r="9.5" {...op(0.5)} />
-      {/* spine */}
-      <line x1="40" y1="22.5" x2="40" y2="64" {...op(0.35)} />
-      {/* shoulder bar */}
-      <line x1="18" y1="30" x2="62" y2="30" {...op(0.4)} />
-      {/* left arm */}
-      <line x1="18" y1="30" x2="10" y2="56" {...op(0.4)} />
-      {/* right arm */}
-      <line x1="62" y1="30" x2="70" y2="56" {...op(0.4)} />
-      {/* hip bar */}
-      <line x1="26" y1="64" x2="54" y2="64" {...op(0.4)} />
-      {/* left leg */}
-      <line x1="26" y1="64" x2="20" y2="100" {...op(0.4)} />
-      {/* right leg */}
-      <line x1="54" y1="64" x2="60" y2="100" {...op(0.4)} />
-      {/* left foot */}
-      <line x1="20" y1="100" x2="14" y2="106" {...op(0.3)} />
-      <line x1="20" y1="100" x2="24" y2="106" {...op(0.3)} />
-      {/* right foot */}
-      <line x1="60" y1="100" x2="56" y2="106" {...op(0.3)} />
-      <line x1="60" y1="100" x2="64" y2="106" {...op(0.3)} />
-      {/* shoulder joints */}
-      <circle cx="18" cy="30" r="2.5" {...op(0.6)} />
-      <circle cx="62" cy="30" r="2.5" {...op(0.6)} />
-      {/* hip joints */}
-      <circle cx="26" cy="64" r="2.5" {...op(0.6)} />
-      <circle cx="54" cy="64" r="2.5" {...op(0.6)} />
-      {/* knee joints */}
-      <circle cx="21" cy="82" r="2" {...op(0.5)} />
-      <circle cx="59" cy="82" r="2" {...op(0.5)} />
-      {/* chest cross */}
-      <line x1="36" y1="46" x2="44" y2="46" stroke={s} strokeWidth="0.5" opacity="0.25" />
-      <line x1="40" y1="42" x2="40" y2="50" stroke={s} strokeWidth="0.5" opacity="0.25" />
-    </svg>
-  )
-}
-
 // HUD rings drawn as SVG overlay on the body panel
 function HudRingOverlay({ w, h }: { w: number; h: number }) {
   const cx = w / 2
@@ -233,7 +189,7 @@ export function DNACard({ result, userProfile, canvasDataUrl }: DNACardProps) {
             style={{ width: '100%', height: '100%', objectFit: 'contain' }}
           />
         ) : (
-          <WireframeFigure />
+          <div style={{ fontSize: 10, color: '#444', letterSpacing: '0.14em' }}>3D SNAPSHOT PREPARING</div>
         )}
         <HudRingOverlay w={BODY_W} h={BODY_H} />
 

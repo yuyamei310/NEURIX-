@@ -72,16 +72,19 @@ The goal is not talent identification. The goal is ethical imagination.
 
 ## Screenshots
 
-Add screenshots to `docs/screenshots/` and update these links before final submission.
+Screenshots for review and deployment are checked in under `docs/screenshots/`.
 
-| Screen | Purpose | Placeholder |
+| Screen | Purpose | Preview |
 |---|---|---|
-| Landing / Scan | First impression and body signal input | `docs/screenshots/scan.png` |
-| Thinking Pipeline | Shows real-time analysis stages | `docs/screenshots/thinking.png` |
-| Results Hero | Archetype lock and primary narrative | `docs/screenshots/results-hero.png` |
-| Provenance Panel | Data/ethics evidence for judges | `docs/screenshots/provenance.png` |
-| Pathway Comparison | Olympic and Paralympic parity | `docs/screenshots/pathways.png` |
-| DNA Card | Shareable final artifact | `docs/screenshots/dna-card.png` |
+| Scan Console | Body signal input and HUD layout | ![Scan console](docs/screenshots/scan-1.png) |
+| Scan Details | Signal controls and active scan state | ![Scan details](docs/screenshots/scan-2.png) |
+| Thinking Pipeline | Real-time analysis stages | ![Thinking pipeline](docs/screenshots/thinking.png) |
+| Results Hero | Archetype lock and primary narrative | ![Results page](docs/screenshots/results-page.png) |
+| Provenance Panel | Data and ethics evidence for judges | ![Data provenance and ethics panel](docs/screenshots/data-provenance-ethics.png) |
+| Pathway Comparison | Olympic and Paralympic parity | ![Pathway comparison](docs/screenshots/pathway-comparison.png) |
+| DNA Card | Shareable final artifact | ![DNA card](docs/screenshots/dna-card.png) |
+| Advisor Mode | Analytical agent lens | ![Advisor mode](docs/screenshots/advisor-mode.png) |
+| Coach Mode | Training and pathway agent lens | ![Coach mode](docs/screenshots/coach-mode.png) |
 
 ---
 
@@ -337,6 +340,8 @@ Add your Gemini key:
 ```bash
 GEMINI_API_KEY=...
 ```
+
+Keep `GEMINI_API_KEY` server-side only. Do not prefix it with `NEXT_PUBLIC_`, do not import it into client components, and store real values only in `.env.local` locally or deployment secrets in production.
 
 Run locally:
 

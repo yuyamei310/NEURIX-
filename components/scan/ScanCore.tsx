@@ -33,10 +33,12 @@ export function ScanCore() {
         style={{ pointerEvents: 'none' }}
       >
         <div
+          className="scan-model-shell"
           style={{
-            width: '420px',
-            height: '720px',
-            transform: 'translateY(-40px)',
+            width: 'min(420px, 82vw)',
+            height: 'min(720px, calc(100vh - 210px))',
+            minHeight: '420px',
+            transform: 'translateY(-6%)',
             animation: 'breathe 4s ease-in-out infinite',
             pointerEvents: 'auto',
           }}
@@ -55,19 +57,21 @@ export function ScanCore() {
       <BodyNodes />
 
       {/* Archetype label — above center */}
-      <div className="absolute" style={{ top: 'calc(50% - 240px)' }}>
+      <div className="absolute scan-archetype-label" style={{ top: 'calc(50% - 240px)' }}>
         <ArchetypeDriftLabel />
       </div>
 
       {/* System copy — below center */}
       <div
         className="absolute font-mono text-[10px] tracking-widest uppercase text-white/25 pointer-events-none"
+        id="scan-core-primary-caption"
         style={{ top: 'calc(50% + 240px)' }}
       >
         Build signal in the console below
       </div>
       <div
         className="absolute font-mono text-[9px] tracking-[0.2em] uppercase pointer-events-none"
+        id="scan-core-secondary-caption"
         style={{ top: 'calc(50% + 265px)', color: profile.color, opacity: 0.78 }}
       >
         {completion}% · {agentMode} lens · {profile.signalLabel}

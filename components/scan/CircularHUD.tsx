@@ -197,18 +197,6 @@ export function CircularHUD() {
             animation: 'hud-sweep-spin 7s linear infinite',
           }}
         />
-        <div
-          style={{
-            position: 'absolute',
-            left: 52,
-            right: 52,
-            top: 0,
-            height: 42,
-            background: 'linear-gradient(180deg, transparent, rgba(255,138,76,0.58), transparent)',
-            boxShadow: '0 0 26px rgba(255,138,76,0.28), 0 0 70px rgba(255,138,76,0.12)',
-            animation: 'hud-scan-pass 4.2s cubic-bezier(0.37, 0, 0.63, 1) infinite',
-          }}
-        />
       </div>
 
       {/* ─────────────────────────────────────────────

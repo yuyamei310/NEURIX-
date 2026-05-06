@@ -471,3 +471,29 @@ body {
   transform: translateY(0);
   filter: blur(0);
 }
+
+@media (max-width: 640px) {
+  .scan-model-shell {
+    width: min(78vw, 320px) !important;
+    height: min(58vh, 520px) !important;
+    min-height: 360px !important;
+    transform: translateY(-10%) !important;
+  }
+
+  .scan-archetype-label {
+    top: calc(50% - 190px) !important;
+    transform: scale(0.88);
+  }
+
+  #scan-core-primary-caption {
+    top: calc(50% + 178px) !important;
+    font-size: 8px !important;
+  }
+
+  #scan-core-secondary-caption {
+    top: calc(50% + 202px) !important;
+    max-width: 88vw;
+    text-align: center;
+    font-size: 8px !important;
+  }
+}

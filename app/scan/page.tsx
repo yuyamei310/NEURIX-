@@ -51,10 +51,10 @@ export default function ScanPage() {
     >
 
       {/* Header */}
-      <header className="flex items-center justify-between px-8 py-5 border-b border-white/[0.08] shrink-0 z-10">
+      <header className="flex items-center justify-between gap-3 px-5 sm:px-8 py-4 sm:py-5 border-b border-white/[0.08] shrink-0 z-10">
         <span className="font-mono-data">NEURIX · SCAN</span>
         <span
-          className="font-mono text-[9px] tracking-[0.22em] uppercase"
+          className="font-mono text-[8px] sm:text-[9px] tracking-[0.14em] sm:tracking-[0.22em] uppercase text-right"
           style={{ color: ORANGE }}
         >
           Ethics safe · synthetic archive

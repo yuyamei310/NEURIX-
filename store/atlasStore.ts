@@ -71,7 +71,12 @@ export const useAtlasStore = create<AtlasStore>()(
           archetype: r.archetype.archetype,
           lastUpdated: new Date().toISOString(),
         }
-        set({ result: r, userProfile: profile })
+        set({
+          result: r,
+          coachResult: r.coach ?? null,
+          mentorResult: r.mentor ?? null,
+          userProfile: profile,
+        })
       },
 
       setCoachResult: (r) => set({ coachResult: r }),

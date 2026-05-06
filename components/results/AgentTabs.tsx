@@ -67,6 +67,7 @@ export function AgentTabs() {
   const fetchAgentMode = async (mode: 'coach' | 'mentor') => {
     setLoading(true)
     setLoadError(null)
+    const startedAt = Date.now()
     const controller = new AbortController()
     const timeout = setTimeout(() => controller.abort(), 15000)
     try {
@@ -83,6 +84,10 @@ export function AgentTabs() {
       if ((err as Error).name === 'AbortError') setLoadError(mode)
     } finally {
       clearTimeout(timeout)
+      const remainingRevealMs = Math.max(0, 900 - (Date.now() - startedAt))
+      if (remainingRevealMs > 0) {
+        await new Promise((resolve) => setTimeout(resolve, remainingRevealMs))
+      }
       setLoading(false)
     }
   }

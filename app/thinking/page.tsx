@@ -124,13 +124,17 @@ export default function ThinkingPage() {
       soul_twins: fallback.soul_twins,
       reflection: { ...fallback.reflection, demo_fallback: true },
       advisor: { ...fallback.advisor, demo_fallback: true },
-      coach: { ...fallback.coach, demo_fallback: true },
-      mentor: { ...fallback.mentor, demo_fallback: true },
+      ...(biometrics.agentMode === 'coach'
+        ? { coach: { ...fallback.coach, demo_fallback: true } }
+        : {}),
+      ...(biometrics.agentMode === 'mentor'
+        ? { mentor: { ...fallback.mentor, demo_fallback: true } }
+        : {}),
     }
 
     setResult(result)
-    setCoachResult(result.coach)
-    setMentorResult(result.mentor)
+    if (result.coach) setCoachResult(result.coach)
+    if (result.mentor) setMentorResult(result.mentor)
     setInsightPeek(`Fallback debrief prepared: ${reason}.`)
     setPipelineEvents({ archetype: true, soul_twins: true, reflection: true, done: true })
     setLockReveal(result.archetype)

@@ -300,6 +300,13 @@ body {
   to   { transform: rotate(360deg); }
 }
 
+@keyframes agent-analysis-pass {
+  0%   { transform: translateY(-16px); opacity: 0; }
+  12%  { opacity: 0.75; }
+  88%  { opacity: 0.75; }
+  100% { transform: translateY(336px); opacity: 0; }
+}
+
 @keyframes waveform {
   0%, 100% { transform: scaleY(0.15); }
   50%       { transform: scaleY(1); }

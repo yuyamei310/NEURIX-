@@ -26,6 +26,15 @@ The goal is not talent identification. The goal is ethical imagination.
 
 ---
 
+## Live Demo
+
+- **Main app:** https://neurix-1012984487516.us-east1.run.app
+- **Quick judging flow:** https://neurix-1012984487516.us-east1.run.app/scan?demo=hybrid&lens=mentor
+
+The quick demo URL opens the scan console with a repeatable hybrid preset and Mentor lens selected. Click **Begin Full Scan** to run the analysis flow and reveal the results debrief.
+
+---
+
 ## Product Demo Flow
 
 ```plaintext
@@ -375,6 +384,12 @@ Current verified status:
 ---
 
 ## Cloud Run Deployment
+
+The live service is deployed on Google Cloud Run:
+
+```plaintext
+https://neurix-1012984487516.us-east1.run.app
+```
 
 The repository includes a standalone Next.js config and Dockerfile.
 

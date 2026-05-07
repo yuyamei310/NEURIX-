@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { callGemini, parseGeminiJSON } from '@/core/gemini'
 import { buildCoachPrompt, buildMentorPrompt } from '@/core/prompts'
 import { buildDemoFallbackAnalysis } from '@/core/syntheticArchive'
-import type { BiometricInput, AgentMode, CoachResult, MentorResult, UserProfile } from '@/types/atlas'
+import type { BiometricInput, AgentMode, CoachResult, MentorResult, UserProfile } from '@/types/neurix'
 
 export async function POST(req: NextRequest) {
   const { bio, mode, userProfile }: { bio: BiometricInput; mode: AgentMode; userProfile?: UserProfile } = await req.json()

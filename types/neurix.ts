@@ -116,7 +116,7 @@ export interface UserProfile {
   lastUpdated: string  // ISO timestamp
 }
 
-export interface AtlasResult {
+export interface NeurixResult {
   archetype: ArchetypeResult
   soul_twins: SoulTwin[]
   reflection: ReflectionResult

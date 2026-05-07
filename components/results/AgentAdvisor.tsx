@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import type { AdvisorResult } from '@/types/atlas'
+import type { AdvisorResult } from '@/types/neurix'
 import { SvgTrimBorder, CornerBrackets } from './HudElements'
 
 const PEACH = '#FFBB99'

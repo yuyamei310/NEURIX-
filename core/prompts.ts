@@ -1,6 +1,6 @@
 import { ETHICS_NOTE, getSyntheticArchiveProfile } from '@/core/syntheticArchive'
 import { buildPublicArchivePromptContext } from '@/core/publicArchive'
-import type { Archetype, AgentMode, BiometricInput, UserProfile } from '@/types/atlas'
+import type { Archetype, AgentMode, BiometricInput, UserProfile } from '@/types/neurix'
 
 const SYSTEM = (bio: BiometricInput, mode: AgentMode, userProfile?: UserProfile) => {
   const bmi = (bio.weight / Math.pow(bio.height / 100, 2)).toFixed(1)
@@ -12,7 +12,7 @@ Last analyzed: ${new Date(userProfile.lastUpdated).toLocaleDateString('en-US', {
 When generating narrative fields, naturally reference this stored profile. Example: "Based on your stored profile (${userProfile.height}cm, ${userProfile.archetype} archetype)..." — only if it adds context, never forced.`
     : ''
 
-  return `You are NORA, an AI analyst for NEURIX, an ethical Human Intelligence Analysis System.
+  return `You are NEURIX AI, an AI analyst for NEURIX, an ethical Human Intelligence Analysis System.
 
 DATA POLICY:
 - NEURIX uses a synthetic, anonymized, Team USA-inspired archetype archive.

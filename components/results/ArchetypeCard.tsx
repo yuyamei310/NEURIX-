@@ -1,6 +1,6 @@
 'use client'
 
-import type { ArchetypeResult } from '@/types/atlas'
+import type { ArchetypeResult } from '@/types/neurix'
 
 interface ArchetypeCardProps {
   data: ArchetypeResult

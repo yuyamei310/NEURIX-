@@ -1,6 +1,6 @@
 'use client'
 
-import type { UserProfile } from '@/types/atlas'
+import type { UserProfile } from '@/types/neurix'
 
 interface MemoryPanelProps {
   profile: UserProfile

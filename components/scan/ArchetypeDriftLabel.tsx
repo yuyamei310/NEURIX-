@@ -1,12 +1,12 @@
 'use client'
 
-import { useAtlasStore } from '@/store/atlasStore'
+import { useNeurixStore } from '@/store/neurixStore'
 import { archetypeBadgeLabel } from '@/core/classifier'
 import { Badge } from '@/components/ui/Badge'
 import { getSyntheticArchiveProfile } from '@/core/syntheticArchive'
 
 export function ArchetypeDriftLabel() {
-  const { archetype, confidence } = useAtlasStore((s) => s.localClassification)
+  const { archetype, confidence } = useNeurixStore((s) => s.localClassification)
   const profile = getSyntheticArchiveProfile(archetype)
 
   return (

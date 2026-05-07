@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { eraData, eraKeys, type EraKey } from '@/core/eraData'
-import type { SoulTwin } from '@/types/atlas'
+import type { SoulTwin } from '@/types/neurix'
 
 interface ReflectionPanelProps {
   reflection: string

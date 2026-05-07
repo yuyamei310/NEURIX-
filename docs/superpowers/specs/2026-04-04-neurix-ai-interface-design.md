@@ -1,4 +1,4 @@
-# ATLAS — AI Interface Redesign Spec
+# NEURIX — AI Interface Redesign Spec
 **Date:** 2026-04-04  
 **Scope:** Layout, components, UI structure, transitions only. No backend or API changes.  
 **Approach:** Option A — Minimal surgery. Rebuild only what's broken; leave working logic intact.
@@ -13,7 +13,7 @@ The current UI feels like a form dashboard. The scan page is a vertical `max-w-2
 
 ## 2. Global Design Token Changes
 
-File: `atlas/app/globals.css`
+File: `neurix/app/globals.css`
 
 **Color palette flip (white → dark):**
 

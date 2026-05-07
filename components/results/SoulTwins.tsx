@@ -2,7 +2,7 @@
 
 import { Badge } from '@/components/ui/Badge'
 import { Card } from '@/components/ui/Card'
-import type { SoulTwin } from '@/types/atlas'
+import type { SoulTwin } from '@/types/neurix'
 
 interface SoulTwinsProps {
   twins: SoulTwin[]

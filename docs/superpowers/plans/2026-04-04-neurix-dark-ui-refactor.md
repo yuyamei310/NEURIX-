@@ -1,4 +1,4 @@
-# ATLAS Dark UI Refactor — Implementation Plan
+# NEURIX Dark UI Refactor — Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -86,7 +86,7 @@ Add these two blocks after the existing `@keyframes fade-in` block in `app/globa
 - [ ] **Step 3: Start dev server and verify dark background propagates**
 
 ```bash
-cd "/Users/meiyang/Desktop/Atlas os/atlas" && npm run dev
+cd "/Users/meiyang/Desktop/NEURIX os/neurix" && npm run dev
 ```
 
 Open `http://localhost:3000/scan` — background should be `#0a0a0a`. Text should be white. Header border should be very subtle.
@@ -94,7 +94,7 @@ Open `http://localhost:3000/scan` — background should be `#0a0a0a`. Text shoul
 - [ ] **Step 4: Commit**
 
 ```bash
-cd "/Users/meiyang/Desktop/Atlas os/atlas"
+cd "/Users/meiyang/Desktop/NEURIX os/neurix"
 git add app/globals.css
 git commit -m "feat: flip to dark token palette, add scan and breathe keyframes"
 ```
@@ -144,7 +144,7 @@ This keeps existing imports in `results/page.tsx` working until Task 7.
 - [ ] **Step 3: Commit**
 
 ```bash
-cd "/Users/meiyang/Desktop/Atlas os/atlas"
+cd "/Users/meiyang/Desktop/NEURIX os/neurix"
 git add components/ui/FloatingCard.tsx components/results/FloatingCard.tsx
 git commit -m "feat: move FloatingCard to shared ui, dark glassmorphism default"
 ```
@@ -196,7 +196,7 @@ to:
 - [ ] **Step 4: Commit**
 
 ```bash
-cd "/Users/meiyang/Desktop/Atlas os/atlas"
+cd "/Users/meiyang/Desktop/NEURIX os/neurix"
 git add components/ui/Button.tsx components/ui/Slider.tsx components/scan/AgentModeSelector.tsx
 git commit -m "fix: replace hardcoded bg-white with surface tokens for dark theme"
 ```
@@ -339,7 +339,7 @@ export function ScanCore() {
 - [ ] **Step 2: Commit**
 
 ```bash
-cd "/Users/meiyang/Desktop/Atlas os/atlas"
+cd "/Users/meiyang/Desktop/NEURIX os/neurix"
 git add components/scan/ScanCore.tsx
 git commit -m "feat: create ScanCore with 4-layer animation (glow, pulse, scan, breathe)"
 ```
@@ -425,7 +425,7 @@ export function BottomDrawer({ children, onAnalyze }: BottomDrawerProps) {
 - [ ] **Step 2: Commit**
 
 ```bash
-cd "/Users/meiyang/Desktop/Atlas os/atlas"
+cd "/Users/meiyang/Desktop/NEURIX os/neurix"
 git add components/scan/BottomDrawer.tsx
 git commit -m "feat: create BottomDrawer with dim overlay and 350ms slide animation"
 ```
@@ -516,7 +516,7 @@ Check:
 - [ ] **Step 3: Commit**
 
 ```bash
-cd "/Users/meiyang/Desktop/Atlas os/atlas"
+cd "/Users/meiyang/Desktop/NEURIX os/neurix"
 git add app/scan/page.tsx
 git commit -m "feat: rebuild scan page — full-screen ScanCore + BottomDrawer layout"
 ```
@@ -644,7 +644,7 @@ Check:
 - [ ] **Step 6: Commit**
 
 ```bash
-cd "/Users/meiyang/Desktop/Atlas os/atlas"
+cd "/Users/meiyang/Desktop/NEURIX os/neurix"
 git add app/thinking/page.tsx app/globals.css
 git commit -m "feat: upgrade thinking page with staged messages, pulsing dot, progress bar"
 ```
@@ -727,7 +727,7 @@ Now that `results/page.tsx` imports directly from `ui/FloatingCard`, delete the 
 Delete `components/results/FloatingCard.tsx` entirely (it now only contains a re-export comment).
 
 ```bash
-rm "/Users/meiyang/Desktop/Atlas os/atlas/components/results/FloatingCard.tsx"
+rm "/Users/meiyang/Desktop/NEURIX os/neurix/components/results/FloatingCard.tsx"
 ```
 
 - [ ] **Step 5: Verify results page visually**
@@ -744,7 +744,7 @@ Check:
 - [ ] **Step 6: Commit**
 
 ```bash
-cd "/Users/meiyang/Desktop/Atlas os/atlas"
+cd "/Users/meiyang/Desktop/NEURIX os/neurix"
 git add app/results/page.tsx
 git rm components/results/FloatingCard.tsx
 git commit -m "feat: update results page — dark surfaces, softer borders, direct FloatingCard import"

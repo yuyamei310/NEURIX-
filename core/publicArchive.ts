@@ -1,5 +1,5 @@
 import archiveData from '@/data/processed/team-usa-archetype-clusters.json'
-import type { Archetype } from '@/types/atlas'
+import type { Archetype } from '@/types/neurix'
 
 export interface PublicArchiveCluster {
   archetype: Archetype

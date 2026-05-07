@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAtlasStore } from '@/store/atlasStore'
+import { useNeurixStore } from '@/store/neurixStore'
 import { ThinkingSequence } from '@/components/thinking/ThinkingSequence'
 import type { PipelineEvents } from '@/components/thinking/ThinkingSequence'
 import { buildDemoFallbackAnalysis, getSyntheticArchiveProfile } from '@/core/syntheticArchive'
@@ -14,18 +14,18 @@ import type {
   ReflectionResult,
   CoachResult,
   MentorResult,
-} from '@/types/atlas'
+} from '@/types/neurix'
 
 const CLIENT_ANALYSIS_TIMEOUT_MS = 15000
 
 export default function ThinkingPage() {
   const router = useRouter()
-  const biometrics = useAtlasStore((s) => s.biometrics)
-  const userProfile = useAtlasStore((s) => s.userProfile)
-  const setResult = useAtlasStore((s) => s.setResult)
-  const setCoachResult = useAtlasStore((s) => s.setCoachResult)
-  const setMentorResult = useAtlasStore((s) => s.setMentorResult)
-  const setInsightPeek = useAtlasStore((s) => s.setInsightPeek)
+  const biometrics = useNeurixStore((s) => s.biometrics)
+  const userProfile = useNeurixStore((s) => s.userProfile)
+  const setResult = useNeurixStore((s) => s.setResult)
+  const setCoachResult = useNeurixStore((s) => s.setCoachResult)
+  const setMentorResult = useNeurixStore((s) => s.setMentorResult)
+  const setInsightPeek = useNeurixStore((s) => s.setInsightPeek)
   const [apiError, setApiError] = useState<string | null>(null)
   const [lockReveal, setLockReveal] = useState<ArchetypeResult | null>(null)
   const [pipelineEvents, setPipelineEvents] = useState<PipelineEvents>({

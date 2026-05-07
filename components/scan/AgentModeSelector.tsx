@@ -1,8 +1,8 @@
 'use client'
 
 import type { CSSProperties } from 'react'
-import { useAtlasStore } from '@/store/atlasStore'
-import type { AgentMode } from '@/types/atlas'
+import { useNeurixStore } from '@/store/neurixStore'
+import type { AgentMode } from '@/types/neurix'
 
 const MODES: { key: AgentMode; label: string; desc: string }[] = [
   { key: 'advisor', label: 'Advisor', desc: 'Analytical · Why this archetype' },
@@ -11,8 +11,8 @@ const MODES: { key: AgentMode; label: string; desc: string }[] = [
 ]
 
 export function AgentModeSelector() {
-  const agentMode = useAtlasStore((s) => s.biometrics.agentMode)
-  const setBiometrics = useAtlasStore((s) => s.setBiometrics)
+  const agentMode = useNeurixStore((s) => s.biometrics.agentMode)
+  const setBiometrics = useNeurixStore((s) => s.setBiometrics)
 
   return (
     <div>

@@ -80,10 +80,10 @@ Results
   build-public-archive.mjs  CSV ingestion, US filtering, anonymized clustering
 
 /store
-  atlasStore.ts       Zustand app state and local memory
+  neurixStore.ts       Zustand app state and local memory
 
 /types
-  atlas.ts            shared app contracts
+  neurix.ts            shared app contracts
 ```
 
 ## Public Archive Pipeline

@@ -13,7 +13,7 @@ import {
   enrichArchetypeResult,
   getSyntheticArchiveProfile,
 } from '@/core/syntheticArchive'
-import type { BiometricInput, UserProfile } from '@/types/atlas'
+import type { BiometricInput, UserProfile } from '@/types/neurix'
 import type {
   ArchetypeResult,
   SoulTwin,
@@ -21,7 +21,7 @@ import type {
   ReflectionResult,
   CoachResult,
   MentorResult,
-} from '@/types/atlas'
+} from '@/types/neurix'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60

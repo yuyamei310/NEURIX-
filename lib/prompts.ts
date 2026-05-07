@@ -1,9 +1,9 @@
 import { ETHICS_NOTE, getSyntheticArchiveProfile } from '@/lib/syntheticArchive'
-import type { Archetype, AgentMode, BiometricInput } from '@/types/atlas'
+import type { Archetype, AgentMode, BiometricInput } from '@/types/neurix'
 
 const SYSTEM = (bio: BiometricInput, mode: AgentMode) => {
   const bmi = (bio.weight / Math.pow(bio.height / 100, 2)).toFixed(1)
-  return `You are NORA, an AI analyst for NEURIX, an ethical Human Intelligence Analysis System.
+  return `You are NEURIX AI, an AI analyst for NEURIX, an ethical Human Intelligence Analysis System.
 
 DATA POLICY:
 - NEURIX uses a synthetic, anonymized, Team USA-inspired archetype archive.

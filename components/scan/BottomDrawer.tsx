@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, ReactNode } from 'react'
-import { useAtlasStore } from '@/store/atlasStore'
+import { useNeurixStore } from '@/store/neurixStore'
 
 interface BottomDrawerProps {
   children: ReactNode
@@ -36,7 +36,7 @@ function getStatusLine(completion: number): string {
 export function BottomDrawer({ children, onAnalyze }: BottomDrawerProps) {
   const [open, setOpen] = useState(false)
 
-  const { height, weight, age, habits, agentMode } = useAtlasStore((s) => s.biometrics)
+  const { height, weight, age, habits, agentMode } = useNeurixStore((s) => s.biometrics)
 
   const biometricsModified = height !== 175 || weight !== 75 || age !== 25
   const completion = (biometricsModified ? 35 : 0) + (habits.length > 0 ? 35 : 0) + 30

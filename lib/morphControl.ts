@@ -1,4 +1,4 @@
-import type { Archetype } from '@/types/atlas'
+import type { Archetype } from '@/types/neurix'
 import * as THREE from 'three'
 
 export interface ArchetypeParams {

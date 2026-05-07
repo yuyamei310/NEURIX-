@@ -9,7 +9,7 @@ import type {
   ReflectionResult,
   SoulTwin,
   SportRecommendation,
-} from '@/types/atlas'
+} from '@/types/neurix'
 
 export const ETHICS_NOTE = 'No real athlete identity or record used'
 

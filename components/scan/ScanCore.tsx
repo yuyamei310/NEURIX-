@@ -5,12 +5,12 @@ import { CircularHUD } from '@/components/scan/CircularHUD'
 import { HolographicBody } from '@/components/scan/HolographicBody'
 import { ScanHUD } from '@/components/scan/ScanHUD'
 import { BodyNodes } from '@/components/scan/BodyNodes'
-import { useAtlasStore } from '@/store/atlasStore'
+import { useNeurixStore } from '@/store/neurixStore'
 import { getSyntheticArchiveProfile } from '@/core/syntheticArchive'
 
 export function ScanCore() {
-  const { height, weight, age, habits, agentMode } = useAtlasStore((s) => s.biometrics)
-  const { archetype } = useAtlasStore((s) => s.localClassification)
+  const { height, weight, age, habits, agentMode } = useNeurixStore((s) => s.biometrics)
+  const { archetype } = useNeurixStore((s) => s.localClassification)
   const profile = getSyntheticArchiveProfile(archetype)
   const biometricsModified = height !== 175 || weight !== 75 || age !== 25
   const completion = (biometricsModified ? 35 : 0) + (habits.length > 0 ? 35 : 0) + 30

@@ -1,4 +1,4 @@
-import type { Archetype, Habit, LocalClassification } from '@/types/atlas'
+import type { Archetype, Habit, LocalClassification } from '@/types/neurix'
 
 export function localClassify(
   height: number,

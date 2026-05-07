@@ -1,10 +1,10 @@
 'use client'
 
 import { useState, useRef, useEffect, type FormEvent } from 'react'
-import { useAtlasStore } from '@/store/atlasStore'
+import { useNeurixStore } from '@/store/neurixStore'
 import { localClassify } from '@/core/classifier'
 import { parseVoiceTranscript } from '@/core/voiceParse'
-import type { Habit } from '@/types/atlas'
+import type { Habit } from '@/types/neurix'
 
 type VoiceState = 'idle' | 'listening' | 'confirming'
 
@@ -17,9 +17,9 @@ export function VoiceInput() {
   const recognitionRef = useRef<any>(null)
   const stateRef = useRef<VoiceState>('idle')
 
-  const biometrics = useAtlasStore((s) => s.biometrics)
-  const setBiometrics = useAtlasStore((s) => s.setBiometrics)
-  const setLocalClassification = useAtlasStore((s) => s.setLocalClassification)
+  const biometrics = useNeurixStore((s) => s.biometrics)
+  const setBiometrics = useNeurixStore((s) => s.setBiometrics)
+  const setLocalClassification = useNeurixStore((s) => s.setLocalClassification)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {

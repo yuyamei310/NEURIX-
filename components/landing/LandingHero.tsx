@@ -2,14 +2,14 @@
 
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { useAtlasStore } from '@/store/atlasStore'
+import { useNeurixStore } from '@/store/neurixStore'
 import { ParticleField } from './ParticleField'
 
 const FEATURES = ['Voice input', 'Live 3D body', 'Synthetic archive', 'Agent lenses', 'Ethics-safe']
 
 export function LandingHero() {
   const router = useRouter()
-  const reset = useAtlasStore((s) => s.reset)
+  const reset = useNeurixStore((s) => s.reset)
   const [clock, setClock] = useState('')
 
   useEffect(() => {

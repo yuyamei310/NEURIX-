@@ -10,15 +10,15 @@ import { HabitGrid } from '@/components/scan/HabitGrid'
 import { VoiceInput } from '@/components/scan/VoiceInput'
 import { AgentModeSelector } from '@/components/scan/AgentModeSelector'
 import { DemoPresets, applyDemoPreset, DEMO_PRESETS } from '@/components/scan/DemoPresets'
-import { useAtlasStore } from '@/store/atlasStore'
-import type { AgentMode, Archetype } from '@/types/atlas'
+import { useNeurixStore } from '@/store/neurixStore'
+import type { AgentMode, Archetype } from '@/types/neurix'
 
 const ORANGE = '#FF8A4C'
 
 export default function ScanPage() {
   const router = useRouter()
-  const setBiometrics = useAtlasStore((s) => s.setBiometrics)
-  const setLocalClassification = useAtlasStore((s) => s.setLocalClassification)
+  const setBiometrics = useNeurixStore((s) => s.setBiometrics)
+  const setLocalClassification = useNeurixStore((s) => s.setLocalClassification)
   const appliedDemoRef = useRef(false)
 
   useEffect(() => {

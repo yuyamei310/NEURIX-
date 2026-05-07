@@ -1,6 +1,6 @@
 'use client'
 
-import type { SportRecommendation } from '@/types/atlas'
+import type { SportRecommendation } from '@/types/neurix'
 
 const ORANGE = '#FF8A4C'
 

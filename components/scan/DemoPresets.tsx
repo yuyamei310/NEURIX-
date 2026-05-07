@@ -1,8 +1,8 @@
 'use client'
 
-import { useAtlasStore } from '@/store/atlasStore'
+import { useNeurixStore } from '@/store/neurixStore'
 import { localClassify } from '@/core/classifier'
-import type { AgentMode, Archetype, BiometricInput, Habit } from '@/types/atlas'
+import type { AgentMode, Archetype, BiometricInput, Habit } from '@/types/neurix'
 
 const ORANGE = '#FF8A4C'
 
@@ -48,9 +48,9 @@ export function applyDemoPreset(
 }
 
 export function DemoPresets() {
-  const biometrics = useAtlasStore((s) => s.biometrics)
-  const setBiometrics = useAtlasStore((s) => s.setBiometrics)
-  const setLocalClassification = useAtlasStore((s) => s.setLocalClassification)
+  const biometrics = useNeurixStore((s) => s.biometrics)
+  const setBiometrics = useNeurixStore((s) => s.setBiometrics)
+  const setLocalClassification = useNeurixStore((s) => s.setLocalClassification)
 
   return (
     <div className="flex flex-col gap-3">

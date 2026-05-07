@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import type { Archetype } from '@/types/atlas'
+import type { Archetype } from '@/types/neurix'
 
 interface AthleteBodyProps {
   archetype: Archetype

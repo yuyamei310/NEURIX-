@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react'
 import type { CSSProperties, MutableRefObject } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAtlasStore } from '@/store/atlasStore'
+import { useNeurixStore } from '@/store/neurixStore'
 import { ArchetypeCard } from '@/components/results/ArchetypeCard'
 import { BodyPanel } from '@/components/results/BodyPanel'
 import { KeyFactorsPanel } from '@/components/results/KeyFactorsPanel'
@@ -19,12 +19,12 @@ import { ETHICS_NOTE, getSyntheticArchiveProfile } from '@/core/syntheticArchive
 
 export default function ResultsPage() {
   const router = useRouter()
-  const result = useAtlasStore((s) => s.result)
-  const coachResult = useAtlasStore((s) => s.coachResult)
-  const mentorResult = useAtlasStore((s) => s.mentorResult)
-  const activeAgent = useAtlasStore((s) => s.activeAgent)
-  const biometrics = useAtlasStore((s) => s.biometrics)
-  const userProfile = useAtlasStore((s) => s.userProfile)
+  const result = useNeurixStore((s) => s.result)
+  const coachResult = useNeurixStore((s) => s.coachResult)
+  const mentorResult = useNeurixStore((s) => s.mentorResult)
+  const activeAgent = useNeurixStore((s) => s.activeAgent)
+  const biometrics = useNeurixStore((s) => s.biometrics)
+  const userProfile = useNeurixStore((s) => s.userProfile)
   const [canvasDataUrl, setCanvasDataUrl] = useState<string | undefined>()
   const [modelHovered, setModelHovered] = useState(false)
   const [titleChars, setTitleChars] = useState(0)

@@ -1,7 +1,7 @@
 'use client'
 
 import { getPublicArchiveCluster, getPublicArchiveMetadata } from '@/core/publicArchive'
-import type { ArchetypeResult } from '@/types/atlas'
+import type { ArchetypeResult } from '@/types/neurix'
 
 const ORANGE = '#FF8A4C'
 

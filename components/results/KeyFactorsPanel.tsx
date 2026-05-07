@@ -1,6 +1,6 @@
 'use client'
 
-import type { AdvisorResult } from '@/types/atlas'
+import type { AdvisorResult } from '@/types/neurix'
 
 interface KeyFactorsPanelProps {
   factors: AdvisorResult['key_factors']

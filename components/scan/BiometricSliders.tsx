@@ -1,13 +1,13 @@
 'use client'
 
-import { useAtlasStore } from '@/store/atlasStore'
+import { useNeurixStore } from '@/store/neurixStore'
 import { localClassify } from '@/core/classifier'
 import { Slider } from '@/components/ui/Slider'
 
 export function BiometricSliders() {
-  const biometrics = useAtlasStore((s) => s.biometrics)
-  const setBiometrics = useAtlasStore((s) => s.setBiometrics)
-  const setLocalClassification = useAtlasStore((s) => s.setLocalClassification)
+  const biometrics = useNeurixStore((s) => s.biometrics)
+  const setBiometrics = useNeurixStore((s) => s.setBiometrics)
+  const setLocalClassification = useNeurixStore((s) => s.setLocalClassification)
 
   const update = (field: 'height' | 'weight' | 'age', value: number) => {
     const next = { ...biometrics, [field]: value }

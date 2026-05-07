@@ -440,10 +440,10 @@ NEURIX/
 │   └── build-public-archive.mjs
 │
 ├── store/
-│   └── atlasStore.ts         # Zustand state and memory
+│   └── neurixStore.ts         # Zustand state and memory
 │
 ├── types/
-│   └── atlas.ts              # Shared app types
+│   └── neurix.ts              # Shared app types
 │
 ├── ARCHITECTURE.md
 ├── PROMPTS.md

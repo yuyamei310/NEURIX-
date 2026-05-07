@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { Badge } from '@/components/ui/Badge'
 import { Card } from '@/components/ui/Card'
-import type { SportRecommendation } from '@/types/atlas'
+import type { SportRecommendation } from '@/types/neurix'
 
 interface SportAlignmentProps {
   sports: SportRecommendation[]

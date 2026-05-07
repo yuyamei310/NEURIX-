@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { useAtlasStore } from '@/store/atlasStore'
+import { useNeurixStore } from '@/store/neurixStore'
 
 export interface PipelineEvents {
   archetype: boolean
@@ -41,7 +41,7 @@ interface ThinkingSequenceProps {
 }
 
 export function ThinkingSequence({ onComplete, pipelineEvents }: ThinkingSequenceProps) {
-  const insightPeek = useAtlasStore((s) => s.insightPeek)
+  const insightPeek = useNeurixStore((s) => s.insightPeek)
 
   const [steps, setSteps] = useState<StepState[]>(
     STEPS.map((s) => ({ text: s.text, detail: s.detail, status: 'pending' as StepStatus, showDetail: false }))

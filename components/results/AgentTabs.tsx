@@ -1,11 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useAtlasStore } from '@/store/atlasStore'
+import { useNeurixStore } from '@/store/neurixStore'
 import { AgentAdvisor } from './AgentAdvisor'
 import { AgentCoach } from './AgentCoach'
 import { AgentMentor } from './AgentMentor'
-import type { AgentMode } from '@/types/atlas'
+import type { AgentMode } from '@/types/neurix'
 
 const TABS: {
   key: AgentMode
@@ -78,15 +78,15 @@ const MODE_ANALYSIS_COPY: Record<AgentMode, {
 const MINI_ANALYSIS_MS = 1150
 
 export function AgentTabs() {
-  const activeAgent = useAtlasStore((s) => s.activeAgent)
-  const setActiveAgent = useAtlasStore((s) => s.setActiveAgent)
-  const result = useAtlasStore((s) => s.result)
-  const coachResult = useAtlasStore((s) => s.coachResult)
-  const mentorResult = useAtlasStore((s) => s.mentorResult)
-  const biometrics = useAtlasStore((s) => s.biometrics)
-  const userProfile = useAtlasStore((s) => s.userProfile)
-  const setCoachResult = useAtlasStore((s) => s.setCoachResult)
-  const setMentorResult = useAtlasStore((s) => s.setMentorResult)
+  const activeAgent = useNeurixStore((s) => s.activeAgent)
+  const setActiveAgent = useNeurixStore((s) => s.setActiveAgent)
+  const result = useNeurixStore((s) => s.result)
+  const coachResult = useNeurixStore((s) => s.coachResult)
+  const mentorResult = useNeurixStore((s) => s.mentorResult)
+  const biometrics = useNeurixStore((s) => s.biometrics)
+  const userProfile = useNeurixStore((s) => s.userProfile)
+  const setCoachResult = useNeurixStore((s) => s.setCoachResult)
+  const setMentorResult = useNeurixStore((s) => s.setMentorResult)
 
   const [loading, setLoading] = useState(false)
   const [loadError, setLoadError] = useState<AgentMode | null>(null)

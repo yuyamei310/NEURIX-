@@ -1,4 +1,4 @@
-import type { Habit } from '@/types/atlas'
+import type { Habit } from '@/types/neurix'
 
 export type VoiceParseResult = {
   height: number | null

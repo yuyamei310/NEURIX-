@@ -1,9 +1,9 @@
 'use client'
 
 import type { CSSProperties } from 'react'
-import { useAtlasStore } from '@/store/atlasStore'
+import { useNeurixStore } from '@/store/neurixStore'
 import { localClassify } from '@/core/classifier'
-import type { Habit } from '@/types/atlas'
+import type { Habit } from '@/types/neurix'
 
 const ORANGE = '#FF8A4C'
 
@@ -20,9 +20,9 @@ const HABITS: { key: Habit; label: string }[] = [
 ]
 
 export function HabitGrid() {
-  const biometrics = useAtlasStore((s) => s.biometrics)
-  const setBiometrics = useAtlasStore((s) => s.setBiometrics)
-  const setLocalClassification = useAtlasStore((s) => s.setLocalClassification)
+  const biometrics = useNeurixStore((s) => s.biometrics)
+  const setBiometrics = useNeurixStore((s) => s.setBiometrics)
+  const setLocalClassification = useNeurixStore((s) => s.setLocalClassification)
 
   const toggle = (key: Habit) => {
     const current = biometrics.habits

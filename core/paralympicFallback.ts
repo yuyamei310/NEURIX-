@@ -1,5 +1,5 @@
-import type { Archetype } from '@/types/atlas'
-import type { SoulTwin } from '@/types/atlas'
+import type { Archetype } from '@/types/neurix'
+import type { SoulTwin } from '@/types/neurix'
 
 export const paralympicFallback: Record<Archetype, SoulTwin> = {
   power: {

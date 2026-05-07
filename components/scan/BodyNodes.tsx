@@ -2,7 +2,7 @@
 
 import type { CSSProperties } from 'react'
 import { useState } from 'react'
-import { useAtlasStore } from '@/store/atlasStore'
+import { useNeurixStore } from '@/store/neurixStore'
 
 interface NodeDef {
   id: string
@@ -248,8 +248,8 @@ function BodyNode({
 
 export function BodyNodes() {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
-  const { habits } = useAtlasStore((s) => s.biometrics)
-  const { archetype } = useAtlasStore((s) => s.localClassification)
+  const { habits } = useNeurixStore((s) => s.biometrics)
+  const { archetype } = useNeurixStore((s) => s.localClassification)
 
   const activeIds = new Set<string>([
     archetype === 'power' ? 'strength' : archetype,

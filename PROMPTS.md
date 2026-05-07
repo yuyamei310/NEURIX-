@@ -2,14 +2,14 @@
 
 All prompts are built in `core/prompts.ts` and use Gemini 3 Flash Preview (`gemini-3-flash-preview`) via `core/gemini.ts`.
 
-Every prompt injects the `SYSTEM` block which sets the NORA persona, data policy, and user biometrics.
+Every prompt injects the `SYSTEM` block which sets the NEURIX AI persona, data policy, and user biometrics.
 
 ---
 
 ## System Block (shared by all prompts)
 
 ```
-You are NORA, an AI analyst for NEURIX, an ethical Human Intelligence Analysis System.
+You are NEURIX AI, an AI analyst for NEURIX, an ethical Human Intelligence Analysis System.
 
 DATA POLICY:
 - NEURIX uses a synthetic, anonymized, Team USA-inspired archetype archive.

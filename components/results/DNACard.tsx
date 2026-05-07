@@ -1,13 +1,13 @@
 'use client'
 
 import { getSyntheticArchiveProfile } from '@/core/syntheticArchive'
-import type { AtlasResult, UserProfile } from '@/types/atlas'
+import type { NeurixResult, UserProfile } from '@/types/neurix'
 
 const ACCENT = '#FF8A4C'
 const MONO: React.CSSProperties['fontFamily'] = 'ui-monospace, "JetBrains Mono", "SF Mono", monospace'
 
 interface DNACardProps {
-  result: AtlasResult
+  result: NeurixResult
   userProfile?: UserProfile | null
   canvasDataUrl?: string
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import type { MentorResult } from '@/types/atlas'
+import type { MentorResult } from '@/types/neurix'
 import { SvgTrimBorder, CornerBrackets } from './HudElements'
 
 const PURPLE = '#b400ff'

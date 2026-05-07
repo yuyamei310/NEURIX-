@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Badge } from '@/components/ui/Badge'
-import type { CoachResult } from '@/types/atlas'
+import type { CoachResult } from '@/types/neurix'
 import { SvgTrimBorder, CornerBrackets } from './HudElements'
 
 const ORANGE = '#FF8A4C'

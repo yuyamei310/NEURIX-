@@ -1,7 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import type { Archetype } from '@/types/atlas'
+import type { Archetype } from '@/types/neurix'
 
 const AthleteBody = dynamic(
   () => import('@/components/three/AthleteBody').then((m) => m.AthleteBody),

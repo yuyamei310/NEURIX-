@@ -2,16 +2,16 @@
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { BiometricInput, LocalClassification, AtlasResult, AgentMode, CoachResult, MentorResult, UserProfile } from '@/types/atlas'
+import type { BiometricInput, LocalClassification, NeurixResult, AgentMode, CoachResult, MentorResult, UserProfile } from '@/types/neurix'
 
-interface AtlasStore {
+interface NeurixStore {
   // Input
   biometrics: BiometricInput
   localClassification: LocalClassification
   insightPeek: string
 
   // Results
-  result: AtlasResult | null
+  result: NeurixResult | null
   coachResult: CoachResult | null
   mentorResult: MentorResult | null
   activeAgent: AgentMode
@@ -23,7 +23,7 @@ interface AtlasStore {
   setBiometrics: (b: Partial<BiometricInput>) => void
   setLocalClassification: (c: LocalClassification) => void
   setInsightPeek: (peek: string) => void
-  setResult: (r: AtlasResult) => void
+  setResult: (r: NeurixResult) => void
   setCoachResult: (r: CoachResult) => void
   setMentorResult: (r: MentorResult) => void
   setActiveAgent: (mode: AgentMode) => void
@@ -44,7 +44,7 @@ const defaultClassification: LocalClassification = {
   confidence: 0.65,
 }
 
-export const useAtlasStore = create<AtlasStore>()(
+export const useNeurixStore = create<NeurixStore>()(
   persist(
     (set, get) => ({
       biometrics: defaultBiometrics,
@@ -101,7 +101,7 @@ export const useAtlasStore = create<AtlasStore>()(
         })),
     }),
     {
-      name: 'atlas-memory',
+      name: 'neurix-memory',
       storage: {
         getItem: (name) => {
           if (typeof window === 'undefined') return null
@@ -128,7 +128,7 @@ export const useAtlasStore = create<AtlasStore>()(
           coachResult: state.coachResult,
           mentorResult: state.mentorResult,
           activeAgent: state.activeAgent,
-        }) as AtlasStore,
+        }) as NeurixStore,
     }
   )
 )

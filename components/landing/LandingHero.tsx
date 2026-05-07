@@ -125,7 +125,7 @@ export function LandingHero() {
         </p>
 
         {/* CTA button */}
-        <div className="reveal-4 mt-12 relative">
+        <div className="reveal-4 mt-10 sm:mt-12 relative flex flex-col items-center">
           {/* Ambient glow orb behind button */}
           <div
             aria-hidden
@@ -141,38 +141,45 @@ export function LandingHero() {
 
           <button
             onClick={handleStart}
+            className="min-w-[220px] sm:min-w-[260px]"
             style={{
               position: 'relative',
               fontFamily: 'var(--display)',
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               letterSpacing: '0.24em',
               textTransform: 'uppercase',
-              padding: '18px 52px',
-              background: 'transparent',
-              border: '1px solid rgba(255,138,76,0.5)',
-              color: 'rgba(255,138,76,0.88)',
+              padding: '18px 34px',
+              background: 'rgba(255,138,76,0.11)',
+              border: '1px solid rgba(255,138,76,0.82)',
+              color: 'rgba(255,190,150,1)',
               cursor: 'none',
               transition: 'background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease',
-              boxShadow: '0 0 22px rgba(255,138,76,0.12), inset 0 0 22px rgba(255,138,76,0.03)',
+              boxShadow: '0 0 34px rgba(255,138,76,0.24), inset 0 0 24px rgba(255,138,76,0.06)',
             }}
             onMouseEnter={e => {
               const el = e.currentTarget
-              el.style.background = 'rgba(255,138,76,0.07)'
+              el.style.background = 'rgba(255,138,76,0.16)'
               el.style.borderColor = 'rgba(255,138,76,0.85)'
               el.style.boxShadow = '0 0 44px rgba(255,138,76,0.32), inset 0 0 32px rgba(255,138,76,0.06)'
               el.style.color = 'rgba(255,138,76,1)'
             }}
             onMouseLeave={e => {
               const el = e.currentTarget
-              el.style.background = 'transparent'
-              el.style.borderColor = 'rgba(255,138,76,0.5)'
-              el.style.boxShadow = '0 0 22px rgba(255,138,76,0.12), inset 0 0 22px rgba(255,138,76,0.03)'
-              el.style.color = 'rgba(255,138,76,0.88)'
+              el.style.background = 'rgba(255,138,76,0.11)'
+              el.style.borderColor = 'rgba(255,138,76,0.82)'
+              el.style.boxShadow = '0 0 34px rgba(255,138,76,0.24), inset 0 0 24px rgba(255,138,76,0.06)'
+              el.style.color = 'rgba(255,190,150,1)'
             }}
           >
             BEGIN SCAN ↗
           </button>
+          <div
+            className="mt-3 font-mono text-[9px] uppercase tracking-[0.18em]"
+            style={{ color: 'rgba(255,255,255,0.26)' }}
+          >
+            Starts the calibration onboarding
+          </div>
         </div>
 
         {/* Feature strip */}

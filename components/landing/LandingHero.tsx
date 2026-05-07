@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useNeurixStore } from '@/store/neurixStore'
@@ -198,11 +199,16 @@ export function LandingHero() {
 
       {/* Bottom-right attribution */}
       <div
-        className="fixed bottom-5 right-8 pointer-events-none select-none"
+        className="fixed bottom-5 right-8 flex flex-col items-end gap-2 select-none"
         style={{ zIndex: 10 }}
-        aria-hidden
       >
-        <span className="status-bar">Powered by Gemini · No real athlete data used</span>
+        <span className="status-bar pointer-events-none">Powered by Gemini · No real athlete data used</span>
+        <Link
+          href="/data-provenance"
+          className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/25 transition-colors hover:text-[#ff8a4c]"
+        >
+          Data provenance
+        </Link>
       </div>
 
     </main>

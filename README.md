@@ -367,6 +367,92 @@ http://localhost:3000
 
 ---
 
+## Reproducible Testing Instructions
+
+Follow these steps to run and test NEURIX locally.
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/yuyamei310/NEURIX-.git
+cd NEURIX-
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Create an environment file
+
+Create a `.env.local` file in the project root:
+
+```bash
+touch .env.local
+```
+
+Add the required environment variables:
+
+```bash
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_MODEL=gemini-3-flash-preview
+```
+
+If Gemini API access is not available, NEURIX includes fallback demo data so the main experience can still be tested.
+
+### 4. Run the development server
+
+```bash
+npm run dev
+```
+
+Open the app in your browser:
+
+```plaintext
+http://localhost:3000
+```
+
+### 5. Test the main user flow
+
+Use the app to test the full NEURIX experience:
+
+```plaintext
+Input -> Analysis -> Insight -> Reflection -> Share
+```
+
+Recommended test inputs:
+
+- Height: 170 cm
+- Weight: 65 kg
+- Age: 25
+- Activity background: Running, basketball, gym training
+- Optional voice input: "I enjoy fast-paced sports and endurance training."
+
+Expected result:
+
+- NEURIX generates an anonymous athlete archetype.
+- The system shows signal confidence and key factors.
+- Advisor, Coach, and Mentor perspectives are generated.
+- Olympic and Paralympic pathway comparisons are shown.
+- A shareable DNA profile card is created.
+
+### 6. Test fallback behavior
+
+To test fallback behavior, remove `GEMINI_API_KEY` or leave it empty and run the app again.
+
+Expected result:
+
+- The app should still load.
+- The demo should use fallback synthetic archetype data.
+- The user should still be able to complete the main experience.
+
+### 7. Production deployment
+
+The submitted live demo is deployed on Google Cloud Run using a containerized Next.js setup.
+
+---
+
 ## Quality Checks
 
 ```bash

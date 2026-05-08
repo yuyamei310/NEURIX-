@@ -309,6 +309,12 @@ The generated archive contains:
 
 The output never preserves names.
 
+Datasets in this repository:
+
+- **Anonymous Team USA-Scope Public Sample CSV** — `data/raw/sample-team-usa-public.csv`
+- **Generated Team USA Archetype Clusters Dataset** — `data/processed/team-usa-archetype-clusters.json`
+- **Synthetic Team USA-Inspired Fallback Archive** — `core/syntheticArchive.ts`
+
 ---
 
 ## Fallback Strategy
@@ -334,36 +340,6 @@ This makes the project reliable without pretending fallback data is real.
 - **3D:** Spline iframe visualization
 - **Export:** `html2canvas`
 - **Deployment:** Google Cloud Run-ready Dockerfile
-
----
-
-## Local Setup
-
-```bash
-npm install
-cp .env.example .env.local
-```
-
-Add your Gemini key:
-
-```bash
-GEMINI_API_KEY=...
-GEMINI_MODEL=gemini-3-flash-preview
-```
-
-Keep `GEMINI_API_KEY` server-side only. Do not prefix it with `NEXT_PUBLIC_`, do not import it into client components, and store real values only in `.env.local` locally or deployment secrets in production. `GEMINI_MODEL` defaults to `gemini-3-flash-preview` if omitted.
-
-Run locally:
-
-```bash
-npm run dev
-```
-
-Open:
-
-```plaintext
-http://localhost:3000
-```
 
 ---
 
@@ -571,7 +547,6 @@ The 3D body is the primary visual focus. Everything else supports the idea of an
 - Add a screenshot gallery for the Devpost page.
 - Add a short `SUBMISSION.md` with the final video script and judging narrative.
 - Add Playwright smoke tests for demo preset flows.
-- Add a Cloud Run deployment guide with exact `gcloud` commands.
 
 ---
 

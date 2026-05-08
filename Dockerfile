@@ -1,5 +1,7 @@
 FROM node:20-alpine AS base
 
+# NEURIX production container for Google Cloud Run
+
 # Install dependencies only when needed
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
